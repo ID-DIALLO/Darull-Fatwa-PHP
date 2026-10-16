@@ -103,6 +103,37 @@ function cli_confirm(string $question, bool $default = false): bool
 }
 
 /**
+ * Explique clairement une erreur de connexion MySQL et la façon de la corriger.
+ *
+ * @param array<string, mixed> $config
+ */
+function cli_db_error(PDOException $e, array $config): void
+{
+    $where = ($config['host'] ?? '?') . ':' . ($config['port'] ?? '?');
+    $code = (int) ($e->errorInfo[1] ?? 0);
+    $message = $e->getMessage();
+
+    if ($code === 2002 || str_contains($message, 'Connection refused') || str_contains($message, 'No such file')) {
+        cli_fail('MySQL ne répond pas sur ' . $where . '.');
+        cli_line('  • Démarrez MySQL : bouton « Start » dans MAMP, ou « brew services start mysql ».');
+        cli_line('  • Vérifiez le port dans .env (DB_PORT) : 8889 avec MAMP, 3306 en général ailleurs.');
+    } elseif ($code === 1045) {
+        cli_fail('MySQL refuse l\'utilisateur « ' . ($config['username'] ?? '') . ' » : mot de passe incorrect.');
+        cli_line('  • Corrigez DB_USERNAME et DB_PASSWORD dans .env (avec MAMP : root / root).');
+    } elseif ($code === 2005) {
+        cli_fail('Serveur MySQL introuvable : « ' . ($config['host'] ?? '') . ' ».');
+        cli_line('  • Corrigez DB_HOST dans .env (en local : 127.0.0.1).');
+    } elseif ($code === 1049) {
+        cli_fail('La base « ' . ($config['database'] ?? '') . ' » n\'existe pas.');
+        cli_line('  • Créez-la (panneau d\'hébergement ou phpMyAdmin) ou corrigez DB_DATABASE dans .env.');
+    } else {
+        cli_fail('Connexion à MySQL impossible : ' . $message);
+        cli_line('  • Vérifiez DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME et DB_PASSWORD dans .env');
+    }
+    cli_line('  Puis relancez la commande.');
+}
+
+/**
  * Demande (ou lit dans les options) les informations du compte administrateur, jusqu'à ce qu'elles soient valides.
  *
  * @param array<string, string|bool> $options --admin-name, --admin-email, --admin-phone, --admin-password

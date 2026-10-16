@@ -70,7 +70,13 @@ $dbConfig = (array) $app->config('database');
 
 // 3. Base de données
 cli_title('3. Base de données');
-if ($installer->createDatabase($dbConfig)) {
+try {
+    $created = $installer->createDatabase($dbConfig);
+} catch (PDOException $e) {
+    cli_db_error($e, $dbConfig);
+    exit(1);
+}
+if ($created) {
     cli_ok('Base « ' . $dbConfig['database'] . ' » prête (utf8mb4_unicode_ci)');
 } else {
     cli_warn('Création de la base impossible (droits insuffisants) : elle doit exister (panneau d\'hébergement).');
@@ -79,8 +85,7 @@ if ($installer->createDatabase($dbConfig)) {
 try {
     $pdo = Database::pdo();
 } catch (PDOException $e) {
-    cli_fail('Connexion impossible : ' . $e->getMessage());
-    cli_line('  Vérifiez DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME et DB_PASSWORD dans .env');
+    cli_db_error($e, $dbConfig);
     exit(1);
 }
 cli_ok('Connecté à ' . $installer->serverVersion($pdo));

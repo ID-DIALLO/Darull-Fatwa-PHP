@@ -87,12 +87,13 @@ final class Installer
      * Crée la base si les droits le permettent. Retourne false (sans erreur) en hébergement mutualisé.
      *
      * @param array<string, mixed> $config
+     * @throws \PDOException si le serveur MySQL est injoignable ou refuse l'identifiant
      */
     public function createDatabase(array $config): bool
     {
         $name = (string) $config['database'];
+        $server = Database::connect($config, false);
         try {
-            $server = Database::connect($config, false);
             $server->exec('CREATE DATABASE IF NOT EXISTS ' . Database::identifier($name) . ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
 
             return true;

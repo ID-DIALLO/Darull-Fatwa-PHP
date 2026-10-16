@@ -31,7 +31,7 @@ $installer = new Installer($basePath);
 try {
     Database::pdo();
 } catch (PDOException $e) {
-    cli_fail('Connexion à la base impossible : ' . $e->getMessage());
+    cli_db_error($e, (array) App::instance()->config('database'));
     exit(1);
 }
 

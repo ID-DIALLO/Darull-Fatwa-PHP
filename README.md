@@ -27,6 +27,11 @@ php -S localhost:8000 -t public public/index.php
 
 Ouvrez ensuite <http://localhost:8000> : vous êtes redirigé vers `/fr`, `/ar` ou `/en` selon la langue de votre navigateur.
 
+> **Mac avec MAMP** (conseillé sur Mac Intel) : démarrez MAMP (bouton *Start*), puis dans `.env` :
+> `DB_HOST=127.0.0.1`, `DB_PORT=8889`, `DB_USERNAME=root`, `DB_PASSWORD=root`.
+> Pour utiliser le PHP de MAMP dans le Terminal :
+> `echo "export PATH=\"$(ls -d /Applications/MAMP/bin/php/php8.* | tail -1)/bin:\$PATH\"" >> ~/.zprofile && source ~/.zprofile`
+
 ### Commandes utiles
 
 | Commande | Rôle |
