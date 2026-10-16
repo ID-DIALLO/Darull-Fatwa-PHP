@@ -1,0 +1,312 @@
+/* =====================================================================
+   Darul Fatwa — styles du site public
+   Propriétés logiques (margin-inline-start…) pour fonctionner en LTR et en RTL.
+   Couleurs : uniquement via les variables de variables.css.
+   ===================================================================== */
+
+/* ---------- Base ---------- */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+body.df-body {
+  font-family: var(--bs-body-font-family);
+  color: var(--df-text);
+  background: var(--df-white);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, .df-title {
+  font-family: var(--df-font-heading);
+  font-weight: 400;
+  color: var(--df-green);
+  line-height: 1.2;
+}
+
+:lang(ar) h1, :lang(ar) h2, :lang(ar) h3, :lang(ar) h4, :lang(ar) .df-title {
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* Passages arabes dans une page française ou anglaise */
+[lang="ar"] {
+  font-family: var(--df-font-body-ar);
+}
+
+a { text-underline-offset: .2em; }
+
+/* Focus toujours visible (navigation clavier) */
+:focus-visible {
+  outline: 3px solid var(--df-gold);
+  outline-offset: 2px;
+}
+
+.df-skip-link {
+  position: absolute;
+  inset-inline-start: 1rem;
+  inset-block-start: 1rem;
+  z-index: 1080;
+  padding: .75rem 1rem;
+  background: var(--df-green-dark);
+  color: var(--df-white);
+  border-radius: var(--df-radius-btn);
+}
+
+main:focus { outline: none; }
+
+.df-measure { max-width: 42rem; }
+
+/* ---------- Boutons (§8.4 : rayon 10 px, cibles tactiles ≥ 44 px) ---------- */
+.btn {
+  --bs-btn-border-radius: var(--df-radius-btn);
+  --bs-btn-font-weight: 600;
+  min-height: var(--df-touch-target);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding-inline: 1.25rem;
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--df-green);
+  --bs-btn-border-color: var(--df-green);
+  --bs-btn-hover-bg: var(--df-green-dark);
+  --bs-btn-hover-border-color: var(--df-green-dark);
+  --bs-btn-active-bg: var(--df-green-dark);
+  --bs-btn-active-border-color: var(--df-green-dark);
+  --bs-btn-disabled-bg: var(--df-green);
+  --bs-btn-disabled-border-color: var(--df-green);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--df-green);
+  --bs-btn-border-color: var(--df-green);
+  --bs-btn-hover-bg: var(--df-green);
+  --bs-btn-hover-border-color: var(--df-green);
+  --bs-btn-active-bg: var(--df-green-dark);
+  --bs-btn-active-border-color: var(--df-green-dark);
+}
+
+/* Bouton doré « Poser une question » : texte vert nuit sur or (contraste AA) */
+.btn-gold {
+  --bs-btn-color: var(--df-green-dark);
+  --bs-btn-bg: var(--df-gold);
+  --bs-btn-border-color: var(--df-gold);
+  --bs-btn-hover-color: var(--df-green-dark);
+  --bs-btn-hover-bg: var(--df-gold-light);
+  --bs-btn-hover-border-color: var(--df-gold-light);
+  --bs-btn-active-color: var(--df-green-dark);
+  --bs-btn-active-bg: var(--df-gold-light);
+  --bs-btn-active-border-color: var(--df-gold-light);
+  --bs-btn-focus-shadow-rgb: 201, 162, 75;
+}
+
+.df-badge-gold {
+  background: var(--df-gold);
+  color: var(--df-green-dark);
+  font-weight: 600;
+  padding: .5em 1em;
+}
+
+/* ---------- Barre supérieure ---------- */
+.df-topbar {
+  background: var(--df-green-dark);
+  color: var(--df-cream);
+  font-size: .875rem;
+  padding-block: .375rem;
+}
+
+.df-topbar__dates i { color: var(--df-gold-light); margin-inline-end: .35rem; }
+.df-topbar__sep { margin-inline: .5rem; color: var(--df-gold-light); }
+
+/* ---------- Sélecteur de langue ---------- */
+.df-lang-switcher .list-inline-item:not(:last-child) { margin-inline-end: .25rem; }
+
+.df-lang-switcher__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--df-touch-target);
+  min-height: 36px;
+  padding-inline: .5rem;
+  border-radius: var(--df-radius-btn);
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.df-lang-switcher__link:hover { background: rgba(255, 255, 255, .12); color: inherit; }
+.df-lang-switcher__link.is-active { background: var(--df-gold); color: var(--df-green-dark); }
+.df-lang-switcher__link[lang="ar"] { font-family: var(--df-font-body-ar); font-size: 1.05em; }
+
+/* ---------- En-tête ---------- */
+.df-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1020;
+  background: rgba(255, 255, 255, .97);
+  border-block-end: 1px solid rgba(7, 61, 46, .08);
+  box-shadow: var(--df-shadow);
+  padding-block: .5rem;
+}
+
+.df-header__brand { display: inline-block; }
+.df-header__brand img { display: block; height: 52px; width: auto; min-width: 140px; }
+
+/* ---------- Sections ---------- */
+.df-section { padding-block: 2.5rem; }
+.df-section--cream { background: var(--df-cream); }
+.df-section__title { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); margin-block-end: 1.25rem; }
+
+.df-lead {
+  font-size: 1.15rem;
+  color: var(--df-text-muted);
+}
+
+/* Motif géométrique (étoile à 8 branches) en filigrane, opacité 5 % (§8.4) */
+.df-pattern {
+  position: relative;
+  isolation: isolate;
+}
+
+.df-pattern::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .05;
+  background-image: url("../img/patterns/star8.svg");
+  background-size: 72px 72px;
+  pointer-events: none;
+}
+
+/* ---------- Cartes (§8.4 : rayon 14 px, ombre douce) ---------- */
+.df-card {
+  background: var(--df-white);
+  border-radius: var(--df-radius-card);
+  box-shadow: var(--df-shadow);
+  padding: 1.5rem;
+  border: 1px solid rgba(7, 61, 46, .06);
+}
+
+.df-card__title {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-block-end: 1rem;
+}
+
+.df-card__title i { color: var(--df-gold); }
+
+.df-dl dt { font-size: .875rem; color: var(--df-text-muted); font-weight: 500; }
+.df-dl dd { font-size: 1.1rem; margin-block-end: .75rem; color: var(--df-text); }
+.df-hijri { color: var(--df-green); font-weight: 600; }
+
+/* ---------- Versets (§8.3 : Amiri, corps 125 %, interligne 2) ---------- */
+.df-verse {
+  background: var(--df-green-dark);
+  color: var(--df-cream);
+  border-radius: var(--df-radius-card);
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+  border-block-start: 3px solid var(--df-gold);
+}
+
+.df-verse__label { font-size: .85rem; color: var(--df-gold-light); margin-block-end: .5rem; }
+
+.df-verse__text {
+  font-family: var(--df-font-verse);
+  font-size: 1.95rem; /* ≈ 125 % d'un titre courant */
+  line-height: 2;
+  color: var(--df-white);
+  margin: 0;
+}
+
+.df-verse__translation { font-style: italic; }
+.df-verse__ref { font-size: .875rem; color: var(--df-gold-light); }
+
+/* ---------- Logo (page de test) ---------- */
+.df-test-logo { width: min(300px, 80%); height: auto; }
+
+.df-logo-tile {
+  height: 100%;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: var(--df-white);
+  border-radius: var(--df-radius-card);
+  box-shadow: var(--df-shadow);
+}
+
+.df-logo-tile img { max-width: 100%; height: auto; }
+.df-logo-tile--dark { background: var(--df-green-dark); }
+
+/* ---------- Badges de statut : pastille + libellé ---------- */
+.df-status {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-weight: 600;
+  font-size: .875rem;
+}
+
+.df-status--success { color: var(--df-success); }
+.df-status--warning { color: var(--df-warning); }
+.df-status--danger { color: var(--df-danger); }
+.df-status--info { color: var(--df-info); }
+
+/* ---------- Pages d'erreur ---------- */
+.df-error__icon { font-size: 3.5rem; color: var(--df-gold); display: block; margin-block-end: .5rem; }
+.df-error__code { font-weight: 600; color: var(--df-text-muted); letter-spacing: .05em; }
+
+/* ---------- Pied de page ---------- */
+.df-footer {
+  position: relative;
+  background: var(--df-green-dark);
+  color: var(--df-cream);
+  padding-block: 2.5rem 1rem;
+}
+
+.df-footer a { color: var(--df-gold-light); }
+
+.df-footer__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block-end: 1.5rem;
+  border-block-end: 1px solid rgba(227, 199, 126, .25);
+}
+
+.df-footer__logo { height: 60px; width: auto; min-width: 140px; }
+.df-footer__slogan { color: var(--df-gold-light); }
+
+.df-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  padding-block-start: 1rem;
+  font-size: .875rem;
+}
+
+/* ---------- Mobile (360 px) ---------- */
+@media (max-width: 575.98px) {
+  .df-section { padding-block: 2rem; }
+  .df-header__brand img { height: 44px; }
+  .df-topbar { font-size: .8rem; }
+  .df-verse__text { font-size: 1.6rem; }
+  .df-card { padding: 1.25rem; }
+}

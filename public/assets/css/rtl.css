@@ -1,0 +1,28 @@
+/* =====================================================================
+   Darul Fatwa — ajustements pour l'arabe (RTL), chargé après app.css sur /ar.
+   L'essentiel du sens de lecture est géré par bootstrap.rtl.min.css et les propriétés logiques.
+   ===================================================================== */
+
+/* Icônes directionnelles (flèches, chevrons) inversées en RTL (§7.2) */
+[dir="rtl"] .icon-dir {
+  display: inline-block;
+  transform: scaleX(-1);
+}
+
+/* Texte arabe un peu plus grand et plus aéré pour la lisibilité */
+[dir="rtl"] body.df-body {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+}
+
+[dir="rtl"] .df-lead {
+  font-size: 1.25rem;
+}
+
+/* Les numéros de téléphone, adresses e-mail et codes restent de gauche à droite */
+[dir="rtl"] .ltr,
+[dir="rtl"] input[type="tel"],
+[dir="rtl"] input[type="email"] {
+  direction: ltr;
+  unicode-bidi: plaintext;
+}

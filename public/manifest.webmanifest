@@ -1,0 +1,18 @@
+{
+  "name": "Darul Fatwa – دار الفتوى",
+  "short_name": "Darul Fatwa",
+  "description": "Réponses islamiques authentiques · أجوبة إسلامية موثوقة · Authentic Islamic Answers",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F7F1E1",
+  "theme_color": "#0B5D45",
+  "lang": "fr",
+  "dir": "auto",
+  "icons": [
+    { "src": "/assets/img/favicons/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/img/favicons/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/img/logo/darul-fatwa-icone.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

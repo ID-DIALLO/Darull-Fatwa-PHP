@@ -1,0 +1,66 @@
+/* =====================================================================
+   Darul Fatwa — variables de la charte graphique (cahier des charges §8.2)
+   Toutes les couleurs du site passent par ces variables.
+   ===================================================================== */
+:root {
+  /* Couleurs de marque */
+  --df-green: #0B5D45;          /* Vert profond : titres, liens, boutons principaux */
+  --df-green-dark: #073D2E;     /* Vert nuit : barre supérieure, pied de page, survols */
+  --df-green-light: #0E7356;    /* Vert émeraude : dégradés, éléments secondaires */
+  --df-gold: #C9A24B;           /* Or : bouton « Poser une question », filets, icônes */
+  --df-gold-light: #E3C77E;     /* Or clair : motifs, détails sur fond vert */
+  --df-cream: #F7F1E1;          /* Crème : sections alternées, cartes mises en avant */
+  --df-white: #FFFFFF;
+  --df-text: #1F2A26;           /* Anthracite : texte courant */
+  --df-text-muted: #4A5A54;     /* Gris vert : métadonnées, légendes */
+
+  /* Statuts (toujours accompagnés d'un libellé, jamais la couleur seule) */
+  --df-success: #2E7D32;
+  --df-warning: #B7791F;
+  --df-danger: #B42318;
+  --df-info: #1D6FA3;
+
+  /* Typographies (§8.3) */
+  --df-font-heading: 'Gloock', Georgia, 'Times New Roman', serif;
+  --df-font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --df-font-heading-ar: 'Amiri', 'Times New Roman', serif;
+  --df-font-body-ar: 'Tajawal', 'Segoe UI', Tahoma, Arial, sans-serif;
+  --df-font-verse: 'Amiri', 'Times New Roman', serif;
+
+  /* Composants (§8.4) */
+  --df-radius-card: 14px;
+  --df-radius-btn: 10px;
+  --df-shadow: 0 6px 24px rgba(7, 61, 46, .08);
+  --df-touch-target: 44px;
+
+  /* Surcharge des variables Bootstrap */
+  --bs-primary: var(--df-green);
+  --bs-primary-rgb: 11, 93, 69;
+  --bs-secondary: var(--df-text-muted);
+  --bs-secondary-rgb: 74, 90, 84;
+  --bs-success: var(--df-success);
+  --bs-success-rgb: 46, 125, 50;
+  --bs-warning: var(--df-warning);
+  --bs-warning-rgb: 183, 121, 31;
+  --bs-danger: var(--df-danger);
+  --bs-danger-rgb: 180, 35, 24;
+  --bs-info: var(--df-info);
+  --bs-info-rgb: 29, 111, 163;
+  --bs-body-color: var(--df-text);
+  --bs-body-color-rgb: 31, 42, 38;
+  --bs-body-bg: var(--df-white);
+  --bs-body-font-family: var(--df-font-body);
+  --bs-link-color: var(--df-green);
+  --bs-link-color-rgb: 11, 93, 69;
+  --bs-link-hover-color: var(--df-green-dark);
+  --bs-link-hover-color-rgb: 7, 61, 46;
+  --bs-border-radius: var(--df-radius-btn);
+  --bs-border-radius-lg: var(--df-radius-card);
+  --bs-focus-ring-color: rgba(201, 162, 75, .45);
+}
+
+/* Arabe : polices dédiées */
+:root:lang(ar) {
+  --bs-body-font-family: var(--df-font-body-ar);
+  --df-font-heading: var(--df-font-heading-ar);
+}

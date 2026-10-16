@@ -1,0 +1,9 @@
+# Hébergement mutualisé : si la racine web ne peut pas pointer sur public/,
+# toutes les requêtes y sont redirigées (app/, storage/, .env restent inaccessibles).
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+<IfModule !mod_rewrite.c>
+    Require all denied
+</IfModule>

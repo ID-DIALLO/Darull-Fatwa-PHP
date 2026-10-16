@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /admin
+Disallow: /fr/mon-espace
+Disallow: /ar/my-account
+Disallow: /en/my-account
+Disallow: /fr/professeur
+Disallow: /ar/scholar
+Disallow: /en/scholar
+Disallow: /api/
+Disallow: /media/
+
+Sitemap: https://darulfatwa.com/sitemap.xml

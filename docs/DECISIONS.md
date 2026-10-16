@@ -1,0 +1,18 @@
+# Décisions techniques — Darul Fatwa
+
+Toute décision qui s'écarte du cahier des charges, ou le précise, est notée ici (date, décision, raison).
+
+| Date | Décision | Raison |
+|---|---|---|
+| 2026-10-16 | Les routes sont déclarées dans `app/Config/routes.php`. | L'arborescence §9.3 ne prévoit pas de dossier `routes/` ; la configuration reste regroupée dans `app/Config`. |
+| 2026-10-16 | Ajout d'une table technique `schema_migrations` (créée par `bin/install.php` / `bin/migrate.php`, absente de `schema.sql`). | `bin/migrate.php` doit savoir quelles migrations sont déjà appliquées. À l'installation, toutes les migrations existantes sont marquées comme appliquées, puisque `schema.sql` est à jour. |
+| 2026-10-16 | Commande de développement : `php -S localhost:8000 -t public public/index.php` (avec le script routeur). | Sans le routeur, le serveur intégré de PHP répond 404 aux URL qui ressemblent à des fichiers (`/sitemap.xml`…). `public/index.php` sert lui-même les fichiers statiques existants. `CLAUDE.md` a été mis à jour. |
+| 2026-10-16 | Polices Inter, Gloock, Amiri et Tajawal copiées depuis les paquets npm `@fontsource/*` (fichiers identiques à Google Fonts), sous-ensembles latin, latin-ext et arabe, WOFF2, `font-display: swap`. Licence SIL OFL jointe dans chaque dossier. | Hébergement local imposé par §8.3, sans dépendre de fonts.googleapis.com. |
+| 2026-10-16 | Bibliothèques front figées : Bootstrap **5.3.8** (LTR + RTL), Bootstrap Icons **1.13.1**, copiées dans `public/vendor/` (sans source maps). Swiper, Chart.js, Quill, lamejs et intl-tel-input seront ajoutés avec leurs phases. | Aucune étape de build (§9.1) ; on ne livre que ce qui est utilisé. |
+| 2026-10-16 | Dépendances Composer : phpdotenv 5.7, PHPMailer 7.1, HTMLPurifier 4.19, PhpSpreadsheet 5.10, Intervention Image 3.11, ramsey/uuid 4.9, PHPUnit 11.5 (dev). `config.platform.php = 8.2.0`. | Versions stables récentes, compatibles PHP 8.2 (minimum chez l'hébergeur), figées par `composer.lock`. |
+| 2026-10-16 | `Auth` est en partie présent dès la Phase 0 (utilisateur en session, `can()`, `hashPassword()` en Argon2id). Connexion, « se souvenir de moi » et vérifications arrivent en Phase 1. | `can()`, `RoleMiddleware` et `bin/create-admin.php` en ont besoin dès maintenant. |
+| 2026-10-16 | Mode maintenance activé par le fichier `storage/maintenance.flag` **ou** le paramètre `maintenance_mode = 1`. Les administrateurs ne sont pas bloqués. | Le fichier permet de mettre le site en maintenance même si la base est indisponible (mise à jour, incident). |
+| 2026-10-16 | CSP : `style-src 'self' 'unsafe-inline'`, mais **aucun script en ligne** (`script-src 'self'` + Cloudflare Turnstile). | Certains composants Bootstrap posent des styles en ligne ; les scripts, plus dangereux, restent strictement externes. Le jeton CSRF est exposé au JavaScript par `<meta name="csrf-token">`. |
+| 2026-10-16 | Phase 0 : `/{lang}` affiche une **page de test** du noyau (logo, dates grégorienne et hégirienne, RTL, polices, vérifications techniques visibles seulement si `APP_DEBUG=true`). | Demandé par le prompt de la Phase 0 (Annexe B). Elle sera remplacée par la vraie page d'accueil en Phase 2. |
+| 2026-10-16 | Suppression du dossier en double `public/assets/img/logo/favicons/`. Les favicons sont uniquement dans `public/assets/img/favicons/`. | Contenu identique ; §0 prévoit les favicons dans `public/assets/img/favicons/`. |
+| 2026-10-16 | Les dates hégirienne et grégorienne sont affichées avec des chiffres occidentaux en arabe aussi (`numbers=latn`). | §7.2 : chiffres occidentaux par défaut dans toutes les langues (paramètre modifiable plus tard). |
