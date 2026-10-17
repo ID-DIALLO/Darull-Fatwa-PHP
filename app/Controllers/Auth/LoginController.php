@@ -55,7 +55,7 @@ final class LoginController extends Controller
         if ($user['status'] !== 'active') {
             LoginThrottle::record($identifier, $request->ip(), false);
 
-            throw new ValidationException(['identifier' => [__($user['status'] === 'banned' ? 'auth.login.banned' : 'auth.login.suspended')]]);
+            throw new ValidationException(['identifier' => [__(match ($user['status']) { 'banned' => 'auth.login.banned', 'pending' => 'auth.login.pending', default => 'auth.login.suspended' })]]);
         }
 
         LoginThrottle::record($identifier, $request->ip(), true);

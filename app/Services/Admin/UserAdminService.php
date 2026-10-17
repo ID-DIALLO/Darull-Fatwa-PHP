@@ -109,19 +109,21 @@ final class UserAdminService
             'password_hash'     => Auth::hashPassword(bin2hex(random_bytes(16))),
             'locale'            => $data['locale'] ?? 'fr',
             'country'           => $data['country'] ?? null,
-            'status'            => 'active',
-            'email_verified_at' => !empty($data['email']) ? gmdate('Y-m-d H:i:s') : null,
+            'status'            => 'pending', // activé quand la personne accepte son invitation
+            'email_verified_at' => null,
         ]);
         if ($data['role'] === 'scholar') {
             Database::execute('INSERT IGNORE INTO scholar_profiles (user_id, languages) VALUES (?, ?)', [$id, 'fr']);
         }
         ActivityLog::record('admin.user.created', 'user', $id, ['role' => $data['role']], $adminId);
-        if (!empty($data['email'])) {
-            self::sendResetLink($id, $adminId, true);
-        }
+        // Lien d'activation + code, affichés à l'administrateur et envoyés par e-mail si possible
+        self::$lastInvitation = \App\Services\StaffInvitationService::create($id, $adminId);
 
         return $id;
     }
+
+    /** @var array{url: string, code: string, expires_at: string, mailed: bool}|null Invitation créée par le dernier create() */
+    public static ?array $lastInvitation = null;
 
     /** @param array<string, mixed> $data */
     public static function update(int $id, array $data, int $adminId): void

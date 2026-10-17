@@ -4,6 +4,7 @@
 return [
     'or' => 'ou',
     'login' => [
+        'pending' => 'Votre compte n\'est pas encore activé : utilisez le lien et le code transmis par l\'administration.',
         'title'           => 'Connexion',
         'subtitle'        => 'Heureux de vous revoir. Connectez-vous pour suivre vos questions.',
         'identifier'      => 'E-mail ou numéro de téléphone',
@@ -120,5 +121,22 @@ return [
         'aside_1' => 'Supprimez la ligne SETUP_TOKEN du fichier .env : cette page disparaît.',
         'aside_2' => 'Renseignez le courrier sortant (SMTP) et le numéro WhatsApp dans Paramètres.',
         'aside_3' => 'Créez les comptes des professeurs depuis Utilisateurs.',
+    ],
+    'activate' => [
+        'title' => 'Activer mon compte',
+        'subtitle' => 'Un compte :role vous a été créé par l\'administration. Confirmez votre identifiant, saisissez le code reçu et choisissez votre mot de passe.',
+        'identifier' => 'Votre e-mail ou votre numéro de téléphone',
+        'identifier_help' => 'Celui que l\'administration a enregistré pour vous (numéro au format international, ex. +223 76 12 34 56).',
+        'code' => 'Code d\'activation',
+        'code_help' => '6 chiffres transmis par l\'administrateur (e-mail, WhatsApp ou de vive voix).',
+        'password' => 'Choisissez un mot de passe',
+        'password_confirmation' => 'Confirmez le mot de passe',
+        'submit' => 'Activer et ouvrir mon espace',
+        'invalid_link' => 'Ce lien d\'activation est invalide, déjà utilisé ou expiré. Demandez-en un nouveau à l\'administration.',
+        'mismatch' => 'Identifiant ou code incorrect.',
+        'success' => 'Bienvenue :name ! Votre compte est activé.',
+        'aside_title' => 'Vous n\'avez pas de code ?',
+        'aside_text' => 'Le code à 6 chiffres vous est remis par l\'administrateur qui a créé votre compte, séparément du lien. Il reste valable 7 jours.',
+        'aside_contact' => 'Contacter l\'administration',
     ],
 ];

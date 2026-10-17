@@ -4,6 +4,7 @@
 return [
     'or' => 'or',
     'login' => [
+        'pending' => 'Your account is not activated yet: use the link and code sent by the administration.',
         'title'           => 'Log in',
         'subtitle'        => 'Good to see you again. Log in to follow your questions.',
         'identifier'      => 'Email or phone number',
@@ -120,5 +121,22 @@ return [
         'aside_1' => 'Remove the SETUP_TOKEN line from .env: this page disappears.',
         'aside_2' => 'Fill in outgoing mail (SMTP) and the WhatsApp number in Settings.',
         'aside_3' => "Create the scholars' accounts from Users.",
+    ],
+    'activate' => [
+        'title' => 'Activate my account',
+        'subtitle' => 'The administration created a :role account for you. Confirm your identifier, enter the code you received and choose your password.',
+        'identifier' => 'Your email or phone number',
+        'identifier_help' => 'The one the administration registered for you (international format, e.g. +223 76 12 34 56).',
+        'code' => 'Activation code',
+        'code_help' => '6 digits given to you by the administrator (email, WhatsApp or in person).',
+        'password' => 'Choose a password',
+        'password_confirmation' => 'Confirm password',
+        'submit' => 'Activate and open my space',
+        'invalid_link' => 'This activation link is invalid, already used or expired. Ask the administration for a new one.',
+        'mismatch' => 'Incorrect identifier or code.',
+        'success' => 'Welcome :name! Your account is active.',
+        'aside_title' => 'No code?',
+        'aside_text' => 'The 6-digit code is given to you by the administrator who created your account, separately from the link. It stays valid for 7 days.',
+        'aside_contact' => 'Contact the administration',
     ],
 ];

@@ -53,6 +53,7 @@ Mode maintenance : créez le fichier `storage/maintenance.flag` (supprimez-le po
 ## Mise en production
 
 Guide complet : [`docs/DEPLOIEMENT.md`](docs/DEPLOIEMENT.md) (Hostinger sans SSH : paquet ZIP, import de `database/dist/darul_fatwa_install.sql`, `.env`, page `/setup` ; ou SSH/Git : `composer install --no-dev`, `php bin/install.php`, `php bin/doctor.php`).
+Les comptes de l'équipe (professeurs, modérateurs) sont créés par l'administration et activés par la personne avec un lien et un code à 6 chiffres (voir le guide administrateur). Le service est ouvert au Mali, au Burkina Faso et à la Côte d'Ivoire (`app/Config/countries.php`).
 Guides d'utilisation : [`docs/GUIDE_ADMINISTRATEUR.md`](docs/GUIDE_ADMINISTRATEUR.md) et [`docs/GUIDE_PROFESSEUR.md`](docs/GUIDE_PROFESSEUR.md). Qualité, sécurité et recette : [`docs/QUALITE.md`](docs/QUALITE.md).
 
 ## Arborescence

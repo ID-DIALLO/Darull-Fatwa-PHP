@@ -4,7 +4,8 @@
  * Module ES sans script en ligne (CSP).
  */
 
-const PREFERRED = ['ml', 'sn', 'ci', 'bf', 'gn', 'ne', 'mr', 'ma', 'dz', 'fr'];
+// Pays ouverts au service (voir app/Config/countries.php) : Mali, Burkina Faso, Côte d'Ivoire
+const ALLOWED = ['ml', 'bf', 'ci'];
 
 function initPhoneInputs() {
   if (typeof window.intlTelInput !== 'function') {
@@ -13,8 +14,9 @@ function initPhoneInputs() {
   document.querySelectorAll('input[data-phone]').forEach((input) => {
     const hiddenName = input.dataset.phone;
     const iti = window.intlTelInput(input, {
-      initialCountry: input.dataset.country || 'ml',
-      countryOrder: PREFERRED,
+      initialCountry: ALLOWED.includes(input.dataset.country || '') ? input.dataset.country : 'ml',
+      onlyCountries: ALLOWED,
+      countryOrder: ALLOWED,
       separateDialCode: true,
       strictMode: true,
       nationalMode: false,

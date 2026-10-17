@@ -28,6 +28,7 @@ use App\Controllers\Admin\ScholarsController as AdminScholarsController;
 use App\Controllers\Admin\SettingsController;
 use App\Controllers\Admin\TagsController;
 use App\Controllers\Admin\UsersController;
+use App\Controllers\Auth\ActivationController;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\SetupController;
 use App\Controllers\Auth\PasswordController;
@@ -143,6 +144,9 @@ return static function (Router $router): void {
     $router->localized('POST', ['fr' => '/reinitialiser/{token}', 'en' => '/reset/{token}'], [PasswordController::class, 'update'], 'auth.reset.post', ['guest', 'throttle:10,900']);
 
     $router->localized('GET', ['fr' => '/verifier-email/{token}', 'en' => '/verify-email/{token}'], [VerificationController::class, 'verify'], 'auth.verify');
+    // Activation d'un compte créé par l'administration : lien + code + identifiant (§4.6.2)
+    $router->localized('GET', ['fr' => '/activation/{token}', 'en' => '/activate/{token}'], [ActivationController::class, 'show'], 'auth.activate', 'guest');
+    $router->localized('POST', ['fr' => '/activation/{token}', 'en' => '/activate/{token}'], [ActivationController::class, 'activate'], 'auth.activate.post', ['guest', 'throttle:10,900']);
 
     // ---- Mon espace (§4.4, §11.2) ------------------------------------------------------------
     $router->localized('GET', ['fr' => '/mon-espace', 'en' => '/my-account'], [AccountDashboardController::class, 'index'], 'account.dashboard', 'auth');
@@ -220,6 +224,7 @@ return static function (Router $router): void {
         $router->post('/users/{id}/role', [UsersController::class, 'role'])->name('admin.users.role');
         $router->post('/users/{id}/status', [UsersController::class, 'status'])->name('admin.users.status');
         $router->post('/users/{id}/reset-link', [UsersController::class, 'resetLink'])->name('admin.users.reset_link');
+        $router->post('/users/{id}/invite', [UsersController::class, 'invite'])->name('admin.users.invite');
         $router->post('/users/{id}/delete', [UsersController::class, 'destroy'])->name('admin.users.destroy');
         $router->get('/scholars', [AdminScholarsController::class, 'index'])->name('admin.scholars');
         $router->get('/scholars/{id}/edit', [AdminScholarsController::class, 'edit'])->name('admin.scholars.edit');

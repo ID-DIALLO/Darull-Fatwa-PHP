@@ -293,15 +293,16 @@ final class AdminTest extends DatabaseTestCase
     public function testUserManagementAndScholarSheet(): void
     {
         $this->login($this->admin);
-        // Création : e-mail de bienvenue avec lien de mot de passe
-        $this->post('/admin/users', ['full_name' => 'Fatoumata Sow', 'email' => 'fatou@example.ml', 'role' => 'scholar', 'locale' => 'fr', 'country' => 'SN']);
+        // Création : compte en attente, e-mail d'invitation avec lien d'activation et code
+        $this->post('/admin/users', ['full_name' => 'Fatoumata Sow', 'email' => 'fatou@example.ml', 'role' => 'scholar', 'locale' => 'fr', 'country' => 'ML']);
         $created = Database::fetch("SELECT u.*, r.slug AS role FROM users u JOIN roles r ON r.id = u.role_id WHERE u.email = 'fatou@example.ml'");
         self::assertNotNull($created);
         self::assertSame('scholar', $created['role']);
         self::assertNotNull(Database::fetch('SELECT 1 FROM scholar_profiles WHERE user_id = ?', [(int) $created['id']]));
+        self::assertSame('pending', $created['status']);
         self::assertCount(1, MailService::$sent);
-        self::assertSame('account_created', MailService::$sent[0]['template']);
-        self::assertStringContainsString('/fr/reinitialiser/', MailService::$sent[0]['html']);
+        self::assertSame('staff_invitation', MailService::$sent[0]['template']);
+        self::assertStringContainsString('/fr/activation/', MailService::$sent[0]['html']);
         // Un admin ne peut pas nommer un administrateur ; le super-admin oui
         self::assertSame(302, $this->post('/admin/users/' . $created['id'] . '/role', ['role' => 'admin'])->status());
         self::assertSame('scholar', Database::value('SELECT r.slug FROM users u JOIN roles r ON r.id = u.role_id WHERE u.id = ?', [(int) $created['id']]));

@@ -11,6 +11,37 @@ final class PhoneNumber
 {
     public const DEFAULT_COUNTRY_CODE = '+223';
 
+    /** Indicatifs par pays (seuls ceux de app/Config/countries.php sont acceptés). */
+    public const COUNTRY_CODES = ['ML' => '+223', 'BF' => '+226', 'CI' => '+225', 'SN' => '+221', 'GN' => '+224', 'NE' => '+227', 'MR' => '+222', 'TG' => '+228', 'BJ' => '+229', 'MA' => '+212', 'DZ' => '+213', 'FR' => '+33'];
+
+    /** Indicatifs acceptés, déduits des pays ouverts. @return list<string> */
+    public static function allowedPrefixes(): array
+    {
+        $prefixes = [];
+        foreach ((array) config('countries', ['ML', 'BF', 'CI']) as $country) {
+            if (isset(self::COUNTRY_CODES[$country])) {
+                $prefixes[] = self::COUNTRY_CODES[$country];
+            }
+        }
+
+        return $prefixes !== [] ? $prefixes : [self::DEFAULT_COUNTRY_CODE];
+    }
+
+    /** Le numéro (E.164) appartient-il à un pays ouvert ? */
+    public static function isAllowed(?string $phone): bool
+    {
+        if ($phone === null) {
+            return false;
+        }
+        foreach (self::allowedPrefixes() as $prefix) {
+            if (str_starts_with($phone, $prefix)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Nettoie une saisie : espaces, points, tirets et parenthèses retirés, « 00 » remplacé par « + »,
      * numéro local malien (8 chiffres) préfixé par +223. Retourne null si la saisie est vide.

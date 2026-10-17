@@ -16,6 +16,7 @@ final class TokenService
     public const EMAIL_VERIFY = 'email_verify';
     public const PASSWORD_RESET = 'password_reset';
     public const REMEMBER = 'remember';
+    public const INVITE = 'invite';
 
     /** Crée un jeton et retourne sa valeur en clair (64 caractères hexadécimaux). */
     public static function create(int $userId, string $type, int $ttlSeconds, bool $replaceExisting = true): string

@@ -144,7 +144,7 @@ main:focus { outline: none; }
 
 .df-lang-switcher__link:hover { background: rgba(255, 255, 255, .12); color: inherit; }
 .df-lang-switcher__link.is-active { background: var(--df-gold); color: var(--df-green-dark); }
-.df-lang-switcher__link[lang="ar"] { font-family: var(--df-font-body-ar); font-size: 1.05em; }
+.df-lang-switcher__link[lang="ar"] { font-family: var(--df-font-body-ar); font-size: 1.1em; line-height: 1; padding-block-end: .2em; }
 
 
 /* ---------- Sections ---------- */
@@ -397,7 +397,7 @@ main:focus { outline: none; }
   box-shadow: var(--df-shadow);
 }
 
-.df-header__row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 72px; }
+.df-header__row { display: flex; align-items: center; justify-content: space-between; gap: .75rem; min-height: 72px; }
 .df-header__brand { display: inline-block; flex-shrink: 0; }
 .df-header__brand img { display: block; height: 52px; width: auto; min-width: 140px; }
 .df-header__actions { display: flex; align-items: center; gap: .5rem; flex-shrink: 0; }
@@ -422,7 +422,7 @@ main:focus { outline: none; }
 .df-nav__item { position: relative; }
 .df-nav__link {
   display: inline-flex; align-items: center; gap: .3rem;
-  padding: .6rem .8rem; border: 0; background: none; border-radius: var(--df-radius-btn);
+  padding: .6rem .6rem; border: 0; background: none; border-radius: var(--df-radius-btn);
   color: var(--df-text); font-weight: 600; text-decoration: none; min-height: var(--df-touch-target);
 }
 .df-nav__link:hover, .df-nav__link.is-active { color: var(--df-green); background: var(--df-cream); }
@@ -663,8 +663,23 @@ main:focus { outline: none; }
 .df-float--top[hidden] { display: none; }
 
 /* ---------- Adaptations ---------- */
+/* En-tête sur une seule ligne : le logo mène à l'accueil (l'entrée « Accueil » reste dans le menu mobile),
+   « Mon espace » est un bouton icône, le libellé « Poser une question » apparaît à partir de 1400 px. */
+.df-nav__link, .df-header__actions .btn { white-space: nowrap; }
+.df-nav__item--home { display: none; }
+.df-header__account span { display: none; }
+.df-header__account { padding-inline: .6rem; }
 @media (min-width: 1400px) { .df-header__ask span { display: inline; } }
-@media (max-width: 1399.98px) { .df-nav__link { padding-inline: .6rem; font-size: .95rem; } }
+@media (max-width: 1399.98px) {
+  .df-nav__link { padding-inline: .55rem; font-size: .92rem; }
+  .df-header__row { gap: .5rem; }
+}
+@media (max-width: 1199.98px) {
+  .df-nav__list { gap: 0; }
+  .df-nav__link { padding-inline: .38rem; font-size: .85rem; }
+  .df-header__brand img { height: 44px; min-width: 0; }
+  .df-header__actions { gap: .25rem; }
+}
 @media (max-width: 991.98px) {
   .df-rubriques-grid { grid-template-columns: repeat(2, 1fr); }
   .df-newsletter__inner { grid-template-columns: 1fr; }
@@ -930,3 +945,7 @@ main:focus { outline: none; }
   .df-topic { grid-template-columns: 1fr; gap: .4rem; }
   .df-topic__last { text-align: start; }
 }
+
+/* Activation d'un compte (code à 6 chiffres) et panneau d'invitation (administration) */
+.df-code-input { letter-spacing: .35em; font-weight: 700; font-variant-numeric: tabular-nums; text-align: center; }
+.df-invitation .form-control[readonly] { background: var(--df-white); }

@@ -264,7 +264,7 @@ final class AuthTest extends DatabaseTestCase
 
         $response = $this->post('/fr/mon-espace/profil', [
             'full_name' => 'Awa Diarra Traoré', 'display_name' => 'Awa', 'email' => 'nouvelle@example.ml', 'phone' => '',
-            'whatsapp_same' => '1', 'locale' => 'en', 'country' => 'SN', 'city' => 'Dakar', 'gender' => 'f',
+            'whatsapp_same' => '1', 'locale' => 'en', 'country' => 'BF', 'city' => 'Ouagadougou', 'gender' => 'f',
             'preferred_channel' => 'both', 'notify_email' => '1',
         ]);
         self::assertSame('/en/my-account/profile', $response->getHeader('Location'));
@@ -272,7 +272,7 @@ final class AuthTest extends DatabaseTestCase
         self::assertSame('nouvelle@example.ml', $user['email']);
         self::assertNull($user['email_verified_at']);
         self::assertSame('en', $user['locale']);
-        self::assertSame('SN', $user['country']);
+        self::assertSame('BF', $user['country']);
         self::assertSame(0, (int) $user['notify_whatsapp']);
         self::assertSame('verify_email', MailService::$sent[0]['template'] ?? null);
         self::assertSame('en', MailService::$sent[0]['locale']);

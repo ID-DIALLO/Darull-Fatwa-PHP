@@ -37,8 +37,21 @@ final class UsersController extends AdminController
             'whatsapp' => 'phone', 'role' => 'required|in:' . implode(',', $this->assignableRoles()), 'locale' => 'required|in:fr,ar,en', 'country' => 'regex:/^[A-Z]{2}$/',
         ]);
         $id = UserAdminService::create(array_map(static fn ($v) => is_string($v) && trim($v) === '' ? null : $v, $data), (int) Auth::id());
+        \App\Core\Session::flash('invitation', UserAdminService::$lastInvitation);
 
         return $this->done('admin.users.show', ['id' => $id], __('admin.users.flash.created'));
+    }
+
+    /** Nouveau lien d'activation + code (remplace le précédent), affiché une seule fois sur la fiche. */
+    public function invite(Request $request, string $id): Response
+    {
+        $user = User::findWithRole($this->id($id));
+        if ($user === null || $user['deleted_at'] !== null) {
+            throw new HttpException(404);
+        }
+        \App\Core\Session::flash('invitation', \App\Services\StaffInvitationService::create((int) $user['id'], (int) Auth::id()));
+
+        return $this->done('admin.users.show', ['id' => $id], __('admin.users.flash.invited'));
     }
 
     public function show(Request $request, string $id): Response
@@ -48,7 +61,12 @@ final class UsersController extends AdminController
             throw new HttpException(404);
         }
 
-        return $this->view('admin/users/show', ['user' => $user, 'roles' => $this->assignableRoles()]);
+        return $this->view('admin/users/show', [
+            'user'       => $user,
+            'roles'      => $this->assignableRoles(),
+            'invitation' => \App\Core\Session::getFlash('invitation'),
+            'pendingInvitation' => \App\Services\StaffInvitationService::pending((int) $user['id']),
+        ]);
     }
 
     public function edit(Request $request, string $id): Response

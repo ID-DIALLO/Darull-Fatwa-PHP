@@ -77,4 +77,13 @@ return [
         'body'    => 'Merci de nous avoir écrit (:subject). Voici notre réponse :',
         'original' => 'Votre message :',
     ],
+    'staff_invitation' => [
+        'subject' => 'Votre accès à Darul Fatwa',
+        'title' => 'Votre compte est prêt',
+        'body' => 'L\'équipe de Darul Fatwa vous a créé un compte :role. Pour l\'activer, ouvrez le lien ci-dessous, confirmez votre identifiant et saisissez ce code :',
+        'code_label' => 'Votre code d\'activation',
+        'button' => 'Activer mon compte',
+        'steps' => 'Étapes : 1) ouvrir le lien, 2) saisir votre e-mail ou téléphone et le code, 3) choisir votre mot de passe.',
+        'expires' => 'Le lien et le code sont valables :days jours. Si vous n\'attendiez pas ce message, ignorez-le.',
+    ],
 ];

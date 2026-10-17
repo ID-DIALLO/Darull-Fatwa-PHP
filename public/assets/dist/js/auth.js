@@ -1,4 +1,4 @@
-const PREFERRED = ['ml', 'sn', 'ci', 'bf', 'gn', 'ne', 'mr', 'ma', 'dz', 'fr'];
+const ALLOWED = ['ml', 'bf', 'ci'];
 function initPhoneInputs() {
   if (typeof window.intlTelInput !== 'function') {
     return;
@@ -6,8 +6,9 @@ function initPhoneInputs() {
   document.querySelectorAll('input[data-phone]').forEach((input) => {
     const hiddenName = input.dataset.phone;
     const iti = window.intlTelInput(input, {
-      initialCountry: input.dataset.country || 'ml',
-      countryOrder: PREFERRED,
+      initialCountry: ALLOWED.includes(input.dataset.country || '') ? input.dataset.country : 'ml',
+      onlyCountries: ALLOWED,
+      countryOrder: ALLOWED,
       separateDialCode: true,
       strictMode: true,
       nationalMode: false,

@@ -20,6 +20,26 @@ $this->section('breadcrumbs');
 <?php if ($user['role'] === 'scholar' && can('scholars.manage')): ?><a class="btn btn-outline-primary" href="<?= e(route('admin.scholars.edit', ['id' => $id])) ?>"><i class="bi bi-mortarboard" aria-hidden="true"></i> <?= e(__('admin.users.scholar_sheet')) ?></a><?php endif ?>
 <?php $this->endSection(); ?>
 <?php $this->section('content'); ?>
+<?php if (!empty($invitation)): $waText = __('admin.users.invite.whatsapp_text', ['name' => $user['full_name'], 'url' => $invitation['url'], 'code' => $invitation['code']]); ?>
+<div class="alert alert-success df-invitation" role="status">
+    <h2 class="h6 mb-2"><i class="bi bi-envelope-paper-heart" aria-hidden="true"></i> <?= e(__('admin.users.invite.title')) ?></h2>
+    <p class="mb-2"><?= e(__($invitation['mailed'] ? 'admin.users.invite.mailed' : 'admin.users.invite.not_mailed')) ?> <?= e(__('admin.users.invite.once')) ?></p>
+    <div class="row g-2 align-items-end">
+        <div class="col-12 col-lg-8"><label class="form-label small mb-1" for="invite-url"><?= e(__('admin.users.invite.link')) ?></label><div class="input-group"><input type="text" class="form-control ltr" id="invite-url" value="<?= e($invitation['url']) ?>" readonly><button type="button" class="btn btn-outline-primary" data-copy-link="<?= e($invitation['url']) ?>" data-copied-label="<?= e(__('common.share.copied')) ?>"><i class="bi bi-clipboard" aria-hidden="true"></i> <?= e(__('admin.users.invite.copy')) ?></button><span class="df-share__status visually-hidden" aria-live="polite"></span></div></div>
+        <div class="col-12 col-lg-4"><label class="form-label small mb-1" for="invite-code"><?= e(__('admin.users.invite.code')) ?></label><div class="input-group"><input type="text" class="form-control ltr fw-bold fs-4 text-center" id="invite-code" value="<?= e(substr($invitation['code'], 0, 3) . ' ' . substr($invitation['code'], 3)) ?>" readonly><button type="button" class="btn btn-outline-primary" data-copy-link="<?= e($invitation['code']) ?>" data-copied-label="<?= e(__('common.share.copied')) ?>"><i class="bi bi-clipboard" aria-hidden="true"></i></button><span class="df-share__status visually-hidden" aria-live="polite"></span></div></div>
+    </div>
+    <div class="d-flex flex-wrap gap-2 mt-3">
+        <?php if ($user['whatsapp'] || $user['phone']): ?><a class="btn btn-sm btn-success" target="_blank" rel="noopener" href="<?= e(whatsapp_link($waText, (string) ($user['whatsapp'] ?: $user['phone']))) ?>"><i class="bi bi-whatsapp" aria-hidden="true"></i> <?= e(__('admin.users.invite.send_whatsapp')) ?></a><?php endif ?>
+        <button type="button" class="btn btn-sm btn-outline-primary" data-copy-link="<?= e($waText) ?>" data-copied-label="<?= e(__('common.share.copied')) ?>"><i class="bi bi-chat-left-text" aria-hidden="true"></i> <?= e(__('admin.users.invite.copy_message')) ?></button><span class="df-share__status small align-self-center" aria-live="polite"></span>
+    </div>
+    <p class="small mb-0 mt-2 text-secondary"><?= e(__('admin.users.invite.expires', ['date' => format_date($invitation['expires_at'], true)])) ?></p>
+</div>
+<?php elseif ($user['status'] === 'pending' && !$user['deleted_at']): ?>
+<div class="alert alert-warning d-flex flex-wrap align-items-center justify-content-between gap-2" role="status">
+    <span><i class="bi bi-hourglass-split" aria-hidden="true"></i> <?= e(!empty($pendingInvitation) ? __('admin.users.invite.pending', ['date' => format_date($pendingInvitation['expires_at'], true)]) : __('admin.users.invite.expired')) ?></span>
+    <?= $this->partial('admin/partials/post-button', ['url' => route('admin.users.invite', ['id' => $id]), 'label' => __('admin.users.invite.renew'), 'icon' => 'arrow-repeat', 'class' => 'btn btn-sm btn-primary']) ?>
+</div>
+<?php endif ?>
 <div class="row g-3 mb-3">
     <?php foreach (['questions' => 'chat-left-dots', 'answered' => 'check2-circle', 'topics' => 'chat-square-text', 'posts' => 'chat-dots', 'ideas' => 'lightbulb', 'comments' => 'chat-left-quote'] as $key => $icon): ?>
     <div class="col-6 col-md-4 col-xl-3 col-xxl-2"><div class="df-kpi"><span class="df-kpi__icon"><i class="bi bi-<?= e($icon) ?>" aria-hidden="true"></i></span><span><span class="df-kpi__value d-block"><?= (int) $user['stats'][$key] ?></span><span class="df-kpi__label"><?= e(__('admin.users.stats.' . $key)) ?></span></span></div></div>
@@ -64,6 +84,7 @@ $this->section('breadcrumbs');
             </form>
             <?php endif ?>
             <div class="d-flex flex-wrap gap-2">
+                <?php if ($user['status'] !== 'pending'): ?><?= $this->partial('admin/partials/post-button', ['url' => route('admin.users.invite', ['id' => $id]), 'label' => __('admin.users.invite.renew'), 'icon' => 'envelope-paper', 'class' => 'btn btn-sm btn-outline-primary', 'confirm' => __('admin.users.invite.renew_confirm')]) ?><?php endif ?>
                 <?php if ($user['email']): ?><?= $this->partial('admin/partials/post-button', ['url' => route('admin.users.reset_link', ['id' => $id]), 'label' => __('admin.users.send_reset'), 'icon' => 'key', 'class' => 'btn btn-sm btn-outline-secondary']) ?><?php endif ?>
                 <?php if (!$self): ?><?= $this->partial('admin/partials/post-button', ['url' => route('admin.users.destroy', ['id' => $id]), 'label' => __('admin.users.delete'), 'icon' => 'trash', 'class' => 'btn btn-sm btn-outline-danger', 'confirm' => __('admin.users.delete_confirm')]) ?><?php endif ?>
             </div>

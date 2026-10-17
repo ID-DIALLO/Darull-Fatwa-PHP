@@ -12,7 +12,7 @@ return [
     'numeric'          => 'Le champ :attribute doit être un nombre.',
     'integer'          => 'Le champ :attribute doit être un nombre entier.',
     'email'            => 'Le champ :attribute doit être une adresse e-mail valide.',
-    'phone'            => 'Le champ :attribute doit être un numéro de téléphone valide au format international (ex. +223 76 12 34 56).',
+    'phone'            => 'Le champ :attribute doit être un numéro de téléphone du Mali, du Burkina Faso ou de la Côte d\'Ivoire, au format international (ex. +223 76 12 34 56).',
     'url'              => 'Le champ :attribute doit être une adresse web valide.',
     'date'             => 'Le champ :attribute doit être une date valide.',
     'regex'            => 'Le format du champ :attribute est invalide.',

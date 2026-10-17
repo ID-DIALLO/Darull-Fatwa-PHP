@@ -31,7 +31,7 @@ $askUrl = route_exists('questions.create') ? route('questions.create') : route('
 
             <nav class="df-nav d-none d-lg-block" aria-label="<?= e(__('nav.main_nav')) ?>">
                 <ul class="df-nav__list">
-                    <li class="df-nav__item"><a class="df-nav__link<?= $isActive('home') ? ' is-active' : '' ?>" href="<?= e(route('home')) ?>" <?= $isActive('home') ? 'aria-current="page"' : '' ?>><?= e(__('nav.home')) ?></a></li>
+                    <li class="df-nav__item df-nav__item--home"><a class="df-nav__link<?= $isActive('home') ? ' is-active' : '' ?>" href="<?= e(route('home')) ?>" <?= $isActive('home') ? 'aria-current="page"' : '' ?>><?= e(__('nav.home')) ?></a></li>
                     <li class="df-nav__item df-nav__item--mega">
                         <button type="button" class="df-nav__link df-nav__toggle<?= $isActive('rubriques.') ? ' is-active' : '' ?>" aria-expanded="false" aria-controls="df-mega" data-mega-toggle>
                             <?= e(__('nav.rubriques')) ?> <i class="bi bi-chevron-down" aria-hidden="true"></i>
@@ -67,9 +67,9 @@ $askUrl = route_exists('questions.create') ? route('questions.create') : route('
                     <i class="bi bi-bell" aria-hidden="true"></i><span class="df-header__badge" data-notification-count hidden>0</span>
                 </a>
                 <?php endif ?>
-                <a class="btn btn-outline-primary btn-sm d-none d-md-inline-flex" href="<?= e(route('account.dashboard')) ?>"><i class="bi bi-person-circle" aria-hidden="true"></i> <?= e(__('nav.my_account')) ?></a>
+                <a class="btn btn-outline-primary btn-sm d-none d-md-inline-flex df-header__account" href="<?= e(route('account.dashboard')) ?>" aria-label="<?= e(__('nav.my_account')) ?>" title="<?= e(__('nav.my_account')) ?>"><i class="bi bi-person-circle" aria-hidden="true"></i> <span><?= e(__('nav.my_account')) ?></span></a>
                 <?php else: ?>
-                <a class="btn btn-outline-primary btn-sm d-none d-md-inline-flex" href="<?= e(route('auth.login')) ?>"><?= e(__('nav.login')) ?></a>
+                <a class="btn btn-outline-primary btn-sm d-none d-md-inline-flex df-header__account" href="<?= e(route('auth.login')) ?>" aria-label="<?= e(__('nav.login')) ?>" title="<?= e(__('nav.login')) ?>"><i class="bi bi-box-arrow-in-right icon-dir" aria-hidden="true"></i> <span><?= e(__('nav.login')) ?></span></a>
                 <?php endif ?>
                 <a class="btn btn-gold btn-sm df-header__ask" href="<?= e($askUrl) ?>" aria-label="<?= e(__('nav.ask')) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <span><?= e(__('nav.ask')) ?></span></a>
                 <button class="df-header__burger d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#df-offcanvas" aria-controls="df-offcanvas" aria-label="<?= e(__('nav.open_menu')) ?>">

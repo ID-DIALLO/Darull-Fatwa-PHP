@@ -67,7 +67,9 @@ final class ValidatorTest extends TestCase
     public static function phones(): iterable
     {
         yield 'Mali' => ['+22376123456', true];
-        yield 'France' => ['+33612345678', true];
+        yield 'Burkina Faso' => ['+22670123456', true];
+        yield 'Côte d\'Ivoire' => ['+2250701234567', true];
+        yield 'France (pays non ouvert)' => ['+33612345678', false];
         yield 'sans indicatif' => ['76123456', false];
         yield 'avec espaces' => ['+223 76 12 34 56', false];
         yield 'trop court' => ['+2231234', false];

@@ -54,7 +54,14 @@ Langue de l'interface : boutons FR / ع / EN dans la barre du haut (mémorisée 
 ![Utilisateurs](img/admin-utilisateurs.jpg)
 
 - **Utilisateurs** : recherche (nom, e-mail, téléphone), filtre par rôle et statut ; fiche avec historique, questions, suspension, suppression (RGPD : les questions privées sont supprimées, les Q/R publiées restent anonymes).
-- **Créer un compte** : *Nouveau* → rôle (membre, professeur, modérateur, administrateur) ; le mot de passe initial est envoyé par e-mail.
+- **Créer un compte** (professeur, modérateur, administrateur ou membre) : *Nouveau* → nom, e-mail et/ou téléphone, rôle.
+  Le compte est créé **en attente** et une **invitation** est générée : un **lien d'activation** et un **code à 6 chiffres**.
+  - Si le compte a un e-mail, l'invitation lui est envoyée automatiquement.
+  - Dans tous les cas, le lien et le code s'affichent **une seule fois** sur la fiche, avec un bouton *Envoyer par WhatsApp* (si un numéro est connu) et *Copier le message complet*.
+  - La personne ouvre le lien, saisit **son identifiant** (l'e-mail ou le téléphone que vous avez enregistré) et **le code**, choisit son mot de passe, et arrive directement dans son espace (professeur → espace professeur ; modérateur et administrateur → administration).
+  - L'invitation est valable 7 jours ; *Nouveau lien d'activation* (fiche du compte) en génère une autre et annule la précédente. Tant que le compte n'est pas activé, aucune connexion n'est possible.
+
+![Invitation à transmettre](img/admin-invitation.jpg)
 
 ![Professeurs](img/admin-professeurs.jpg)
 

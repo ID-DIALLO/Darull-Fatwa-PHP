@@ -63,8 +63,9 @@ CREATE TABLE users (
 CREATE TABLE user_tokens (
   id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
   user_id     INT UNSIGNED NOT NULL,
-  type        ENUM('email_verify','password_reset','remember','phone_otp') NOT NULL,
+  type        ENUM('email_verify','password_reset','remember','phone_otp','invite') NOT NULL,
   token_hash  CHAR(64)     NOT NULL,                  -- SHA-256 du jeton (jamais le jeton en clair)
+  code_hash   CHAR(64)     NULL,                      -- invitations : code à 6 chiffres haché avec le jeton
   expires_at  DATETIME     NOT NULL,
   used_at     DATETIME     NULL,
   created_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,

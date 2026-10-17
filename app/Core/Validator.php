@@ -156,7 +156,7 @@ class Validator
             'numeric'          => is_numeric($value),
             'integer'          => filter_var($value, FILTER_VALIDATE_INT) !== false,
             'email'            => is_string($value) && mb_strlen($value) <= 190 && filter_var($value, FILTER_VALIDATE_EMAIL) !== false,
-            'phone'            => is_string($value) && (bool) preg_match('/^\+[1-9]\d{7,14}$/', $value),
+            'phone'            => is_string($value) && (bool) preg_match('/^\+[1-9]\d{7,14}$/', $value) && \App\Services\PhoneNumber::isAllowed($value),
             'url'              => is_string($value) && filter_var($value, FILTER_VALIDATE_URL) !== false && (bool) preg_match('#^https?://#i', $value),
             'date'             => is_string($value) && strtotime($value) !== false,
             'regex'            => is_string($value) && (bool) preg_match($params[0] ?? '/^$/', $value),
