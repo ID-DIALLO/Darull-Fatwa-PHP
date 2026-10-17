@@ -13,6 +13,9 @@ L'interface existe en français, en arabe (droite à gauche) et en anglais.
 - Questions **à traiter**, **en cours**, **en attente de précision**, **répondues** ; questions en retard signalées en rouge.
 - Vos derniers échanges et vos articles.
 - Rappel : seuls les professeurs validés par l'administration répondent au nom de Darul Fatwa.
+- En tant que professeur, **vous ne posez pas de questions** : le bouton « Poser une question » du site devient pour vous
+  l'accès à votre espace, et la connexion vous y amène directement. *Mon espace* reste disponible pour votre profil,
+  vos commentaires, le forum et vos notifications.
 
 ---
 
@@ -68,8 +71,9 @@ aucune donnée personnelle avant de la publier. Si le membre a gardé sa questio
 
 - **Qui** a posé la question : tant que vous n'avez pas répondu, seulement le pseudonyme choisi par le membre (ou « le demandeur ») ; **une fois votre réponse envoyée, son nom réel apparaît** sur cette question, dans le fil et dans votre file. Son pays, sa langue, et **quand** il a posé la question (date et heure, ancienneté).
 - **L'origine** : question posée sur Darul Fatwa, reçue sur **WhatsApp**, ou saisie par l'administration.
-- **« Adressée à vous »** : le membre vous a choisi en posant sa question. Ces questions vous sont attribuées directement si vous êtes disponible,
-  sinon elles apparaissent dans *À prendre*, même si l'auto-attribution n'est pas activée pour votre compte.
+- **« Adressée à vous »** : le membre vous a choisi en posant sa question. Elle vous est **attribuée directement** et apparaît dans
+  *Mes questions* (l'administration la voit aussi et peut la réattribuer). Si l'administration la remet dans la file, elle reste
+  visible pour vous dans *À prendre*, même si l'auto-attribution n'est pas activée pour votre compte.
 
 ## 3. Le forum
 

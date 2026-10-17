@@ -199,6 +199,7 @@ return [
         ],
     ],
     'errors' => [
+        'staff_cannot_ask' => 'Scholars, moderators and administrators do not ask questions: they answer them from their own space.',
         'daily_limit'   => 'You have reached the limit of :count questions per 24 hours.',
         'empty'         => 'Record a voice message or write your question.',
         'audio_missing' => 'The voice recording could not be found. Please record it again.',

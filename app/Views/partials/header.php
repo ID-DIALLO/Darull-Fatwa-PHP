@@ -20,7 +20,7 @@ $items = [
 ];
 $items = array_values(array_filter($items, static fn (array $i): bool => route_exists($i['route'])));
 $isActive = static fn (string $match): bool => $match === 'home' ? $current === 'home' : str_starts_with($current, $match);
-$askUrl = route_exists('questions.create') ? route('questions.create') : route('auth.register');
+$askUrl = ask_url();
 ?>
 <header class="df-header">
     <div class="container">
@@ -71,7 +71,7 @@ $askUrl = route_exists('questions.create') ? route('questions.create') : route('
                 <?php else: ?>
                 <a class="btn btn-outline-primary btn-sm d-none d-md-inline-flex df-header__account" href="<?= e(route('auth.login')) ?>" aria-label="<?= e(__('nav.login')) ?>" title="<?= e(__('nav.login')) ?>"><i class="bi bi-box-arrow-in-right icon-dir" aria-hidden="true"></i> <span><?= e(__('nav.login')) ?></span></a>
                 <?php endif ?>
-                <a class="btn btn-gold btn-sm df-header__ask" href="<?= e($askUrl) ?>" aria-label="<?= e(__('nav.ask')) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <span><?= e(__('nav.ask')) ?></span></a>
+                <?php if ($askUrl !== null): ?><a class="btn btn-gold btn-sm df-header__ask" href="<?= e($askUrl) ?>" aria-label="<?= e(__('nav.ask')) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <span><?= e(__('nav.ask')) ?></span></a><?php endif ?>
                 <button class="df-header__burger d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#df-offcanvas" aria-controls="df-offcanvas" aria-label="<?= e(__('nav.open_menu')) ?>">
                     <i class="bi bi-list" aria-hidden="true"></i>
                 </button>
@@ -108,7 +108,7 @@ $askUrl = route_exists('questions.create') ? route('questions.create') : route('
         </nav>
         <hr>
         <div class="d-grid gap-2">
-            <a class="btn btn-gold" href="<?= e($askUrl) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('nav.ask')) ?></a>
+            <?php if ($askUrl !== null): ?><a class="btn btn-gold" href="<?= e($askUrl) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('nav.ask')) ?></a><?php endif ?>
             <?php if ($user !== null): ?>
             <a class="btn btn-outline-primary" href="<?= e(route('account.dashboard')) ?>"><i class="bi bi-person-circle" aria-hidden="true"></i> <?= e(__('nav.my_account')) ?></a>
             <form method="post" action="<?= e(route('auth.logout')) ?>" class="d-grid">

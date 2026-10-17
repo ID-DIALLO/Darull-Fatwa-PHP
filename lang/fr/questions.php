@@ -199,6 +199,7 @@ return [
         ],
     ],
     'errors' => [
+        'staff_cannot_ask' => 'Les professeurs, modérateurs et administrateurs ne posent pas de questions : ils y répondent depuis leur espace.',
         'daily_limit'   => 'Vous avez atteint la limite de :count questions par 24 heures.',
         'empty'         => 'Enregistrez un message vocal ou écrivez votre question.',
         'audio_missing' => 'L\'enregistrement vocal est introuvable. Enregistrez-le à nouveau.',

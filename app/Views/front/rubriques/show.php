@@ -13,7 +13,7 @@
 $this->extend('layouts/front');
 $this->section('title', $rubrique['meta_title'] ?: $rubrique['name']);
 $this->section('description', $rubrique['meta_description'] ?: $rubrique['short_description']);
-$askUrl = route_exists('questions.create') ? route('questions.create', ['rubrique' => $rubrique['code']]) : route('auth.register');
+$askUrl = ask_url(['rubrique' => $rubrique['code']]);
 ?>
 <?php $this->section('content'); ?>
 <?= $this->partial('partials/breadcrumb', ['items' => [['label' => __('front.rubriques.title'), 'url' => route('rubriques.index')], ['label' => $rubrique['name']]]]) ?>
@@ -26,7 +26,7 @@ $askUrl = route_exists('questions.create') ? route('questions.create', ['rubriqu
             <div>
                 <h1 class="df-rubrique-hero__title"><?= e($rubrique['name']) ?></h1>
                 <p class="df-rubrique-hero__text"><?= e($rubrique['short_description']) ?></p>
-                <a class="btn btn-gold" href="<?= e($askUrl) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('front.rubriques.ask_here')) ?></a>
+                <?php if ($askUrl !== null): ?><a class="btn btn-gold" href="<?= e($askUrl) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('front.rubriques.ask_here')) ?></a><?php endif ?>
             </div>
         </div>
     </div>
@@ -55,7 +55,7 @@ $askUrl = route_exists('questions.create') ? route('questions.create', ['rubriqu
     <div class="container">
         <h2 class="df-section__title"><?= e(__('front.rubriques.qa_title')) ?></h2>
         <?php if ($qa === []): ?>
-        <div class="df-empty"><i class="bi bi-patch-question" aria-hidden="true"></i><p><?= e(__('front.rubriques.empty_qa')) ?></p><a class="btn btn-outline-primary" href="<?= e($askUrl) ?>"><?= e(__('front.rubriques.ask_here')) ?></a></div>
+        <div class="df-empty"><i class="bi bi-patch-question" aria-hidden="true"></i><p><?= e(__('front.rubriques.empty_qa')) ?></p><?php if ($askUrl !== null): ?><a class="btn btn-outline-primary" href="<?= e($askUrl) ?>"><?= e(__('front.rubriques.ask_here')) ?></a><?php endif ?></div>
         <?php else: ?>
         <div class="row g-3">
             <?php foreach ($qa as $item): ?>

@@ -30,6 +30,9 @@ final class QuestionController extends Controller
 
     public function create(Request $request): Response
     {
+        if (($denied = $this->denyStaff()) !== null) {
+            return $denied;
+        }
         $user = Auth::user();
         $preselected = null;
         if (is_string($request->query('rubrique'))) {
@@ -54,6 +57,9 @@ final class QuestionController extends Controller
 
     public function store(Request $request): Response
     {
+        if (($denied = $this->denyStaff()) !== null) {
+            return $denied;
+        }
         $user = Auth::user();
         if (QuestionService::countLast24h((int) $user['id']) >= QuestionService::dailyLimit()) {
             throw new ValidationException(['body' => [__('questions.errors.daily_limit', ['count' => QuestionService::dailyLimit()])]]);
@@ -145,6 +151,16 @@ final class QuestionController extends Controller
              GROUP BY u.id, u.full_name, st.title ORDER BY sp.sort_order, u.full_name",
             [$locale, $locale, \App\Core\Lang::getDefault()],
         );
+    }
+
+    /** Professeurs, modérateurs et administrateurs répondent aux questions : renvoyés vers leur espace. */
+    private function denyStaff(): ?Response
+    {
+        if (!Auth::isStaff()) {
+            return null;
+        }
+
+        return $this->redirect(route(Auth::homeRoute()))->with('info', __('questions.errors.staff_cannot_ask'));
     }
 
     public function confirmation(Request $request, string $reference): Response

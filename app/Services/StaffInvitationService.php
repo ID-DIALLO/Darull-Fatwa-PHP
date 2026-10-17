@@ -107,11 +107,7 @@ final class StaffInvitationService
     /** Page d'accueil de la personne selon son rôle. */
     public static function homeRoute(string $role): string
     {
-        return match ($role) {
-            'scholar' => 'scholar.dashboard',
-            'moderator', 'admin', 'superadmin' => 'admin.dashboard',
-            default => 'account.dashboard',
-        };
+        return Auth::homeRouteFor($role);
     }
 
     /** Invitation en cours d'un compte (pour la fiche admin). @return array{expires_at: string}|null */

@@ -17,9 +17,11 @@
  */
 $this->extend('layouts/front');
 $this->section('body_class', 'df-page-home');
-$askUrl = route_exists('questions.create') ? route('questions.create') : route('auth.register');
-$voiceUrl = route_exists('questions.create') ? route('questions.create', ['mode' => 'voice']) : route('auth.register');
-$textUrl = route_exists('questions.create') ? route('questions.create', ['mode' => 'text']) : route('auth.register');
+// L'équipe (professeur, modérateur, administrateur) ne pose pas de question : ses boutons mènent à son espace.
+$askUrl = ask_url() ?? space_url();
+$voiceUrl = ask_url(['mode' => 'voice']) ?? space_url();
+$textUrl = ask_url(['mode' => 'text']);
+$spaceLabel = can_ask() ? null : __(\App\Core\Auth::hasRole('scholar') ? 'nav.scholar_space' : 'nav.admin');
 $whatsapp = whatsapp_link(__('front.whatsapp.message'));
 $this->section('head');
 if ($banners !== []): ?>
@@ -69,8 +71,12 @@ echo json_ld(['@type' => 'WebSite', 'name' => __('common.site.name'), 'url' => u
                         <p class="df-voice__subtitle"><?= e(__('home.voice.subtitle')) ?></p>
                         <p class="df-voice__languages"><i class="bi bi-translate" aria-hidden="true"></i> <?= e(__('home.voice.languages')) ?></p>
                         <div class="df-voice__actions">
+                            <?php if ($spaceLabel !== null): ?>
+                            <a class="btn btn-gold btn-lg" href="<?= e($voiceUrl) ?>"><i class="bi bi-mortarboard" aria-hidden="true"></i> <?= e($spaceLabel) ?></a>
+                            <?php else: ?>
                             <a class="btn btn-gold btn-lg" href="<?= e($voiceUrl) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('home.voice.button')) ?></a>
                             <a class="df-voice__link" href="<?= e($textUrl) ?>"><i class="bi bi-pencil" aria-hidden="true"></i> <?= e(__('home.voice.prefer_text')) ?></a>
+                            <?php endif ?>
                         </div>
                     </div>
                 </div>
@@ -251,7 +257,7 @@ echo json_ld(['@type' => 'WebSite', 'name' => __('common.site.name'), 'url' => u
                 <h2 class="df-cta__title"><?= e(__('home.cta.title')) ?></h2>
                 <p class="df-cta__text"><?= e(__('home.cta.text')) ?></p>
                 <div class="df-cta__actions">
-                    <a class="btn btn-gold btn-lg" href="<?= e($askUrl) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('home.cta.ask')) ?></a>
+                    <a class="btn btn-gold btn-lg" href="<?= e($askUrl) ?>"><i class="bi bi-<?= $spaceLabel !== null ? 'mortarboard' : 'mic-fill' ?>" aria-hidden="true"></i> <?= e($spaceLabel ?? __('home.cta.ask')) ?></a>
                     <?php if ($whatsapp !== null): ?><a class="btn btn-outline-light btn-lg" href="<?= e($whatsapp) ?>" target="_blank" rel="noopener"><i class="bi bi-whatsapp" aria-hidden="true"></i> <?= e(__('home.cta.whatsapp')) ?></a><?php endif ?>
                     <?php if (auth() === null): ?><a class="btn btn-outline-light btn-lg" href="<?= e(route('auth.register')) ?>"><?= e(__('home.cta.register')) ?></a><?php endif ?>
                 </div>

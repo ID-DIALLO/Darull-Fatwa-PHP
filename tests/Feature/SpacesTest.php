@@ -72,19 +72,31 @@ final class SpacesTest extends DatabaseTestCase
         $this->switchTo($this->admin);
         self::assertStringContainsString(__('admin.questions.requested_scholar'), $this->get('/admin/questions/' . $question['id'])->body());
 
-        // Un professeur demandé mais surchargé : la question reste à assigner et il peut la prendre lui-même
+        // Un professeur demandé mais surchargé la reçoit quand même : elle doit apparaître dans son espace
+        // (un professeur marqué indisponible n'est simplement plus proposé dans le formulaire)
         Database::execute('UPDATE scholar_profiles SET max_open_questions = 1 WHERE user_id = ?', [$this->scholar]);
         $this->switchTo($this->member);
         $this->post('/fr/poser-une-question', ['rubrique_id' => 3, 'body' => 'Seconde question adressée au même professeur, pour la file.', 'spoken_language' => 'fr', 'answer_language' => 'fr', 'answer_channel' => 'platform', 'visibility' => 'private', 'requested_scholar_id' => $this->scholar]);
         $second = Database::fetch('SELECT * FROM questions ORDER BY id DESC LIMIT 1');
-        self::assertSame('new', $second['status']);
-        self::assertNull($second['assigned_to']);
+        self::assertNotSame((int) $question['id'], (int) $second['id']);
+        self::assertSame('assigned', $second['status']);
+        self::assertSame($this->scholar, (int) $second['assigned_to']);
+        $this->switchTo($this->scholar);
+        self::assertStringContainsString($second['reference'], $this->get('/fr/professeur/questions')->body(), 'visible dans « Mes questions » du professeur demandé');
+        self::assertStringNotContainsString($second['reference'], $this->get('/fr/professeur/questions?file=a-prendre')->body());
+        $this->switchTo($this->admin);
+        self::assertStringContainsString($second['reference'], $this->get('/admin/questions')->body(), 'visible par l\'administration');
+
+        // Remise dans la file par l'administration (désattribution) : la question reste adressée à ce professeur,
+        // lui seul peut la reprendre lui-même et elle apparaît dans sa file « À prendre »
+        Database::execute("UPDATE questions SET status = 'new', assigned_to = NULL WHERE id = ?", [(int) $second['id']]);
+        $third = Database::fetch('SELECT * FROM questions WHERE id = ?', [(int) $second['id']]);
+        self::assertTrue(AssignmentService::canSelfAssign($third, $this->scholar));
+        self::assertFalse(AssignmentService::canSelfAssign($third, $this->other));
         $this->switchTo($this->scholar);
         $available = $this->get('/fr/professeur/questions?file=a-prendre')->body();
-        self::assertStringContainsString($second['reference'], $available, 'adressée à lui : visible dans « À prendre » malgré can_self_assign = 0');
+        self::assertStringContainsString($third['reference'], $available, 'adressée à lui : visible dans « À prendre » malgré can_self_assign = 0');
         self::assertStringContainsString(__('scholar.question.requested_you'), $available);
-        self::assertTrue(AssignmentService::canSelfAssign($second, $this->scholar));
-        self::assertFalse(AssignmentService::canSelfAssign($second, $this->other));
 
         // Un professeur inconnu ou non public est refusé
         $this->switchTo($this->member);
@@ -235,5 +247,45 @@ final class SpacesTest extends DatabaseTestCase
         // Un membre n'y a pas accès
         $this->switchTo($this->member);
         self::assertSame(403, $this->get('/fr/professeur/statistiques')->status());
+    }
+
+    public function testLEquipeNePosePasDeQuestionsEtArriveDansSonEspaceALaConnexion(): void
+    {
+        // Le professeur est renvoyé vers son espace avec un message ; aucune question créée
+        $this->switchTo($this->scholar);
+        $get = $this->get('/fr/poser-une-question');
+        self::assertSame(302, $get->status());
+        self::assertSame('/fr/professeur', $get->getHeader('Location'));
+        $this->post('/fr/poser-une-question', ['rubrique_id' => 3, 'body' => 'Un professeur essaie de poser une question.', 'spoken_language' => 'fr', 'answer_language' => 'fr', 'answer_channel' => 'platform', 'visibility' => 'private']);
+        self::assertSame(0, (int) Database::value('SELECT COUNT(*) FROM questions'));
+        self::assertContains(__('questions.errors.staff_cannot_ask'), $this->flashMessages());
+
+        // Aucun bouton « Poser une question » pour l'équipe ; raccourci vers l'espace à la place
+        $home = $this->get('/fr')->body();
+        self::assertStringNotContainsString('/fr/poser-une-question', $home);
+        self::assertStringContainsString(e(__('nav.scholar_space')), $home);
+        self::assertStringNotContainsString('/fr/poser-une-question', $this->get('/fr/professeurs/' . $this->scholar)->body() . $this->get('/fr/contact')->body());
+        $dashboard = $this->get('/fr/mon-espace')->body();
+        self::assertStringNotContainsString('/fr/poser-une-question', $dashboard);
+        self::assertStringContainsString(e(__('account.dashboard.staff_title')), $dashboard);
+
+        $this->switchTo($this->admin);
+        self::assertSame('/admin', $this->get('/fr/poser-une-question')->getHeader('Location'));
+        self::assertStringNotContainsString('/fr/poser-une-question', $this->get('/fr')->body());
+
+        // Le membre garde ses boutons
+        $this->switchTo($this->member);
+        self::assertStringContainsString('/fr/poser-une-question', $this->get('/fr')->body());
+        self::assertSame(200, $this->get('/fr/poser-une-question')->status());
+
+        // Connexion : chacun arrive dans son espace
+        foreach ([$this->scholar => '/fr/professeur', $this->admin => '/admin', $this->member => '/fr/mon-espace'] as $id => $target) {
+            $this->switchTo(null);
+            Database::execute('UPDATE users SET password_hash = ? WHERE id = ?', [password_hash('MotDePasse123!', PASSWORD_DEFAULT), $id]);
+            $email = (string) Database::value('SELECT email FROM users WHERE id = ?', [$id]);
+            $login = $this->post('/fr/connexion', ['identifier' => $email, 'password' => 'MotDePasse123!']);
+            self::assertSame(302, $login->status(), $email);
+            self::assertSame($target, $login->getHeader('Location'), $email);
+        }
     }
 }

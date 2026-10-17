@@ -14,7 +14,7 @@ $email = setting('contact_email');
 $address = setting('contact_address');
 $hours = setting('opening_hours');
 $whatsapp = whatsapp_link(__('front.whatsapp.message'));
-$askUrl = route_exists('questions.create') ? route('questions.create') : route('auth.register');
+$askUrl = ask_url();
 $socials = [];
 foreach (['facebook' => 'facebook', 'youtube' => 'youtube', 'instagram' => 'instagram', 'telegram' => 'telegram', 'x' => 'twitter-x', 'tiktok' => 'tiktok'] as $key => $icon) {
     $url = setting('social_' . $key);
@@ -40,7 +40,7 @@ $this->section('head'); ?>
             <div class="col-12 col-lg-7">
                 <div class="alert alert-warning d-flex gap-2 align-items-start" role="note">
                     <i class="bi bi-mic-fill mt-1" aria-hidden="true"></i>
-                    <div><?= e(__('front.contact.reminder')) ?> <a class="alert-link" href="<?= e($askUrl) ?>"><?= e(__('nav.ask')) ?></a></div>
+                    <div><?= e(__('front.contact.reminder')) ?> <?php if ($askUrl !== null): ?><a class="alert-link" href="<?= e($askUrl) ?>"><?= e(__('nav.ask')) ?></a><?php endif ?></div>
                 </div>
                 <form method="post" action="<?= e(route('contact.send')) ?>" class="df-card df-form" novalidate>
                     <?= csrf_field() ?>

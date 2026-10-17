@@ -54,7 +54,7 @@ $query = ['statut' => $filters['tab'], 'rubrique' => $filters['rubrique'], 'peri
 <div class="df-empty">
     <i class="bi bi-chat-left-dots" aria-hidden="true"></i>
     <p><?= e(($counts['all'] ?? 0) === 0 ? __('questions.list.empty') : __('questions.list.empty_filtered')) ?></p>
-    <a class="btn btn-gold" href="<?= e(route('questions.create')) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('questions.list.ask_first')) ?></a>
+    <?php if (can_ask()): ?><a class="btn btn-gold" href="<?= e(route('questions.create')) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('questions.list.ask_first')) ?></a><?php endif ?>
 </div>
 <?php else: ?>
 <p class="text-secondary small"><?= e(trans_choice('questions.list.count', (int) $result['total'])) ?></p>

@@ -63,7 +63,7 @@ final class LoginController extends Controller
         User::update((int) $user['id'], ['last_login_at' => gmdate('Y-m-d H:i:s'), 'last_login_ip' => $request->ip()]);
         ActivityLog::record('user.login', 'user', (int) $user['id'], ['remember' => (bool) ($data['remember'] ?? false)], (int) $user['id']);
 
-        $target = $this->safeTarget($request->input('redirect')) ?? $this->safeTarget(Session::pull('_intended')) ?? route('account.dashboard', [], (string) $user['locale']);
+        $target = $this->safeTarget($request->input('redirect')) ?? $this->safeTarget(Session::pull('_intended')) ?? route(Auth::homeRouteFor((string) $user['role']), [], (string) $user['locale']);
 
         return $this->redirect($target)->with('success', __('auth.login.welcome_back', ['name' => User::publicName($user)]));
     }

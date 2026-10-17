@@ -17,6 +17,7 @@ return [
         'label'         => 'My account menu',
     ],
     'dashboard' => [
+        'staff_intro' => 'Your profile, comments, forum and notifications; the questions to handle are in your workspace.', 'staff_title' => 'You are part of the team', 'staff_text' => 'Members\' questions are waiting in your space; this personal area is for your comments, the forum and your profile.',
         'title'   => 'Dashboard',
         'welcome' => 'Assalamu alaykum, :name',
         'intro'   => 'From your account you ask your questions and follow the scholars\' answers.',

@@ -80,6 +80,35 @@ final class Auth
         return in_array(self::role(), $roles, true);
     }
 
+    /** Rôles de l'équipe (professeur, modérateur, administrateur) : ils répondent aux questions, ils n'en posent pas. */
+    public const STAFF_ROLES = ['scholar', 'moderator', 'admin', 'superadmin'];
+
+    public static function isStaff(): bool
+    {
+        return self::hasRole(...self::STAFF_ROLES);
+    }
+
+    /** Peut poser une question : visiteur (invité à se connecter) ou membre ; jamais l'équipe. */
+    public static function canAsk(): bool
+    {
+        return !self::isStaff();
+    }
+
+    /** Nom de la route d'accueil de l'espace selon le rôle. */
+    public static function homeRouteFor(?string $role): string
+    {
+        return match ($role) {
+            'scholar' => 'scholar.dashboard',
+            'moderator', 'admin', 'superadmin' => 'admin.dashboard',
+            default => 'account.dashboard',
+        };
+    }
+
+    public static function homeRoute(): string
+    {
+        return self::homeRouteFor(self::role());
+    }
+
     /** Le rôle donné (ou celui de l'utilisateur courant) possède-t-il la permission ? */
     public static function can(string $permission, ?string $role = null): bool
     {

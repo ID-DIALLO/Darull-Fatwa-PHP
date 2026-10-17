@@ -11,7 +11,7 @@ $name = trim(($scholar['title'] ? $scholar['title'] . ' ' : '') . $scholar['full
 $this->section('title', $name);
 $this->section('description', excerpt((string) ($scholar['bio'] ?? __('front.scholars.intro')), 160));
 $photo = $scholar['photo_path'] ?: $scholar['avatar_path'];
-$askUrl = route_exists('questions.create') ? route('questions.create', ['professeur' => (int) $scholar['id']]) : route('auth.register');
+$askUrl = ask_url(['professeur' => (int) $scholar['id']]);
 ?>
 <?php $this->section('content'); ?>
 <?= $this->partial('partials/breadcrumb', ['items' => [['label' => __('front.scholars.title'), 'url' => route('scholars.index')], ['label' => $name]]]) ?>
@@ -53,7 +53,7 @@ echo json_ld($person);
                     <?php if ($scholar['languages_list'] !== []): ?>
                     <p class="mb-2"><strong><?= e(__('front.scholars.languages')) ?> :</strong> <?= e(implode(', ', array_map(static fn (string $l): string => __('front.scholars.lang.' . $l), $scholar['languages_list']))) ?></p>
                     <?php endif ?>
-                    <a class="btn btn-gold w-100" href="<?= e($askUrl) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('front.scholars.ask')) ?></a>
+                    <?php if ($askUrl !== null): ?><a class="btn btn-gold w-100" href="<?= e($askUrl) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('front.scholars.ask')) ?></a><?php endif ?>
                 </div>
             </div>
             <div class="col-12 col-lg-8">

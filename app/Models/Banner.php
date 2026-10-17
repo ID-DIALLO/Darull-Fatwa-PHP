@@ -40,6 +40,12 @@ class Banner extends Model
         ));
     }
 
+    /** Le lien pointe-t-il vers le formulaire « Poser une question » ? */
+    public static function isAskLink(?string $link): bool
+    {
+        return in_array($link, ['route:questions.create', 'route:questions.store'], true);
+    }
+
     /** Résout « route:questions.create » en chemin ; retourne null si la route n'existe pas encore. */
     public static function resolveLink(?string $link): ?string
     {
@@ -48,6 +54,10 @@ class Banner extends Model
         }
         if (str_starts_with($link, 'route:')) {
             $name = substr($link, 6);
+            // Le bouton « Poser une question » mène l'équipe (professeur, administration) vers son espace
+            if (self::isAskLink($link)) {
+                return ask_url() ?? space_url();
+            }
 
             return route_exists($name) ? route($name) : null;
         }

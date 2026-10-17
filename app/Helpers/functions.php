@@ -298,6 +298,34 @@ if (!function_exists('can')) {
     }
 }
 
+if (!function_exists('can_ask')) {
+    /** Le visiteur courant peut-il poser une question (visiteur ou membre, jamais l'équipe) ? */
+    function can_ask(): bool
+    {
+        return Auth::canAsk();
+    }
+}
+
+if (!function_exists('ask_url')) {
+    /** URL du bouton « Poser une question » : formulaire (membre), inscription (visiteur) ou null pour l'équipe. @param array<string, mixed> $params */
+    function ask_url(array $params = []): ?string
+    {
+        if (!Auth::canAsk()) {
+            return null;
+        }
+
+        return route_exists('questions.create') ? route('questions.create', $params) : route('auth.register');
+    }
+}
+
+if (!function_exists('space_url')) {
+    /** URL de l'espace de la personne connectée (membre, professeur ou administration). */
+    function space_url(): string
+    {
+        return route(Auth::homeRoute());
+    }
+}
+
 if (!function_exists('abort')) {
     /** @param array<string, string> $headers */
     function abort(int $status, string $message = '', array $headers = []): never

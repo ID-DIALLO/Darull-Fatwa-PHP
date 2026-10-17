@@ -32,7 +32,7 @@ $request = \App\Core\View::shared('request');
             </div>
         </form>
         <?php if ($result['data'] === []): ?>
-        <div class="df-empty"><i class="bi bi-patch-question" aria-hidden="true"></i><p><?= e($active === [] ? __('qa.index.empty') : __('qa.index.empty_filtered')) ?></p><?php if (route_exists('questions.create')): ?><a class="btn btn-gold" href="<?= e(route('questions.create')) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('nav.ask')) ?></a><?php endif ?></div>
+        <div class="df-empty"><i class="bi bi-patch-question" aria-hidden="true"></i><p><?= e($active === [] ? __('qa.index.empty') : __('qa.index.empty_filtered')) ?></p><?php if (ask_url() !== null): ?><a class="btn btn-gold" href="<?= e(ask_url()) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('nav.ask')) ?></a><?php endif ?></div>
         <?php else: ?>
         <p class="text-secondary small"><?= e(trans_choice('qa.index.count', (int) $result['total'])) ?></p>
         <div class="row g-3">
@@ -45,7 +45,7 @@ $request = \App\Core\View::shared('request');
 <section class="df-cta df-pattern">
     <div class="container df-cta__inner">
         <div class="df-cta__text"><h2 class="df-cta__title"><?= e(__('qa.index.cta_title')) ?></h2><p class="mb-0"><?= e(__('qa.index.cta_text')) ?></p></div>
-        <div class="df-cta__actions"><a class="btn btn-gold btn-lg" href="<?= e(route_exists('questions.create') ? route('questions.create') : route('auth.register')) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('nav.ask')) ?></a></div>
+        <?php if (ask_url() !== null): ?><div class="df-cta__actions"><a class="btn btn-gold btn-lg" href="<?= e(ask_url()) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('nav.ask')) ?></a></div><?php endif ?>
     </div>
 </section>
 <?php $this->endSection(); ?>

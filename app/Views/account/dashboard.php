@@ -10,7 +10,7 @@
  */
 $this->extend('layouts/account');
 $this->section('title', __('account.dashboard.welcome', ['name' => \App\Models\User::publicName($user)]));
-$this->section('subtitle', __('account.dashboard.intro'));
+$this->section('subtitle', __(can_ask() ? 'account.dashboard.intro' : 'account.dashboard.staff_intro'));
 ?>
 <?php $this->section('content'); ?>
 <div class="row g-3 mb-4">
@@ -25,6 +25,7 @@ $this->section('subtitle', __('account.dashboard.intro'));
     <?php endforeach ?>
 </div>
 
+<?php if (can_ask()): ?>
 <div class="df-card mb-4 df-dashboard-cta">
     <div>
         <h2 class="h5 df-title mb-1"><?= e(__('home.voice.title')) ?></h2>
@@ -32,6 +33,15 @@ $this->section('subtitle', __('account.dashboard.intro'));
     </div>
     <a class="btn btn-gold btn-lg" href="<?= e(route('questions.create')) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('account.dashboard.ask')) ?></a>
 </div>
+<?php else: ?>
+<div class="df-card mb-4 df-dashboard-cta">
+    <div>
+        <h2 class="h5 df-title mb-1"><?= e(__('account.dashboard.staff_title')) ?></h2>
+        <p class="text-secondary mb-0"><?= e(__('account.dashboard.staff_text')) ?></p>
+    </div>
+    <a class="btn btn-gold btn-lg" href="<?= e(space_url()) ?>"><i class="bi bi-mortarboard" aria-hidden="true"></i> <?= e(__(\App\Core\Auth::hasRole('scholar') ? 'nav.scholar_space' : 'nav.admin')) ?></a>
+</div>
+<?php endif ?>
 
 <div class="row g-4">
     <div class="col-12 col-xl-7">

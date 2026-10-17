@@ -29,7 +29,7 @@ $this->section('robots', 'noindex, follow');
             <?php elseif ($words === []): ?>
             <p class="text-secondary"><?= e(__('search.too_short')) ?></p>
             <?php elseif ($results['total'] === 0): ?>
-            <div class="df-empty"><i class="bi bi-search" aria-hidden="true"></i><p><?= e(__('search.empty', ['query' => $query])) ?></p><?php if (route_exists('questions.create')): ?><a class="btn btn-gold" href="<?= e(route('questions.create')) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('search.ask_instead')) ?></a><?php endif ?></div>
+            <div class="df-empty"><i class="bi bi-search" aria-hidden="true"></i><p><?= e(__('search.empty', ['query' => $query])) ?></p><?php if (ask_url() !== null): ?><a class="btn btn-gold" href="<?= e(ask_url()) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('search.ask_instead')) ?></a><?php endif ?></div>
             <?php else: ?>
             <p class="text-secondary"><?= e(trans_choice('search.count', $results['total'], ['query' => $query])) ?></p>
             <?php if ($results['qa'] !== []): ?>

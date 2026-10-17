@@ -81,13 +81,15 @@ final class AssignmentService
         if ($question['status'] !== 'new') {
             return null;
         }
-        // Professeur demandé par le membre : assigné directement s'il est actif, disponible et sous sa charge maximale
+        // Professeur demandé par le membre : la question lui est attribuée dès lors que son compte est actif
+        // (indépendamment de sa disponibilité ou de sa charge : elle doit apparaître dans son espace ; l'administration peut réattribuer)
         $requested = (int) ($question['requested_scholar_id'] ?? 0);
         if ($requested > 0) {
             $ok = Database::fetch(
-                "SELECT sp.user_id FROM scholar_profiles sp JOIN users u ON u.id = sp.user_id AND u.status = 'active' AND u.deleted_at IS NULL
-                 WHERE sp.user_id = ? AND sp.is_available = 1
-                   AND (SELECT COUNT(*) FROM questions q WHERE q.assigned_to = sp.user_id AND q.status IN ('assigned','in_progress','needs_info') AND q.deleted_at IS NULL) < sp.max_open_questions",
+                "SELECT sp.user_id FROM scholar_profiles sp
+                 JOIN users u ON u.id = sp.user_id AND u.status = 'active' AND u.deleted_at IS NULL
+                 JOIN roles r ON r.id = u.role_id AND r.slug = 'scholar'
+                 WHERE sp.user_id = ?",
                 [$requested],
             );
             if ($ok !== null) {

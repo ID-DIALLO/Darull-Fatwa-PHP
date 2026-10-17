@@ -18,7 +18,7 @@ foreach (['facebook' => 'facebook', 'youtube' => 'youtube', 'instagram' => 'inst
     }
 }
 $quick = [
-    ['route' => 'questions.create', 'label' => __('nav.ask')],
+    ...(can_ask() ? [['route' => 'questions.create', 'label' => __('nav.ask')]] : []),
     ['route' => 'qa.index', 'label' => __('nav.qa')],
     ['route' => 'blog.index', 'label' => __('nav.blog')],
     ['route' => 'forum.index', 'label' => __('nav.forum')],
