@@ -18,10 +18,6 @@ $single = count($banners) === 1;
             <?php foreach ($banners as $index => $banner):
                 $link1 = Banner::resolveLink($banner['link_url'] ?? null);
                 $link2 = Banner::resolveLink($banner['link2_url'] ?? null);
-                // Pour l'équipe, le bouton « Poser une question » devient l'accès à son espace
-                $toSpace = !can_ask() && Banner::isAskLink($banner['link_url'] ?? null);
-                $label1 = $toSpace ? __(\App\Core\Auth::hasRole('scholar') ? 'nav.scholar_space' : 'nav.admin') : (string) ($banner['button_label'] ?? '');
-                $icon1 = $toSpace ? 'mortarboard' : 'mic-fill';
                 $mobile = $banner['image_mobile'] ?: $banner['image_desktop'];
             ?>
             <article class="swiper-slide df-hero__slide" role="group" aria-roledescription="slide" aria-label="<?= $index + 1 ?> / <?= count($banners) ?>">
@@ -36,8 +32,8 @@ $single = count($banners) === 1;
                         <?php if ($index === 0): ?><h1 class="df-hero__title"><?= e($banner['title']) ?></h1><?php else: ?><p class="df-hero__title h1"><?= e($banner['title']) ?></p><?php endif ?>
                         <?php if (!empty($banner['subtitle'])): ?><p class="df-hero__subtitle"><?= e($banner['subtitle']) ?></p><?php endif ?>
                         <div class="df-hero__actions">
-                            <?php if ($link1 !== null && $label1 !== ''): ?>
-                            <a class="btn btn-gold btn-lg" href="<?= e($link1) ?>"><i class="bi bi-<?= e($icon1) ?>" aria-hidden="true"></i> <?= e($label1) ?></a>
+                            <?php if ($link1 !== null && !empty($banner['button_label'])): ?>
+                            <a class="btn btn-gold btn-lg" href="<?= e($link1) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e($banner['button_label']) ?></a>
                             <?php endif ?>
                             <?php if ($link2 !== null && !empty($banner['button2_label'])): ?>
                             <a class="btn btn-outline-light btn-lg" href="<?= e($link2) ?>"><?= e($banner['button2_label']) ?></a>

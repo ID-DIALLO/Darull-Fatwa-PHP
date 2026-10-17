@@ -17,11 +17,11 @@
  */
 $this->extend('layouts/front');
 $this->section('body_class', 'df-page-home');
-// L'équipe (professeur, modérateur, administrateur) ne pose pas de question : ses boutons mènent à son espace.
-$askUrl = ask_url() ?? space_url();
-$voiceUrl = ask_url(['mode' => 'voice']) ?? space_url();
+// L'équipe (professeur, modérateur, administrateur) ne pose pas de question : ses boutons sont simplement absents.
+// L'accès à l'espace professeur n'est jamais proposé sur les pages publiques (lien transmis par l'administration).
+$askUrl = ask_url();
+$voiceUrl = ask_url(['mode' => 'voice']);
 $textUrl = ask_url(['mode' => 'text']);
-$spaceLabel = can_ask() ? null : __(\App\Core\Auth::hasRole('scholar') ? 'nav.scholar_space' : 'nav.admin');
 $whatsapp = whatsapp_link(__('front.whatsapp.message'));
 $this->section('head');
 if ($banners !== []): ?>
@@ -62,18 +62,20 @@ echo json_ld(['@type' => 'WebSite', 'name' => __('common.site.name'), 'url' => u
         <section class="df-voice df-pattern">
             <div class="container">
                 <div class="df-voice__inner">
+                    <?php if ($voiceUrl !== null): ?>
                     <a class="df-voice__button" href="<?= e($voiceUrl) ?>" aria-label="<?= e(__('home.voice.button')) ?>">
                         <span class="df-voice__pulse" aria-hidden="true"></span>
                         <i class="bi bi-mic-fill" aria-hidden="true"></i>
                     </a>
+                    <?php else: ?>
+                    <span class="df-voice__button" aria-hidden="true"><span class="df-voice__pulse"></span><i class="bi bi-mic-fill"></i></span>
+                    <?php endif ?>
                     <div class="df-voice__text">
                         <h2 class="df-voice__title"><?= e(__('home.voice.title')) ?></h2>
                         <p class="df-voice__subtitle"><?= e(__('home.voice.subtitle')) ?></p>
                         <p class="df-voice__languages"><i class="bi bi-translate" aria-hidden="true"></i> <?= e(__('home.voice.languages')) ?></p>
                         <div class="df-voice__actions">
-                            <?php if ($spaceLabel !== null): ?>
-                            <a class="btn btn-gold btn-lg" href="<?= e($voiceUrl) ?>"><i class="bi bi-mortarboard" aria-hidden="true"></i> <?= e($spaceLabel) ?></a>
-                            <?php else: ?>
+                            <?php if ($voiceUrl !== null): ?>
                             <a class="btn btn-gold btn-lg" href="<?= e($voiceUrl) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('home.voice.button')) ?></a>
                             <a class="df-voice__link" href="<?= e($textUrl) ?>"><i class="bi bi-pencil" aria-hidden="true"></i> <?= e(__('home.voice.prefer_text')) ?></a>
                             <?php endif ?>
@@ -257,7 +259,7 @@ echo json_ld(['@type' => 'WebSite', 'name' => __('common.site.name'), 'url' => u
                 <h2 class="df-cta__title"><?= e(__('home.cta.title')) ?></h2>
                 <p class="df-cta__text"><?= e(__('home.cta.text')) ?></p>
                 <div class="df-cta__actions">
-                    <a class="btn btn-gold btn-lg" href="<?= e($askUrl) ?>"><i class="bi bi-<?= $spaceLabel !== null ? 'mortarboard' : 'mic-fill' ?>" aria-hidden="true"></i> <?= e($spaceLabel ?? __('home.cta.ask')) ?></a>
+                    <?php if ($askUrl !== null): ?><a class="btn btn-gold btn-lg" href="<?= e($askUrl) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('home.cta.ask')) ?></a><?php endif ?>
                     <?php if ($whatsapp !== null): ?><a class="btn btn-outline-light btn-lg" href="<?= e($whatsapp) ?>" target="_blank" rel="noopener"><i class="bi bi-whatsapp" aria-hidden="true"></i> <?= e(__('home.cta.whatsapp')) ?></a><?php endif ?>
                     <?php if (auth() === null): ?><a class="btn btn-outline-light btn-lg" href="<?= e(route('auth.register')) ?>"><?= e(__('home.cta.register')) ?></a><?php endif ?>
                 </div>

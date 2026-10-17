@@ -318,14 +318,6 @@ if (!function_exists('ask_url')) {
     }
 }
 
-if (!function_exists('space_url')) {
-    /** URL de l'espace de la personne connectée (membre, professeur ou administration). */
-    function space_url(): string
-    {
-        return route(Auth::homeRoute());
-    }
-}
-
 if (!function_exists('abort')) {
     /** @param array<string, string> $headers */
     function abort(int $status, string $message = '', array $headers = []): never

@@ -260,14 +260,25 @@ final class SpacesTest extends DatabaseTestCase
         self::assertSame(0, (int) Database::value('SELECT COUNT(*) FROM questions'));
         self::assertContains(__('questions.errors.staff_cannot_ask'), $this->flashMessages());
 
-        // Aucun bouton « Poser une question » pour l'équipe ; raccourci vers l'espace à la place
+        // Aucun bouton « Poser une question » pour l'équipe, et jamais de lien public vers l'espace professeur
         $home = $this->get('/fr')->body();
         self::assertStringNotContainsString('/fr/poser-une-question', $home);
-        self::assertStringContainsString(e(__('nav.scholar_space')), $home);
+        self::assertStringNotContainsString('href="/fr/professeur"', $home);
+        self::assertStringNotContainsString(e(__('nav.scholar_space')), $home);
         self::assertStringNotContainsString('/fr/poser-une-question', $this->get('/fr/professeurs/' . $this->scholar)->body() . $this->get('/fr/contact')->body());
         $dashboard = $this->get('/fr/mon-espace')->body();
         self::assertStringNotContainsString('/fr/poser-une-question', $dashboard);
-        self::assertStringContainsString(e(__('account.dashboard.staff_title')), $dashboard);
+        self::assertStringContainsString(e(__('account.dashboard.staff_intro')), $dashboard);
+
+        // Un membre ou un visiteur ne voit jamais « Espace professeur » : ni sur l'accueil, ni dans la liste des professeurs, ni dans Mon espace
+        $this->switchTo($this->member);
+        foreach (['/fr', '/fr/professeurs', '/fr/professeurs/' . $this->scholar, '/fr/mon-espace'] as $uri) {
+            $body = $this->get($uri)->body();
+            self::assertStringNotContainsString(e(__('nav.scholar_space')), $body, $uri);
+            self::assertStringNotContainsString('href="/fr/professeur"', $body, $uri);
+        }
+        $this->switchTo(null);
+        self::assertStringNotContainsString(e(__('nav.scholar_space')), $this->get('/fr')->body() . $this->get('/fr/professeurs')->body());
 
         $this->switchTo($this->admin);
         self::assertSame('/admin', $this->get('/fr/poser-une-question')->getHeader('Location'));

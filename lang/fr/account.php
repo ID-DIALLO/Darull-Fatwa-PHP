@@ -17,7 +17,7 @@ return [
         'label'         => 'Menu de mon espace',
     ],
     'dashboard' => [
-        'staff_intro' => 'Votre profil, vos commentaires, le forum et vos notifications ; les questions à traiter sont dans votre espace de travail.', 'staff_title' => 'Vous faites partie de l\'équipe', 'staff_text' => 'Les questions des membres vous attendent dans votre espace ; cet espace personnel sert à vos commentaires, au forum et à votre profil.',
+        'staff_intro' => 'Votre profil, vos commentaires, le forum et vos notifications ; les questions à traiter sont dans votre espace de travail.',
         'title'   => 'Tableau de bord',
         'welcome' => 'Assalamou alaykoum, :name',
         'intro'   => 'Depuis votre espace, vous posez vos questions et suivez les réponses des professeurs.',

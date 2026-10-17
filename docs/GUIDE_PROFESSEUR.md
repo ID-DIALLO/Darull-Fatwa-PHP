@@ -13,9 +13,10 @@ L'interface existe en français, en arabe (droite à gauche) et en anglais.
 - Questions **à traiter**, **en cours**, **en attente de précision**, **répondues** ; questions en retard signalées en rouge.
 - Vos derniers échanges et vos articles.
 - Rappel : seuls les professeurs validés par l'administration répondent au nom de Darul Fatwa.
-- En tant que professeur, **vous ne posez pas de questions** : le bouton « Poser une question » du site devient pour vous
-  l'accès à votre espace, et la connexion vous y amène directement. *Mon espace* reste disponible pour votre profil,
-  vos commentaires, le forum et vos notifications.
+- En tant que professeur, **vous ne posez pas de questions** : le bouton « Poser une question » du site n'apparaît pas pour vous.
+  Aucune page publique ne mène à l'espace professeur : vous y accédez par le lien d'activation reçu de l'administration,
+  puis simplement en vous connectant (vous y arrivez directement), ou depuis le menu de *Mon espace*, qui reste disponible
+  pour votre profil, vos commentaires, le forum et vos notifications.
 
 ---
 

@@ -33,14 +33,6 @@ $this->section('subtitle', __(can_ask() ? 'account.dashboard.intro' : 'account.d
     </div>
     <a class="btn btn-gold btn-lg" href="<?= e(route('questions.create')) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('account.dashboard.ask')) ?></a>
 </div>
-<?php else: ?>
-<div class="df-card mb-4 df-dashboard-cta">
-    <div>
-        <h2 class="h5 df-title mb-1"><?= e(__('account.dashboard.staff_title')) ?></h2>
-        <p class="text-secondary mb-0"><?= e(__('account.dashboard.staff_text')) ?></p>
-    </div>
-    <a class="btn btn-gold btn-lg" href="<?= e(space_url()) ?>"><i class="bi bi-mortarboard" aria-hidden="true"></i> <?= e(__(\App\Core\Auth::hasRole('scholar') ? 'nav.scholar_space' : 'nav.admin')) ?></a>
-</div>
 <?php endif ?>
 
 <div class="row g-4">

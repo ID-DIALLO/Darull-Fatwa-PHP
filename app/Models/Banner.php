@@ -54,9 +54,9 @@ class Banner extends Model
         }
         if (str_starts_with($link, 'route:')) {
             $name = substr($link, 6);
-            // Le bouton « Poser une question » mène l'équipe (professeur, administration) vers son espace
+            // Le bouton « Poser une question » n'est pas affiché pour l'équipe (professeur, administration)
             if (self::isAskLink($link)) {
-                return ask_url() ?? space_url();
+                return ask_url();
             }
 
             return route_exists($name) ? route($name) : null;
