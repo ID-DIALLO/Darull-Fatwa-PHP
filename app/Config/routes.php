@@ -2,7 +2,15 @@
 
 declare(strict_types=1);
 
+use App\Controllers\Account\DashboardController as AccountDashboardController;
+use App\Controllers\Account\ProfileController;
+use App\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Controllers\Auth\LoginController;
+use App\Controllers\Auth\PasswordController;
+use App\Controllers\Auth\RegisterController;
+use App\Controllers\Auth\VerificationController;
 use App\Controllers\Front\HomeController;
+use App\Controllers\Scholar\DashboardController as ScholarDashboardController;
 use App\Core\Router;
 
 /*
@@ -13,6 +21,41 @@ return static function (Router $router): void {
     // « / » → langue détectée (cookie, profil, navigateur, français par défaut)
     $router->get('/', [HomeController::class, 'root'])->name('root');
 
-    // Accueil : /fr, /ar, /en (Phase 0 : page de test du noyau)
+    // Accueil : /fr, /ar, /en
     $router->localized('GET', '', [HomeController::class, 'index'], 'home');
+
+    // ---- Authentification (§4.1, §11.1) ------------------------------------------------------
+    $router->localized('GET', ['fr' => '/connexion', 'en' => '/login'], [LoginController::class, 'show'], 'auth.login', 'guest');
+    $router->localized('POST', ['fr' => '/connexion', 'en' => '/login'], [LoginController::class, 'login'], 'auth.login.post', ['guest', 'throttle:20,60']);
+    $router->localized('POST', ['fr' => '/deconnexion', 'en' => '/logout'], [LoginController::class, 'logout'], 'auth.logout', 'auth');
+
+    $router->localized('GET', ['fr' => '/inscription', 'en' => '/register'], [RegisterController::class, 'show'], 'auth.register', 'guest');
+    $router->localized('POST', ['fr' => '/inscription', 'en' => '/register'], [RegisterController::class, 'register'], 'auth.register.post', ['guest', 'throttle:10,3600']);
+
+    $router->localized('GET', ['fr' => '/mot-de-passe-oublie', 'en' => '/forgot-password'], [PasswordController::class, 'forgot'], 'auth.forgot', 'guest');
+    $router->localized('POST', ['fr' => '/mot-de-passe-oublie', 'en' => '/forgot-password'], [PasswordController::class, 'sendLink'], 'auth.forgot.post', ['guest', 'throttle:5,900']);
+    $router->localized('GET', ['fr' => '/reinitialiser/{token}', 'en' => '/reset/{token}'], [PasswordController::class, 'reset'], 'auth.reset', 'guest');
+    $router->localized('POST', ['fr' => '/reinitialiser/{token}', 'en' => '/reset/{token}'], [PasswordController::class, 'update'], 'auth.reset.post', ['guest', 'throttle:10,900']);
+
+    $router->localized('GET', ['fr' => '/verifier-email/{token}', 'en' => '/verify-email/{token}'], [VerificationController::class, 'verify'], 'auth.verify');
+
+    // ---- Mon espace (§4.4, §11.2) ------------------------------------------------------------
+    $router->localized('GET', ['fr' => '/mon-espace', 'en' => '/my-account'], [AccountDashboardController::class, 'index'], 'account.dashboard', 'auth');
+    $router->localized('GET', ['fr' => '/mon-espace/profil', 'en' => '/my-account/profile'], [ProfileController::class, 'edit'], 'account.profile', 'auth');
+    $router->localized('POST', ['fr' => '/mon-espace/profil', 'en' => '/my-account/profile'], [ProfileController::class, 'update'], 'account.profile.update', 'auth');
+    $router->localized('POST', ['fr' => '/mon-espace/renvoyer-verification', 'en' => '/my-account/resend-verification'], [VerificationController::class, 'resend'], 'account.verification.resend', ['auth', 'throttle:3,600']);
+    $router->localized('GET', ['fr' => '/mon-espace/securite', 'en' => '/my-account/security'], [ProfileController::class, 'security'], 'account.security', 'auth');
+    $router->localized('POST', ['fr' => '/mon-espace/securite/mot-de-passe', 'en' => '/my-account/security/password'], [ProfileController::class, 'updatePassword'], 'account.security.password', 'auth');
+    $router->localized('POST', ['fr' => '/mon-espace/securite/deconnecter-partout', 'en' => '/my-account/security/logout-everywhere'], [ProfileController::class, 'logoutEverywhere'], 'account.security.logout_everywhere', 'auth');
+    $router->localized('GET', ['fr' => '/mon-espace/donnees', 'en' => '/my-account/data'], [ProfileController::class, 'data'], 'account.data', 'auth');
+    $router->localized('GET', ['fr' => '/mon-espace/export', 'en' => '/my-account/export'], [ProfileController::class, 'export'], 'account.export', ['auth', 'throttle:5,3600']);
+    $router->localized('POST', ['fr' => '/mon-espace/supprimer', 'en' => '/my-account/delete'], [ProfileController::class, 'destroy'], 'account.delete', 'auth');
+
+    // ---- Espace professeur (§11.3) : tableau de bord provisoire, complété en Phase 4 ----------
+    $router->localized('GET', ['fr' => '/professeur', 'en' => '/scholar'], [ScholarDashboardController::class, 'index'], 'scholar.dashboard', 'role:scholar,admin');
+
+    // ---- Administration (§11.4) : tableau de bord provisoire, complété en Phase 5 -------------
+    $router->group(['prefix' => '/admin', 'middleware' => 'role:moderator,admin'], static function (Router $router): void {
+        $router->get('/', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    });
 };

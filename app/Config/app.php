@@ -17,6 +17,12 @@ return [
     // Locales ICU utilisées pour le formatage des dates (§7.2)
     'intl_locales'   => ['fr' => 'fr_FR', 'ar' => 'ar', 'en' => 'en_GB'],
 
+    // Anti-robot Cloudflare Turnstile (§4.1) : inactif tant que les clés sont vides
+    'turnstile' => [
+        'site_key'   => (string) env('TURNSTILE_SITE_KEY', ''),
+        'secret_key' => (string) env('TURNSTILE_SECRET_KEY', ''),
+    ],
+
     // Sessions (§12.1) : inactivité 2 h, 30 min pour l'administration
     'session' => [
         'name'               => 'df_session',

@@ -310,3 +310,134 @@ main:focus { outline: none; }
   .df-verse__text { font-size: 1.6rem; }
   .df-card { padding: 1.25rem; }
 }
+
+/* ---------- Formulaires ---------- */
+.form-control, .form-select {
+  min-height: var(--df-touch-target);
+  border-radius: var(--df-radius-btn);
+  border-color: rgba(7, 61, 46, .2);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--df-green);
+  box-shadow: 0 0 0 .25rem rgba(201, 162, 75, .3);
+}
+
+.form-check-input:checked { background-color: var(--df-green); border-color: var(--df-green); }
+.form-check-input:focus { box-shadow: 0 0 0 .25rem rgba(201, 162, 75, .3); border-color: var(--df-green); }
+.form-label { font-weight: 600; }
+
+.df-fieldset {
+  border: 1px solid rgba(7, 61, 46, .12);
+  border-radius: var(--df-radius-card);
+  padding: 1rem 1rem .25rem;
+  margin-block-end: 1.25rem;
+}
+
+.df-fieldset > legend {
+  float: none;
+  width: auto;
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--df-green);
+  padding-inline: .5rem;
+  margin-block-end: .25rem;
+}
+
+/* Champ piège anti-robot : invisible pour les humains, présent pour les robots */
+.df-honeypot {
+  position: absolute;
+  inset-inline-start: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.df-password .btn { border-color: rgba(7, 61, 46, .2); color: var(--df-text-muted); }
+.df-strength .progress { background: rgba(7, 61, 46, .1); }
+
+/* intl-tel-input : largeur pleine et style cohérent */
+.iti { width: 100%; }
+.iti .form-control { padding-inline-start: 95px !important; }
+[dir="rtl"] .iti .form-control { direction: ltr; text-align: start; }
+.iti__country-list { z-index: 1050; }
+
+/* ---------- Pages d'authentification ---------- */
+.df-auth {
+  background: var(--df-cream);
+  padding-block: 2.5rem 3rem;
+  min-height: 60vh;
+}
+
+.df-auth__card {
+  max-width: 520px;
+  margin-inline: auto;
+  padding: 2rem 1.75rem;
+}
+
+.df-auth__logo { display: block; width: fit-content; margin: 0 auto 1.25rem; }
+.df-auth__logo img { width: 150px; height: auto; }
+.df-auth__title { text-align: center; font-size: 1.75rem; margin-block-end: .5rem; }
+.df-auth__subtitle { text-align: center; color: var(--df-text-muted); margin-block-end: 1.5rem; }
+.df-auth__aside { max-width: 520px; margin: 1.25rem auto 0; text-align: center; }
+.df-auth__note { background: var(--df-cream); border-radius: var(--df-radius-btn); padding: 1rem; font-size: .95rem; }
+
+/* ---------- Mon espace ---------- */
+.df-account { padding-block: 2rem 3rem; }
+.df-account__sidebar { padding: 1rem; position: sticky; inset-block-start: 88px; }
+.df-account__user { display: flex; align-items: center; gap: .75rem; padding: .25rem .5rem .75rem; border-block-end: 1px solid rgba(7, 61, 46, .08); margin-block-end: .5rem; }
+.df-account__name { font-weight: 600; }
+.df-account__role { font-size: .8rem; color: var(--df-text-muted); }
+.df-account__header { margin-block-end: 1.5rem; }
+
+.df-account__nav .nav { gap: .25rem; }
+.df-account__nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  color: var(--df-text);
+  border-radius: var(--df-radius-btn);
+  padding: .6rem .75rem;
+  min-height: var(--df-touch-target);
+  background: none;
+  border: 0;
+}
+
+.df-account__nav .nav-link i { color: var(--df-gold); font-size: 1.1rem; }
+.df-account__nav .nav-link:hover { background: var(--df-cream); color: var(--df-green); }
+.df-account__nav .nav-link.active { background: var(--df-green); color: var(--df-white); }
+.df-account__nav .nav-link.active i { color: var(--df-gold-light); }
+
+.df-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.df-avatar--initials { background: var(--df-green); color: var(--df-gold-light); font-weight: 700; font-size: 1.4rem; font-family: var(--df-font-heading); }
+.df-avatar--lg { width: 80px; height: 80px; font-size: 2rem; }
+
+.df-stat { text-align: center; padding: 1.25rem 1rem; }
+.df-stat__icon { font-size: 1.75rem; color: var(--df-gold); }
+.df-stat__value { font-family: var(--df-font-heading); font-size: 2rem; color: var(--df-green); line-height: 1.1; }
+.df-stat__label { color: var(--df-text-muted); font-size: .9rem; }
+
+.df-card--danger { border-color: rgba(180, 35, 24, .25); }
+.df-card--danger .df-card__title, .df-card--danger .df-card__title i { color: var(--df-danger); }
+
+@media (max-width: 991.98px) {
+  .df-account__sidebar { position: static; }
+  .df-account__nav .nav { flex-wrap: nowrap; overflow-x: auto; padding-block-end: .25rem; }
+  .df-account__nav .nav-link { white-space: nowrap; }
+  .df-account__nav form { display: contents; }
+}
+
+@media (max-width: 575.98px) {
+  .df-auth { padding-block: 1.5rem 2rem; }
+  .df-auth__card { padding: 1.5rem 1.1rem; }
+}

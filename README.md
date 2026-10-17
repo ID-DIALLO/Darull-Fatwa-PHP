@@ -66,7 +66,7 @@ Les logos se trouvent dans `public/assets/img/logo/` (SVG à utiliser sur le sit
 ## Avancement
 
 - [x] **Phase 0** — Initialisation et noyau
-- [ ] Phase 1 — Authentification, comptes et rôles
+- [x] **Phase 1** — Authentification, comptes et rôles
 - [ ] Phase 2 — Gabarit public, accueil, rubriques, pages, contact
 - [ ] Phase 3 — Poser une question (vocal + texte) et Mon espace ⭐
 - [ ] Phases 4 à 9 — voir §17 du cahier des charges

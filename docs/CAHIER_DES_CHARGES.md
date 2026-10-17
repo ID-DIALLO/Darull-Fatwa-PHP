@@ -1856,17 +1856,17 @@ Chaque phase se termine par : tests passés, critères cochés, commit `Phase N 
 
 ### Phase 1 — Authentification, comptes et rôles
 
-- [ ] Inscription (e-mail **ou** téléphone, intl-tel-input, +223 par défaut), connexion, déconnexion, « se souvenir de moi »
-- [ ] Vérification e-mail, mot de passe oublié / réinitialisation (jetons hachés, expiration)
-- [ ] Limitation des tentatives, Turnstile + honeypot
-- [ ] Rôles + `permissions.php` + `can()` + `RoleMiddleware`
-- [ ] Profil (photo, langue, canal préféré, WhatsApp), changement de mot de passe, export et suppression du compte
+- [x] Inscription (e-mail **ou** téléphone, intl-tel-input, +223 par défaut), connexion, déconnexion, « se souvenir de moi »
+- [x] Vérification e-mail, mot de passe oublié / réinitialisation (jetons hachés, expiration)
+- [x] Limitation des tentatives, Turnstile + honeypot *(Turnstile actif dès que les clés sont renseignées dans `.env`)*
+- [x] Rôles + `permissions.php` + `can()` + `RoleMiddleware`
+- [x] Profil (photo, langue, canal préféré, WhatsApp), changement de mot de passe, export et suppression du compte
 
 **Critères d'acceptation**
-- [ ] Un membre peut s'inscrire avec son seul numéro de téléphone et se connecter
-- [ ] 6 tentatives échouées → blocage temporaire (429) avec message traduit
-- [ ] Un membre ne peut accéder ni à `/admin` ni à `/fr/professeur` (403)
-- [ ] Les e-mails partent dans la langue de l'utilisateur
+- [x] Un membre peut s'inscrire avec son seul numéro de téléphone et se connecter *(test `AuthTest::testMemberCanRegisterWithPhoneOnlyAndLogIn`)*
+- [x] 6 tentatives échouées → blocage temporaire (429) avec message traduit *(test `testSixFailedAttemptsAreBlockedWith429`)*
+- [x] Un membre ne peut accéder ni à `/admin` ni à `/fr/professeur` (403) *(test `testMemberCannotAccessAdminOrScholarAreas`)*
+- [x] Les e-mails partent dans la langue de l'utilisateur *(test `testEmailsAreSentInTheUserLanguage` ; envoi SMTP réel à vérifier avec les identifiants de l'hébergeur)*
 
 ### Phase 2 — Gabarit public, accueil, rubriques, pages, contact
 

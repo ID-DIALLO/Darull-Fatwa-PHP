@@ -24,5 +24,7 @@
         <env name="APP_ENV" value="testing" force="true"/>
         <env name="APP_DEBUG" value="false" force="true"/>
         <env name="APP_URL" value="http://localhost" force="true"/>
+        <env name="DB_DATABASE" value="darul_fatwa_test" force="true"/>
+        <env name="MAIL_MAILER" value="array" force="true"/>
     </php>
 </phpunit>

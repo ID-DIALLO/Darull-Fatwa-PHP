@@ -137,8 +137,12 @@ final class App
                 (int) $this->config('app.session.idle_minutes', 120),
             );
             View::share('request', $request);
+            Auth::restoreFromCookie($request);
 
-            return $this->router->dispatch($request, (array) $this->config('app.global_middleware', []));
+            $response = $this->router->dispatch($request, (array) $this->config('app.global_middleware', []));
+            Auth::applyCookies($response, $request->isSecure());
+
+            return $response;
         } catch (ValidationException $e) {
             return $this->validationResponse($request, $e);
         } catch (HttpException $e) {
@@ -157,7 +161,7 @@ final class App
         }
         Session::flash('_errors', $e->errors());
         $old = $request->all();
-        unset($old['_token'], $old['password'], $old['password_confirmation']);
+        unset($old['_token'], $old['password'], $old['password_confirmation'], $old['current_password']);
         Session::flash('_old_input', $old);
 
         $referer = (string) $request->header('Referer');
