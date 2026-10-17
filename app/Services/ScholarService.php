@@ -137,6 +137,12 @@ final class ScholarService
             self::SELECT . $whereSql . ' ORDER BY ' . $order . ' LIMIT ' . (int) $perPage . ' OFFSET ' . (int) (($page - 1) * $perPage),
             array_merge([$locale, Lang::getDefault()], $bindings),
         );
+        foreach ($rows as &$row) {
+            // Nom réel du membre uniquement pour les questions auxquelles ce professeur a répondu
+            $row['member_label'] = AnswerService::askerLabel(['full_name' => $row['member_name'], 'display_name' => $row['member_display_name']], $row, $scholarId);
+            unset($row['member_name']);
+        }
+        unset($row);
 
         return ['data' => $rows, 'total' => $total, 'page' => $page, 'per_page' => $perPage, 'last_page' => max(1, (int) ceil($total / $perPage))];
     }

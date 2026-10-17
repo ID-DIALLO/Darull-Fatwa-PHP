@@ -34,8 +34,8 @@ $this->section('head'); ?>
 <script src="<?= e(asset('assets/js/voice-recorder.js')) ?>" type="module"></script>
 <script src="<?= e(asset('assets/js/answer-editor.js')) ?>" type="module"></script>
 <?php $this->endSection();
-$asker = \App\Services\AnswerService::askerLabel($member);
-$renderMessage = function (array $m) use ($question): void {
+$asker = \App\Services\AnswerService::askerLabel($member, $question, (int) auth()['id']);
+$renderMessage = function (array $m) use ($question, $asker): void {
     $kind = (string) $m['kind'];
     $isMember = (int) ($m['sender_id'] ?? 0) === (int) $question['user_id'];
     $label = $kind === 'internal_note' ? __('scholar.question.internal') : __('questions.detail.kinds.' . $kind);
@@ -43,7 +43,7 @@ $renderMessage = function (array $m) use ($question): void {
     <article class="df-msg df-msg--<?= $isMember ? 'member' : 'team' ?> df-msg--<?= e($kind) ?>" id="message-<?= (int) $m['id'] ?>">
         <header class="df-msg__head">
             <span class="df-msg__kind"><?= e($label) ?><?php if ($kind === 'answer' && $m['review_status'] === 'pending'): ?> · <span class="df-badge df-badge--warning"><?= e(__('questions.status.in_progress')) ?></span><?php elseif ($kind === 'answer' && $m['review_status'] === 'rejected'): ?> · <span class="df-badge df-badge--danger"><?= e(__('scholar.actions.remove')) ?></span><?php endif ?></span>
-            <span class="df-msg__date"><?= e($m['sender_name'] ? (string) ($m['sender_display_name'] ?: $m['sender_name']) : '') ?> · <?= e(format_date((string) $m['created_at'], true)) ?></span>
+            <span class="df-msg__date"><?= e($isMember ? $asker : ($m['sender_name'] ? (string) ($m['sender_display_name'] ?: $m['sender_name']) : '')) ?> · <?= e(format_date((string) $m['created_at'], true)) ?></span>
         </header>
         <?php if (!empty($m['media_uuid'])): ?>
         <?= $this->partial('partials/audio-player', ['src' => route('media.audio', ['uuid' => $m['media_uuid']]), 'duration' => $m['media_duration'] !== null ? (int) $m['media_duration'] : null, 'mime' => $m['media_mime'], 'label' => $label]) ?>

@@ -285,11 +285,13 @@ final class QueueController extends Controller
              WHERE l.question_id = ? ORDER BY l.created_at, l.id',
             [(int) $question['id']],
         );
+        $memberLabel = null;
         foreach ($rows as &$row) {
             $isMember = (int) ($row['changed_by'] ?? 0) === (int) $question['user_id'];
-            $row['actor_name'] = $isMember
-                ? ((string) ($row['actor_display_name'] ?? '') !== '' ? $row['actor_display_name'] : __('scholar.question.member_anonymous'))
-                : $row['actor_full_name'];
+            if ($isMember && $memberLabel === null) {
+                $memberLabel = AnswerService::askerLabel(['full_name' => $row['actor_full_name'], 'display_name' => $row['actor_display_name']], $question, (int) Auth::id());
+            }
+            $row['actor_name'] = $isMember ? $memberLabel : $row['actor_full_name'];
             unset($row['actor_full_name'], $row['actor_display_name']);
         }
         unset($row);

@@ -66,7 +66,7 @@ aucune donnée personnelle avant de la publier. Si le membre a gardé sa questio
 
 ### 2.6 Ce que la fiche vous indique
 
-- **Qui** a posé la question (pseudonyme choisi par le membre, sinon son nom), son pays, sa langue, et **quand** (date et heure, ancienneté).
+- **Qui** a posé la question : tant que vous n'avez pas répondu, seulement le pseudonyme choisi par le membre (ou « le demandeur ») ; **une fois votre réponse envoyée, son nom réel apparaît** sur cette question, dans le fil et dans votre file. Son pays, sa langue, et **quand** il a posé la question (date et heure, ancienneté).
 - **L'origine** : question posée sur Darul Fatwa, reçue sur **WhatsApp**, ou saisie par l'administration.
 - **« Adressée à vous »** : le membre vous a choisi en posant sa question. Ces questions vous sont attribuées directement si vous êtes disponible,
   sinon elles apparaissent dans *À prendre*, même si l'auto-attribution n'est pas activée pour votre compte.

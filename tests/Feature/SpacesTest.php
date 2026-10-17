@@ -161,6 +161,43 @@ final class SpacesTest extends DatabaseTestCase
         self::assertSame(1, (int) Database::value("SELECT COUNT(*) FROM activity_logs WHERE action = 'question.publication_proposed'"), 'la case cochée est ignorée pour une question privée');
     }
 
+    public function testLeProfesseurNeVoitLeNomReelQueDesMembresAuxquelsIlARepondu(): void
+    {
+        // Membre sans pseudonyme : avant la réponse, le professeur ne voit que « le demandeur »
+        $anonymous = $this->createUser(['email' => 'mamadou@example.ml', 'full_name' => 'Mamadou Traoré', 'display_name' => null]);
+        $this->switchTo($anonymous);
+        $this->post('/fr/poser-une-question', ['rubrique_id' => 3, 'body' => 'Question posée par un membre sans pseudonyme, pour vérifier le nom.', 'spoken_language' => 'fr', 'answer_language' => 'fr', 'answer_channel' => 'platform', 'visibility' => 'private']);
+        $question = Database::fetch('SELECT * FROM questions ORDER BY id DESC LIMIT 1');
+        $this->switchTo($this->admin);
+        $question = AssignmentService::assign($question, $this->scholar, $this->admin);
+
+        $this->switchTo($this->scholar);
+        self::assertStringNotContainsString('Mamadou Traoré', $this->get('/fr/professeur/questions')->body());
+        $sheet = $this->get('/fr/professeur/questions/' . $question['reference'])->body();
+        self::assertStringNotContainsString('Mamadou Traoré', $sheet);
+        self::assertStringContainsString(__('scholar.question.member_anonymous'), $sheet);
+
+        // Après sa réponse : nom réel visible dans la fiche et dans sa file
+        AnswerService::answer(Database::fetch('SELECT * FROM questions WHERE id = ?', [(int) $question['id']]), Auth::user(), '<p>Réponse.</p>', null, [], 'fr');
+        self::assertStringContainsString('Mamadou Traoré', $this->get('/fr/professeur/questions/' . $question['reference'])->body());
+        self::assertStringContainsString('Mamadou Traoré', $this->get('/fr/professeur/questions?statut=done')->body());
+
+        // Un autre professeur n'a pas accès à cette question (et n'en verrait donc pas le nom)
+        $this->switchTo($this->other);
+        self::assertSame(404, $this->get('/fr/professeur/questions/' . $question['reference'])->status());
+
+        // Membre avec pseudonyme, question non répondue : seul le pseudonyme apparaît
+        $this->switchTo($this->member);
+        $this->post('/fr/poser-une-question', ['rubrique_id' => 3, 'body' => 'Seconde question, membre avec pseudonyme, non répondue pour le test.', 'spoken_language' => 'fr', 'answer_language' => 'fr', 'answer_channel' => 'platform', 'visibility' => 'private']);
+        $q2 = Database::fetch('SELECT * FROM questions ORDER BY id DESC LIMIT 1');
+        $this->switchTo($this->admin);
+        AssignmentService::assign($q2, $this->scholar, $this->admin);
+        $this->switchTo($this->scholar);
+        $sheet = $this->get('/fr/professeur/questions/' . $q2['reference'])->body();
+        self::assertStringContainsString('Oum Fatima', $sheet);
+        self::assertStringNotContainsString('Awa Diarra', $sheet);
+    }
+
     public function testLesPagesStatistiquesCommentairesEtDebatsDuProfesseur(): void
     {
         $this->switchTo($this->member);

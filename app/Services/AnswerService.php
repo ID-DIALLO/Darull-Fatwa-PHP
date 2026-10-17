@@ -239,9 +239,33 @@ final class AnswerService
     }
 
     /** Nom à afficher au professeur pour le demandeur (pseudonyme ou nom, §4.5). @param array<string, mixed> $member */
-    public static function askerLabel(array $member): string
+    /**
+     * Nom du demandeur tel que le professeur peut le voir : nom réel uniquement pour une question à laquelle
+     * il a répondu ; sinon le pseudonyme choisi par le membre, à défaut « le demandeur ».
+     *
+     * @param array<string, mixed> $member
+     * @param array<string, mixed>|null $question
+     */
+    public static function askerLabel(array $member, ?array $question = null, ?int $scholarId = null): string
     {
-        return User::publicName($member);
+        if ($question !== null && $scholarId !== null && self::answeredBy($question, $scholarId)) {
+            $display = trim((string) ($member['display_name'] ?? ''));
+
+            return (string) ($member['full_name'] ?? '') . ($display !== '' ? ' (' . $display . ')' : '');
+        }
+        $display = trim((string) ($member['display_name'] ?? ''));
+
+        return $display !== '' ? $display : __('scholar.question.member_anonymous');
+    }
+
+    /** Ce professeur a-t-il répondu à cette question (réponse envoyée, question en statut répondu ou suivant) ? */
+    public static function answeredBy(array $question, int $scholarId): bool
+    {
+        if ((int) ($question['assigned_to'] ?? 0) === $scholarId && in_array($question['status'] ?? '', ['answered', 'published', 'closed'], true)) {
+            return true;
+        }
+
+        return Database::fetch("SELECT 1 FROM question_messages WHERE question_id = ? AND kind = 'answer' AND sender_id = ? AND review_status IN ('not_required','approved') LIMIT 1", [(int) $question['id'], $scholarId]) !== null;
     }
 
     /** @param array<string, mixed> $question */
