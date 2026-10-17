@@ -71,7 +71,7 @@ $askUrl = route_exists('questions.create') ? route('questions.create') : route('
                 <?php else: ?>
                 <a class="btn btn-outline-primary btn-sm d-none d-md-inline-flex" href="<?= e(route('auth.login')) ?>"><?= e(__('nav.login')) ?></a>
                 <?php endif ?>
-                <a class="btn btn-gold btn-sm df-header__ask" href="<?= e($askUrl) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <span><?= e(__('nav.ask')) ?></span></a>
+                <a class="btn btn-gold btn-sm df-header__ask" href="<?= e($askUrl) ?>" aria-label="<?= e(__('nav.ask')) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <span><?= e(__('nav.ask')) ?></span></a>
                 <button class="df-header__burger d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#df-offcanvas" aria-controls="df-offcanvas" aria-label="<?= e(__('nav.open_menu')) ?>">
                     <i class="bi bi-list" aria-hidden="true"></i>
                 </button>

@@ -212,3 +212,10 @@ toggleFetch('[data-vote-form]', 'voted');
   }));
   form.querySelector('[data-quote-cancel]')?.addEventListener('click', () => { field.value = ''; indicator.hidden = true; });
 })();
+
+// PWA légère (Phase 8) : service worker pour les ressources statiques et la page hors-ligne
+if ('serviceWorker' in navigator && window.isSecureContext) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => { /* navigateur ou contexte non pris en charge */ });
+  });
+}

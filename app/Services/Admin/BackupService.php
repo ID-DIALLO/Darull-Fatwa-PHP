@@ -116,4 +116,49 @@ final class BackupService
 
         return $count;
     }
+
+    /** Nombre d'archives audio hebdomadaires conservées (§12.1). */
+    public const AUDIO_ARCHIVES_KEPT = 4;
+
+    /**
+     * Archive ZIP de tous les enregistrements (storage/audio) : « audio-AAAAMMJJ.zip » dans storage/backups/.
+     * Retourne le nom du fichier, ou null si l'extension zip manque ou s'il n'y a rien à archiver.
+     */
+    public static function archiveAudio(): ?string
+    {
+        $source = storage_path('audio');
+        if (!class_exists(\ZipArchive::class) || !is_dir($source)) {
+            return null;
+        }
+        $name = 'audio-' . gmdate('Ymd') . '.zip';
+        $path = self::directory() . '/' . $name;
+        $zip = new \ZipArchive();
+        if ($zip->open($path, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) !== true) {
+            throw new \RuntimeException('Impossible de créer l\'archive audio');
+        }
+        $count = 0;
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source, \FilesystemIterator::SKIP_DOTS));
+        foreach ($iterator as $file) {
+            if (!$file->isFile() || $file->getFilename() === '.gitkeep') {
+                continue;
+            }
+            $zip->addFile($file->getPathname(), substr($file->getPathname(), strlen($source) + 1));
+            $count++;
+        }
+        $zip->close();
+        if ($count === 0) {
+            @unlink($path);
+
+            return null;
+        }
+        // Rotation : on ne garde que les dernières archives
+        $archives = glob(self::directory() . '/audio-*.zip') ?: [];
+        rsort($archives);
+        foreach (array_slice($archives, self::AUDIO_ARCHIVES_KEPT) as $old) {
+            @unlink($old);
+        }
+        ActivityLog::record('admin.backup.created', 'backup', null, ['file' => $name, 'origin' => 'cron', 'files' => $count], null);
+
+        return $name;
+    }
 }

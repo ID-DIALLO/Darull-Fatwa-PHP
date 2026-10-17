@@ -122,10 +122,13 @@ final class Auth
     /** Ouvre la session de l'utilisateur (identifiant de session régénéré). */
     public static function login(int $userId, bool $remember = false): void
     {
-        $hash = (string) (Database::value('SELECT password_hash FROM users WHERE id = ?', [$userId]) ?? '');
+        $row = Database::fetch('SELECT u.password_hash, r.slug AS role FROM users u JOIN roles r ON r.id = u.role_id WHERE u.id = ?', [$userId]) ?? [];
+        $hash = (string) ($row['password_hash'] ?? '');
         Session::regenerate();
         Session::set('user_id', $userId);
         Session::set('auth_hash', self::sessionHash($hash));
+        // Équipe : expiration d'inactivité réduite à 30 min (§12.1)
+        Session::set('auth_staff', in_array($row['role'] ?? '', ['moderator', 'admin', 'superadmin'], true));
         Csrf::refresh();
         self::$user = false;
 

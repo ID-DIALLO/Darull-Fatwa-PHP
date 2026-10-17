@@ -8,7 +8,7 @@ declare(strict_types=1);
  *
  * Chaque minute : file d'envoi (e-mails). Chaque jour : rappels de retard (08:00), clôture automatique (02:30),
  * rotation des journaux, nettoyage des jetons, tentatives de connexion et limites de débit (03:00).
- * Sauvegarde de la base chaque jour (01:00). Le sitemap arrive en Phase 8.
+ * Sauvegarde de la base chaque jour (01:00), archive des audios le dimanche (01:30), sitemaps (04:00).
  */
 
 if (PHP_SAPI !== 'cli') {
@@ -72,6 +72,18 @@ try {
         $file = \App\Services\Admin\BackupService::create(null, 'cron');
         $purged = \App\Services\Admin\BackupService::purge();
         Logger::info("Sauvegarde automatique : {$file}" . ($purged > 0 ? " ({$purged} ancienne(s) supprimée(s))" : ''));
+    }
+
+    // Chaque dimanche à 01:30 : archive ZIP des enregistrements audio (4 archives conservées, §12.1)
+    if ((int) date('N') === 7 && $hour === 1 && $minute === 30) {
+        $archive = \App\Services\Admin\BackupService::archiveAudio();
+        Logger::info($archive !== null ? "Archive audio hebdomadaire : {$archive}" : 'Archive audio : rien à archiver');
+    }
+
+    // Chaque jour à 04:00 : sitemaps par langue (§13.1)
+    if ($hour === 4 && $minute === 0) {
+        \App\Services\SitemapService::generate();
+        Logger::info('Sitemaps régénérés');
     }
 
     // Chaque jour à 03:00 : ménage

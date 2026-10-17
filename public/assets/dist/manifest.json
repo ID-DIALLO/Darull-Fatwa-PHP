@@ -1,0 +1,17 @@
+{
+    "assets/dist/app.css": "assets/dist/app.css",
+    "assets/dist/app-rtl.css": "assets/dist/app-rtl.css",
+    "assets/dist/admin.css": "assets/dist/admin.css",
+    "assets/css/admin.css": "assets/dist/admin.css",
+    "assets/js/admin.js": "assets/dist/js/admin.js",
+    "assets/js/answer-editor.js": "assets/dist/js/answer-editor.js",
+    "assets/js/app.js": "assets/dist/js/app.js",
+    "assets/js/audio-player.js": "assets/dist/js/audio-player.js",
+    "assets/js/auth.js": "assets/dist/js/auth.js",
+    "assets/js/hero-slider.js": "assets/dist/js/hero-slider.js",
+    "assets/js/mp3-worker.js": "assets/dist/js/mp3-worker.js",
+    "assets/js/offline.js": "assets/dist/js/offline.js",
+    "assets/js/pcm-processor.js": "assets/dist/js/pcm-processor.js",
+    "assets/js/question-wizard.js": "assets/dist/js/question-wizard.js",
+    "assets/js/voice-recorder.js": "assets/dist/js/voice-recorder.js"
+}

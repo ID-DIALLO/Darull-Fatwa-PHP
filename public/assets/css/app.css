@@ -497,8 +497,11 @@ main:focus { outline: none; }
 }
 .df-hero__arrow:hover { background: var(--df-gold); color: var(--df-green-dark); border-color: var(--df-gold); }
 .df-hero__dots { position: static !important; width: auto !important; display: flex; gap: .4rem; }
-.df-hero__dots .swiper-pagination-bullet { width: 12px; height: 12px; margin: 0 !important; border: 0; background: rgba(255, 255, 255, .6); opacity: 1; }
-.df-hero__dots .swiper-pagination-bullet-active { background: var(--df-gold); }
+/* Puces : cible tactile de 24 px (§13.3), point visible de 12 px */
+.df-hero__dots .swiper-pagination-bullet { position: relative; width: 24px; height: 24px; margin: 0 !important; border: 0; background: transparent; opacity: 1; }
+.df-hero__dots .swiper-pagination-bullet::after { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: rgba(255, 255, 255, .6); }
+.df-hero__dots .swiper-pagination-bullet-active::after { background: var(--df-gold); }
+.df-hero__dots .swiper-pagination-bullet:focus-visible { outline: 2px solid var(--df-gold); outline-offset: 2px; border-radius: 50%; }
 .df-hero__toggle { margin-inline-start: auto; }
 
 /* ---------- Question vocale ---------- */
@@ -660,8 +663,8 @@ main:focus { outline: none; }
 .df-float--top[hidden] { display: none; }
 
 /* ---------- Adaptations ---------- */
-@media (min-width: 1200px) { .df-header__ask span { display: inline; } }
-@media (max-width: 1199.98px) { .df-nav__link { padding-inline: .6rem; font-size: .95rem; } }
+@media (min-width: 1400px) { .df-header__ask span { display: inline; } }
+@media (max-width: 1399.98px) { .df-nav__link { padding-inline: .6rem; font-size: .95rem; } }
 @media (max-width: 991.98px) {
   .df-rubriques-grid { grid-template-columns: repeat(2, 1fr); }
   .df-newsletter__inner { grid-template-columns: 1fr; }

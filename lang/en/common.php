@@ -66,4 +66,9 @@ return [
         'database_missing' => 'not installed (run php bin/install.php)',
         'writable'         => 'writable',
     ],
+    'offline_page' => [
+        'title' => 'You are offline',
+        'message' => "This page is not available without a connection. Check your network and try again.",
+        'retry' => 'Try again',
+    ],
 ];

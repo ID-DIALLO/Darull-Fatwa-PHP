@@ -4,7 +4,17 @@
  *
  * @var list<array{label: string, url?: string|null}> $items
  */
+$position = 1;
+$crumbs = [['@type' => 'ListItem', 'position' => $position++, 'name' => __('nav.home'), 'item' => url(route('home'))]];
+foreach ($items as $item) {
+    $crumb = ['@type' => 'ListItem', 'position' => $position++, 'name' => (string) $item['label']];
+    if (!empty($item['url'])) {
+        $crumb['item'] = str_starts_with((string) $item['url'], 'http') ? (string) $item['url'] : url((string) $item['url']);
+    }
+    $crumbs[] = $crumb;
+}
 ?>
+<?= json_ld(['@type' => 'BreadcrumbList', 'itemListElement' => $crumbs]) ?>
 <nav class="df-breadcrumb" aria-label="<?= e(__('nav.breadcrumb')) ?>">
     <div class="container">
         <ol class="breadcrumb mb-0">

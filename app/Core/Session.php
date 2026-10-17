@@ -16,7 +16,11 @@ final class Session
 
     private static bool $started = false;
 
-    public static function start(string $name, bool $secure, int $idleMinutes = 120): void
+    /**
+     * @param int $idleMinutes      Inactivité maximale d'un membre (2 h par défaut)
+     * @param int $staffIdleMinutes Inactivité maximale de l'équipe (modérateurs, administrateurs : 30 min, §12.1)
+     */
+    public static function start(string $name, bool $secure, int $idleMinutes = 120, int $staffIdleMinutes = 30): void
     {
         if (self::$started || PHP_SAPI === 'cli' || session_status() === PHP_SESSION_ACTIVE) {
             self::$started = true;
@@ -37,10 +41,11 @@ final class Session
         session_start();
         self::$started = true;
 
-        // Expiration après inactivité
+        // Expiration après inactivité (plus courte pour l'équipe, drapeau posé à la connexion)
         $now = time();
         $last = (int) ($_SESSION['_last_activity'] ?? $now);
-        if ($now - $last > $idleMinutes * 60) {
+        $limit = !empty($_SESSION['auth_staff']) ? min($idleMinutes, $staffIdleMinutes) : $idleMinutes;
+        if ($now - $last > $limit * 60) {
             self::invalidate();
         }
         $_SESSION['_last_activity'] = $now;

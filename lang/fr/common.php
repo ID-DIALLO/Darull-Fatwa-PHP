@@ -66,4 +66,9 @@ return [
         'database_missing' => 'non installée (lancez php bin/install.php)',
         'writable'         => 'accessible en écriture',
     ],
+    'offline_page' => [
+        'title' => 'Vous êtes hors ligne',
+        'message' => "Cette page n'est pas disponible sans connexion. Vérifiez votre réseau puis réessayez.",
+        'retry' => 'Réessayer',
+    ],
 ];

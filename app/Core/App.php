@@ -136,6 +136,7 @@ final class App
                 (string) $this->config('app.session.name', 'df_session'),
                 $request->isSecure(),
                 (int) $this->config('app.session.idle_minutes', 120),
+                (int) $this->config('app.session.admin_idle_minutes', 30),
             );
             View::share('request', $request);
             View::share('alternates', null); // Adresses par langue d'un contenu traduit : propres à chaque requête

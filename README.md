@@ -11,7 +11,7 @@ Plateforme web de questions-réponses islamiques, en **français, arabe (RTL) et
 
 ## Technologies
 
-PHP 8.2+ (MVC maison, sans framework) · MySQL 8 / MariaDB 10.6+ · Bootstrap 5.3 (LTR + RTL) · JavaScript vanilla, sans étape de build.
+PHP 8.2+ (MVC maison, sans framework) · MySQL 8 / MariaDB 10.6+ · Bootstrap 5.3 (LTR + RTL) · JavaScript vanilla ; les ressources de production sont construites par un script PHP (`bin/build-assets.php`), sans Node.
 
 ## Installation locale (Mac, Windows ou Linux)
 
@@ -42,6 +42,7 @@ Ouvrez ensuite <http://localhost:8000> : vous êtes redirigé vers `/fr`, `/ar` 
 | `php bin/migrate.php [--status]` | Applique les migrations de `database/migrations/` |
 | `vendor/bin/phpunit` | Lance les tests |
 | `php cron/run.php` | Tâches planifiées (à lancer chaque minute par le cron du serveur) |
+| `php bin/build-assets.php` | Construit les CSS/JS de production dans `public/assets/dist/` et l'image de partage (à relancer après toute modification de `public/assets/css` ou `js`) |
 
 Mode maintenance : créez le fichier `storage/maintenance.flag` (supprimez-le pour rouvrir le site).
 
@@ -73,7 +74,8 @@ Les logos se trouvent dans `public/assets/img/logo/` (SVG à utiliser sur le sit
 - [x] **Phase 5** — Back-office d'administration (tableau de bord, questions, utilisateurs, professeurs, contenus, paramètres chiffrés, journal, sauvegardes)
 - [x] **Phase 6** — Blog multilingue, Q/R publiques (QAPage), recherche plein texte, favoris, partage, commentaires modérés
 - [x] **Phase 7** — Forum communautaire (modération a priori, charte, abonnements, J'aime, badge professeur, signalements) et boîte à idées (vote unique, statuts, réponse officielle)
-- [ ] Phases 8 et 9 — voir §17 du cahier des charges
+- [x] **Phase 8** — Qualité : sitemaps et robots par langue, JSON-LD, Open Graph, assets construits (`bin/build-assets.php`), PWA (service worker + page hors-ligne), revue sécurité, accessibilité, Lighthouse mobile ≥ 98 (voir `docs/QUALITE.md`)
+- [ ] Phase 9 — voir §17 du cahier des charges
 
 ---
 Maître d'ouvrage : Idrissa Diallo — Bamako, Mali.

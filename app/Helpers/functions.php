@@ -158,14 +158,71 @@ if (!function_exists('url')) {
 }
 
 if (!function_exists('asset')) {
-    /** Chemin d'une ressource de public/ avec numéro de version (cache long côté navigateur). */
+    /**
+     * Chemin d'une ressource de public/ avec numéro de version (cache long côté navigateur). En production
+     * (ou ASSETS_BUILD=1), les fichiers listés dans public/assets/dist/manifest.json — générés par
+     * `php bin/build-assets.php` — remplacent les sources.
+     */
     function asset(string $path): string
     {
         $path = '/' . ltrim($path, '/');
+        $manifest = asset_manifest();
+        if (isset($manifest[ltrim($path, '/')])) {
+            $path = '/' . ltrim((string) $manifest[ltrim($path, '/')], '/');
+        }
         $file = public_path($path);
         $version = is_file($file) ? substr(md5((string) filemtime($file)), 0, 8) : null;
 
         return $path . ($version !== null ? '?v=' . $version : '');
+    }
+}
+
+if (!function_exists('asset_manifest')) {
+    /** @return array<string, string> source => fichier construit (vide si la version construite n'est pas utilisée) */
+    function asset_manifest(): array
+    {
+        static $manifest = null;
+        if ($manifest !== null) {
+            return $manifest;
+        }
+        $flag = env('ASSETS_BUILD');
+        $enabled = $flag !== null && $flag !== '' ? filter_var($flag, FILTER_VALIDATE_BOOL) : config('app.env') === 'production';
+        $file = public_path('assets/dist/manifest.json');
+        $manifest = $enabled && is_file($file) ? (array) json_decode((string) file_get_contents($file), true) : [];
+
+        return $manifest;
+    }
+}
+
+if (!function_exists('styles')) {
+    /**
+     * Balises <link> d'un groupe de feuilles de style : un seul fichier concaténé et minifié s'il a été construit
+     * (clé du manifeste), sinon les fichiers sources un par un.
+     *
+     * @param list<string> $files
+     */
+    function styles(array $files, string $bundle): string
+    {
+        if (isset(asset_manifest()[$bundle])) {
+            return '<link rel="stylesheet" href="' . e(asset($bundle)) . '">' . "\n";
+        }
+
+        return implode("\n", array_map(static fn (string $f): string => '<link rel="stylesheet" href="' . e(asset($f)) . '">', $files)) . "\n";
+    }
+}
+
+if (!function_exists('json_ld')) {
+    /**
+     * Balise <script type="application/ld+json"> (§13.1). « < » et « & » sont encodés pour qu'aucune donnée
+     * ne puisse fermer la balise.
+     *
+     * @param array<string, mixed> $data
+     */
+    function json_ld(array $data): string
+    {
+        $json = json_encode(['@context' => 'https://schema.org'] + $data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP);
+
+        return '<script type="application/ld+json">' . ($json === false ? '{}' : $json) . '</script>' . "\n";
     }
 }
 

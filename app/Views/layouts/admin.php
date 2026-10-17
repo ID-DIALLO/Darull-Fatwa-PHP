@@ -73,11 +73,10 @@ $isActive = static function (array $item) use ($current): bool {
     <link rel="icon" type="image/svg+xml" href="<?= e(asset('assets/img/logo/darul-fatwa-icone.svg')) ?>">
     <link rel="stylesheet" href="<?= e(asset($dir === 'rtl' ? 'vendor/bootstrap/css/bootstrap.rtl.min.css' : 'vendor/bootstrap/css/bootstrap.min.css')) ?>">
     <link rel="stylesheet" href="<?= e(asset('vendor/bootstrap-icons/bootstrap-icons.min.css')) ?>">
-    <link rel="stylesheet" href="<?= e(asset('assets/css/fonts.css')) ?>">
-    <link rel="stylesheet" href="<?= e(asset('assets/css/variables.css')) ?>">
-    <link rel="stylesheet" href="<?= e(asset('assets/css/app.css')) ?>">
+    <?= $dir === 'rtl'
+        ? styles(['assets/css/fonts.css', 'assets/css/variables.css', 'assets/css/app.css', 'assets/css/rtl.css'], 'assets/dist/app-rtl.css')
+        : styles(['assets/css/fonts.css', 'assets/css/variables.css', 'assets/css/app.css'], 'assets/dist/app.css') ?>
     <link rel="stylesheet" href="<?= e(asset('assets/css/admin.css')) ?>">
-    <?php if ($dir === 'rtl'): ?><link rel="stylesheet" href="<?= e(asset('assets/css/rtl.css')) ?>"><?php endif ?>
     <?= $this->yield('head') ?>
 </head>
 <body class="df-body df-admin-body df-locale-<?= e($locale) ?>">

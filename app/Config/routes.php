@@ -46,6 +46,7 @@ use App\Controllers\Front\QuestionController;
 use App\Controllers\Front\RubriqueController;
 use App\Controllers\Front\ScholarController;
 use App\Controllers\Front\SearchController;
+use App\Controllers\Front\SeoController;
 use App\Controllers\Scholar\ArticlesController as ScholarArticlesController;
 use App\Controllers\Scholar\DashboardController as ScholarDashboardController;
 use App\Controllers\Scholar\ProfileController as ScholarProfileController;
@@ -112,6 +113,12 @@ return static function (Router $router): void {
 
     // ---- Médias privés et API internes (§11.5) ------------------------------------------------
     $router->get('/media/audio/{uuid}', [MediaController::class, 'audio'])->name('media.audio');
+
+    // Référencement et PWA (§13) : sitemaps, robots.txt, page hors-ligne
+    $router->get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('seo.sitemap');
+    $router->get('/sitemap-{name:[a-z][a-z]}.xml', [SeoController::class, 'sitemapLocale'])->name('seo.sitemap.locale');
+    $router->get('/robots.txt', [SeoController::class, 'robots'])->name('seo.robots');
+    $router->get('/offline', [SeoController::class, 'offline'])->name('seo.offline');
     $router->post('/api/audio', [AudioUploadController::class, 'store'])->name('api.audio.store')->middleware(['auth', 'throttle:40,3600']);
     $router->delete('/api/audio/{uuid}', [AudioUploadController::class, 'destroy'])->name('api.audio.destroy')->middleware('auth');
     $router->get('/api/notifications/count', [NotificationsController::class, 'count'])->name('api.notifications.count')->middleware('auth');

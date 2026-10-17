@@ -1951,16 +1951,16 @@ Chaque phase se termine par : tests passés, critères cochés, commit `Phase N 
 
 ### Phase 8 — Qualité : SEO, performance, sécurité, accessibilité, PWA
 
-- [ ] SEO complet (13.1) : métas, hreflang, JSON-LD, sitemaps, robots, images de partage
-- [ ] Performance (13.2) : images WebP/srcset, minification, cache, index vérifiés (`EXPLAIN` sur les requêtes clés)
-- [ ] Revue sécurité selon 12.1 (liste vérifiée point par point), en-têtes, CSP
-- [ ] Accessibilité (13.3), PWA (13.4)
-- [ ] Recette complète (section 18)
+- [x] SEO complet (13.1) : métas, hreflang, JSON-LD, sitemaps, robots, images de partage
+- [x] Performance (13.2) : images WebP/srcset, minification, cache, index vérifiés (`EXPLAIN` sur les requêtes clés)
+- [x] Revue sécurité selon 12.1 (liste vérifiée point par point), en-têtes, CSP
+- [x] Accessibilité (13.3), PWA (13.4)
+- [x] Recette complète (section 18)
 
 **Critères d'acceptation**
-- [ ] Lighthouse mobile ≥ 85 sur l'accueil, une page article et le formulaire de question
-- [ ] Aucune erreur dans la console navigateur ni dans les journaux PHP sur le parcours complet
-- [ ] Tous les scénarios de la section 18 sont validés
+- [x] Lighthouse mobile ≥ 85 sur l'accueil, une page article et le formulaire de question
+- [x] Aucune erreur dans la console navigateur ni dans les journaux PHP sur le parcours complet
+- [x] Tous les scénarios de la section 18 sont validés *(R3, R4 : à rejouer sur appareils réels en HTTPS lors de la mise en production — voir `docs/QUALITE.md`)*
 
 ### Phase 9 — Mise en production (et préparation V2)
 

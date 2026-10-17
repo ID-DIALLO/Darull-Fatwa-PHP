@@ -35,6 +35,21 @@ if ($banners !== []): ?>
 $this->endSection();
 ?>
 <?php $this->section('content'); ?>
+<?php
+$sameAs = array_values(array_filter(array_map(static fn (string $k): ?string => setting($k), ['social_facebook', 'social_youtube', 'social_instagram', 'social_telegram', 'social_x', 'social_tiktok'])));
+$organization = ['@type' => 'Organization', 'name' => __('common.site.name'), 'url' => url(route('home')), 'logo' => url('/assets/img/logo/darul-fatwa-logo.png'), 'email' => setting('contact_email')];
+if (setting('contact_phone')) {
+    $organization['telephone'] = setting('contact_phone');
+}
+if (setting('contact_address')) {
+    $organization['address'] = ['@type' => 'PostalAddress', 'streetAddress' => setting('contact_address')];
+}
+if ($sameAs !== []) {
+    $organization['sameAs'] = $sameAs;
+}
+echo json_ld($organization);
+echo json_ld(['@type' => 'WebSite', 'name' => __('common.site.name'), 'url' => url(route('home')), 'inLanguage' => locale(), 'potentialAction' => ['@type' => 'SearchAction', 'target' => ['@type' => 'EntryPoint', 'urlTemplate' => url(route('search')) . '?q={search_term_string}'], 'query-input' => 'required name=search_term_string']]);
+?>
 <?php foreach ($sections as $code): ?>
 <?php switch ($code):
     case 'hero': ?>

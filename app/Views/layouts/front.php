@@ -15,7 +15,8 @@ $noindex = $this->hasSection('robots') && str_contains($this->yield('robots'), '
 $alternates = $noindex ? [] : alternate_urls();
 $title = $this->hasSection('title') ? $this->yield('title') . ' | ' . e(__('common.site.name')) : e(__('common.site.title'));
 $description = $this->hasSection('description') ? $this->yield('description') : e(__('common.site.description'));
-$ogImage = $this->hasSection('og_image') ? $this->yield('og_image') : e(url('/assets/img/logo/darul-fatwa-logo-vertical.png'));
+$ogImage = $this->hasSection('og_image') ? $this->yield('og_image') : e(url('/assets/img/og-default.png'));
+$ogDefault = !$this->hasSection('og_image');
 $intlLocales = ['fr' => 'fr_FR', 'ar' => 'ar_AR', 'en' => 'en_GB'];
 $whatsapp = whatsapp_link(__('front.whatsapp.message'));
 ?>
@@ -49,8 +50,16 @@ $whatsapp = whatsapp_link(__('front.whatsapp.message'));
     <meta property="og:description" content="<?= $description ?>">
     <meta property="og:locale" content="<?= e($intlLocales[$locale] ?? 'fr_FR') ?>">
     <meta property="og:image" content="<?= $ogImage ?>">
+    <?php if ($ogDefault): ?>
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="<?= e(__('common.site.name')) ?>">
+    <?php endif ?>
     <?php if (isset($alternates[$locale])): ?><meta property="og:url" content="<?= e(url($alternates[$locale])) ?>"><?php endif ?>
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= $title ?>">
+    <meta name="twitter:description" content="<?= $description ?>">
+    <meta name="twitter:image" content="<?= $ogImage ?>">
 
     <link rel="icon" href="/assets/img/favicons/favicon.ico" sizes="32x32">
     <link rel="icon" type="image/svg+xml" href="<?= e(asset('assets/img/logo/darul-fatwa-icone.svg')) ?>">
@@ -61,12 +70,9 @@ $whatsapp = whatsapp_link(__('front.whatsapp.message'));
 
     <link rel="stylesheet" href="<?= e(asset($dir === 'rtl' ? 'vendor/bootstrap/css/bootstrap.rtl.min.css' : 'vendor/bootstrap/css/bootstrap.min.css')) ?>">
     <link rel="stylesheet" href="<?= e(asset('vendor/bootstrap-icons/bootstrap-icons.min.css')) ?>">
-    <link rel="stylesheet" href="<?= e(asset('assets/css/fonts.css')) ?>">
-    <link rel="stylesheet" href="<?= e(asset('assets/css/variables.css')) ?>">
-    <link rel="stylesheet" href="<?= e(asset('assets/css/app.css')) ?>">
-    <?php if ($dir === 'rtl'): ?>
-    <link rel="stylesheet" href="<?= e(asset('assets/css/rtl.css')) ?>">
-    <?php endif ?>
+    <?= $dir === 'rtl'
+        ? styles(['assets/css/fonts.css', 'assets/css/variables.css', 'assets/css/app.css', 'assets/css/rtl.css'], 'assets/dist/app-rtl.css')
+        : styles(['assets/css/fonts.css', 'assets/css/variables.css', 'assets/css/app.css'], 'assets/dist/app.css') ?>
     <?= $this->yield('head') ?>
 </head>
 <body class="df-body df-locale-<?= e($locale) ?> <?= $this->yield('body_class') ?>">

@@ -15,6 +15,25 @@ $askUrl = route_exists('questions.create') ? route('questions.create') : route('
 ?>
 <?php $this->section('content'); ?>
 <?= $this->partial('partials/breadcrumb', ['items' => [['label' => __('front.scholars.title'), 'url' => route('scholars.index')], ['label' => $name]]]) ?>
+<?php
+$person = ['@type' => 'Person', 'name' => $scholar['full_name'], 'url' => url(route('scholars.show', ['slug' => \App\Models\ScholarProfile::slug($scholar)])), 'affiliation' => ['@type' => 'Organization', 'name' => __('common.site.name'), 'url' => url(route('home'))]];
+if ($scholar['title']) {
+    $person['honorificPrefix'] = $scholar['title'];
+}
+if ($photo) {
+    $person['image'] = url($photo);
+}
+if (!empty($scholar['bio'])) {
+    $person['description'] = excerpt((string) $scholar['bio'], 300);
+}
+if (!empty($scholar['languages_list'])) {
+    $person['knowsLanguage'] = array_values($scholar['languages_list']);
+}
+if (!empty($scholar['rubriques'])) {
+    $person['knowsAbout'] = array_values(array_map(static fn (array $r): string => (string) $r['name'], $scholar['rubriques']));
+}
+echo json_ld($person);
+?>
 <?= $this->partial('partials/content-fallback', ['fallbackLocale' => $fallbackLocale]) ?>
 <section class="df-section">
     <div class="container">
