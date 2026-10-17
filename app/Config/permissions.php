@@ -12,7 +12,7 @@ $member = [
 $scholar = array_merge($member, [
     'questions.view_assigned', 'questions.self_assign', 'questions.answer',
     'questions.request_info', 'questions.internal_note', 'questions.propose_publication',
-    'articles.create', 'forum.validate_answer', 'scholar.dashboard',
+    'questions.request_reassign', 'questions.whatsapp_reply', 'articles.create', 'forum.validate_answer', 'scholar.dashboard',
 ]);
 
 $moderator = array_merge($member, [

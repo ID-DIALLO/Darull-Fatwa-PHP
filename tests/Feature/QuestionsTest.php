@@ -26,7 +26,7 @@ final class QuestionsTest extends DatabaseTestCase
     protected function tearDown(): void
     {
         parent::tearDown();
-        foreach (glob(dirname(__DIR__, 2) . '/storage/audio/*/*/*') ?: [] as $file) {
+        foreach (glob(storage_path('audio/*/*/*')) ?: [] as $file) {
             @unlink($file);
         }
     }
@@ -98,7 +98,7 @@ final class QuestionsTest extends DatabaseTestCase
         $media = Database::fetch('SELECT * FROM media_files WHERE uuid = ?', [$data['media_uuid']]);
         self::assertSame('private', $media['disk']);
         self::assertStringStartsWith('audio/' . gmdate('Y') . '/' . gmdate('m') . '/', $media['path']);
-        self::assertFileExists(dirname(__DIR__, 2) . '/storage/' . $media['path']);
+        self::assertFileExists(storage_path((string) $media['path']));
         self::assertSame(hash_file('sha256', self::FIXTURES . 'question.mp3'), $media['checksum_sha256']);
         self::assertSame('none', $media['conversion_status']);
 

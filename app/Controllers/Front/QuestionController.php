@@ -113,6 +113,7 @@ final class QuestionController extends Controller
             'user_agent'      => $request->userAgent(),
         ]);
         QuestionService::notifyCreated($question);
+        \App\Services\AssignmentService::autoAssign($question);
 
         return $this->redirectToRoute('questions.confirmation', ['reference' => $question['reference']]);
     }

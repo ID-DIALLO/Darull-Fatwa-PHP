@@ -6,9 +6,9 @@ declare(strict_types=1);
  * Tâches planifiées — à exécuter chaque minute par le cron du serveur :
  *   * * * * * php /chemin/vers/darul-fatwa/cron/run.php >> /dev/null 2>&1
  *
- * Chaque minute : file d'envoi (e-mails). Chaque jour à 03:00 : rotation des journaux (30 jours),
- * nettoyage des jetons expirés, des anciennes tentatives de connexion et des limites de débit.
- * Les autres tâches (rappels de retard, clôture automatique, sitemap, sauvegardes) arrivent avec leurs phases.
+ * Chaque minute : file d'envoi (e-mails). Chaque jour : rappels de retard (08:00), clôture automatique (02:30),
+ * rotation des journaux, nettoyage des jetons, tentatives de connexion et limites de débit (03:00).
+ * Sitemap et sauvegardes arrivent avec leurs phases.
  */
 
 if (PHP_SAPI !== 'cli') {
@@ -23,6 +23,7 @@ use App\Core\App;
 use App\Core\Database;
 use App\Core\Logger;
 use App\Services\LoginThrottle;
+use App\Services\Maintenance;
 use App\Services\QueueService;
 use App\Services\TokenService;
 
@@ -42,6 +43,22 @@ try {
     [$sent, $failed] = QueueService::process(25);
     if ($sent > 0 || $failed > 0) {
         Logger::info("File d'envoi : {$sent} envoyé(s), {$failed} en échec définitif");
+    }
+
+    // Chaque jour à 08:00 (heure locale) : rappels des questions en retard (§4.12)
+    if ($hour === 8 && $minute === 0) {
+        $late = Maintenance::remindLateQuestions();
+        if ($late > 0) {
+            Logger::info("Rappels : {$late} question(s) en retard signalée(s)");
+        }
+    }
+
+    // Chaque jour à 02:30 : clôture automatique des questions répondues depuis 30 jours (§4.2.3)
+    if ($hour === 2 && $minute === 30) {
+        $closed = Maintenance::autoCloseAnswered();
+        if ($closed > 0) {
+            Logger::info("Clôture automatique : {$closed} question(s)");
+        }
     }
 
     // Chaque jour à 03:00 : ménage

@@ -21,6 +21,8 @@ use App\Controllers\Front\QuestionController;
 use App\Controllers\Front\RubriqueController;
 use App\Controllers\Front\ScholarController;
 use App\Controllers\Scholar\DashboardController as ScholarDashboardController;
+use App\Controllers\Scholar\ProfileController as ScholarProfileController;
+use App\Controllers\Scholar\QueueController;
 use App\Core\Router;
 
 /*
@@ -94,8 +96,21 @@ return static function (Router $router): void {
     $router->localized('GET', ['fr' => '/mon-espace/export', 'en' => '/my-account/export'], [ProfileController::class, 'export'], 'account.export', ['auth', 'throttle:5,3600']);
     $router->localized('POST', ['fr' => '/mon-espace/supprimer', 'en' => '/my-account/delete'], [ProfileController::class, 'destroy'], 'account.delete', 'auth');
 
-    // ---- Espace professeur (§11.3) : tableau de bord provisoire, complété en Phase 4 ----------
-    $router->localized('GET', ['fr' => '/professeur', 'en' => '/scholar'], [ScholarDashboardController::class, 'index'], 'scholar.dashboard', 'role:scholar,admin');
+    // ---- Espace professeur (§4.5, §11.3) --------------------------------------------------------
+    $scholar = 'role:scholar,admin';
+    $router->localized('GET', ['fr' => '/professeur', 'en' => '/scholar'], [ScholarDashboardController::class, 'index'], 'scholar.dashboard', $scholar);
+    $router->localized('GET', ['fr' => '/professeur/questions', 'en' => '/scholar/questions'], [QueueController::class, 'index'], 'scholar.questions', $scholar);
+    $router->localized('GET', ['fr' => '/professeur/questions/{reference}', 'en' => '/scholar/questions/{reference}'], [QueueController::class, 'show'], 'scholar.questions.show', $scholar);
+    $router->localized('POST', ['fr' => '/professeur/questions/{reference}/prendre', 'en' => '/scholar/questions/{reference}/take'], [QueueController::class, 'take'], 'scholar.questions.take', $scholar);
+    $router->localized('POST', ['fr' => '/professeur/questions/{reference}/repondre', 'en' => '/scholar/questions/{reference}/answer'], [QueueController::class, 'answer'], 'scholar.questions.answer', $scholar);
+    $router->localized('POST', ['fr' => '/professeur/questions/{reference}/demander-precision', 'en' => '/scholar/questions/{reference}/request-info'], [QueueController::class, 'requestInfo'], 'scholar.questions.request_info', $scholar);
+    $router->localized('POST', ['fr' => '/professeur/questions/{reference}/note', 'en' => '/scholar/questions/{reference}/note'], [QueueController::class, 'note'], 'scholar.questions.note', $scholar);
+    $router->localized('POST', ['fr' => '/professeur/questions/{reference}/reassignation', 'en' => '/scholar/questions/{reference}/reassign'], [QueueController::class, 'reassign'], 'scholar.questions.reassign', $scholar);
+    $router->localized('POST', ['fr' => '/professeur/questions/{reference}/whatsapp-envoye', 'en' => '/scholar/questions/{reference}/whatsapp-sent'], [QueueController::class, 'whatsappSent'], 'scholar.questions.whatsapp_sent', $scholar);
+    $router->localized('POST', ['fr' => '/professeur/questions/{reference}/proposer-publication', 'en' => '/scholar/questions/{reference}/propose-publication'], [QueueController::class, 'proposePublication'], 'scholar.questions.propose_publication', $scholar);
+    $router->localized('POST', ['fr' => '/professeur/questions/{reference}/transcription', 'en' => '/scholar/questions/{reference}/transcript'], [QueueController::class, 'transcript'], 'scholar.questions.transcript', $scholar);
+    $router->localized('GET', ['fr' => '/professeur/profil', 'en' => '/scholar/profile'], [ScholarProfileController::class, 'edit'], 'scholar.profile', $scholar);
+    $router->localized('POST', ['fr' => '/professeur/profil', 'en' => '/scholar/profile'], [ScholarProfileController::class, 'update'], 'scholar.profile.update', $scholar);
 
     // ---- Administration (§11.4) : tableau de bord provisoire, complété en Phase 5 -------------
     $router->group(['prefix' => '/admin', 'middleware' => 'role:moderator,admin'], static function (Router $router): void {

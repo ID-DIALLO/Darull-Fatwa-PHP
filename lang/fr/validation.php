@@ -78,5 +78,10 @@ return [
         'media_uuid' => 'enregistrement',
         'audio_file' => 'fichier audio',
         'helpful' => 'avis',
+        'reason' => 'motif',
+        'references' => 'références',
+        'body_html' => 'texte de la réponse',
+        'transcript' => 'transcription',
+        'rephrased' => 'question reformulée',
     ],
 ];

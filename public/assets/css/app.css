@@ -810,3 +810,20 @@ main:focus { outline: none; }
   .df-wizard__nav .btn, .df-wizard__nav span { width: 100%; }
   .df-confirmation__reference { font-size: 1.5rem; }
 }
+
+/* ---------- Espace professeur (Phase 4) ---------- */
+.df-stat--danger .df-stat__icon, .df-stat--danger .df-stat__value { color: var(--df-danger); }
+.df-question-item__link--static { cursor: default; }
+.df-question-item__link--static:hover { border-color: rgba(7, 61, 46, .06); }
+.df-dl--compact dt { margin-block-start: .35rem; }
+.df-dl--compact dd { margin-block-end: .25rem; font-size: 1rem; }
+.df-msg--internal_note { background: #FFF8E6; border-inline-start-color: var(--df-warning); }
+.df-msg--info_request { border-inline-start-color: var(--df-info); }
+.df-editor { background: var(--df-white); min-height: 220px; font-size: 1.05rem; }
+.df-editor .ql-editor { min-height: 200px; line-height: 1.7; }
+.df-editor .ql-editor[dir="auto"] p { unicode-bidi: plaintext; }
+.ql-toolbar.ql-snow { border-radius: var(--df-radius-btn) var(--df-radius-btn) 0 0; border-color: rgba(7, 61, 46, .2); background: var(--df-cream); }
+.ql-container.ql-snow { border-radius: 0 0 var(--df-radius-btn) var(--df-radius-btn); border-color: rgba(7, 61, 46, .2); }
+.ql-snow .ql-editor blockquote { border-inline-start: 4px solid var(--df-gold); background: var(--df-cream); padding: .5rem 1rem; border-radius: var(--df-radius-btn); }
+.df-reference { background: var(--df-cream); border-radius: var(--df-radius-btn); padding: .75rem; margin-block-end: .5rem; }
+.df-reference .form-label { margin-block-end: .15rem; color: var(--df-text-muted); }

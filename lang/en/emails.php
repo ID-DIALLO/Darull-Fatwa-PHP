@@ -64,4 +64,5 @@ return [
         'body'    => 'Your question has been forwarded to our scholars under the reference :reference. Indicative answer time: :late_hours hours. You will be notified as soon as an answer is available.',
         'button'  => 'Follow my question',
     ],
+    'late_digest' => ['subject' => ':count overdue question(s) — Darul Fatwa'],
 ];

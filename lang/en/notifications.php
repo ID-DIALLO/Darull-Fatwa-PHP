@@ -53,6 +53,26 @@ return [
             'message' => 'This question has been waiting for an answer for more than :hours hours.',
             'icon'    => 'alarm',
         ],
+        'reassign_requested' => [
+            'title'   => 'Reassignment request: :reference',
+            'message' => 'The scholar asks to be relieved of this question. Reason: :reason',
+            'icon'    => 'arrow-left-right',
+        ],
+        'publication_proposed' => [
+            'title'   => 'Publication proposal: :reference',
+            'message' => 'A scholar proposes an anonymised version of this Q&A.',
+            'icon'    => 'megaphone',
+        ],
+        'review_approved' => [
+            'title'   => 'Answer validated: :reference',
+            'message' => 'Your answer has been validated and sent to the member.',
+            'icon'    => 'patch-check',
+        ],
+        'review_rejected' => [
+            'title'   => 'Answer to revise: :reference',
+            'message' => 'The review asks for changes: :reason',
+            'icon'    => 'pencil-square',
+        ],
     ],
     'contact' => [
         'received' => [

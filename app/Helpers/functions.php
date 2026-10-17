@@ -76,7 +76,11 @@ if (!function_exists('base_path')) {
 if (!function_exists('storage_path')) {
     function storage_path(string $path = ''): string
     {
-        return base_path('storage' . ($path !== '' ? '/' . ltrim($path, '/') : ''));
+        // STORAGE_PATH (optionnel, absolu ou relatif à la racine) : permet d'isoler le stockage des tests.
+        $root = (string) (env('STORAGE_PATH') ?: 'storage');
+        $base = str_starts_with($root, '/') ? rtrim($root, '/') : base_path(trim($root, '/'));
+
+        return $base . ($path !== '' ? '/' . ltrim($path, '/') : '');
     }
 }
 

@@ -53,6 +53,26 @@ return [
             'message' => 'هذا السؤال بانتظار الإجابة منذ أكثر من :hours ساعة.',
             'icon'    => 'alarm',
         ],
+        'reassign_requested' => [
+            'title'   => 'طلب إعادة إسناد: :reference',
+            'message' => 'يطلب الأستاذ إعفاءه من هذا السؤال. السبب: :reason',
+            'icon'    => 'arrow-left-right',
+        ],
+        'publication_proposed' => [
+            'title'   => 'اقتراح نشر: :reference',
+            'message' => 'يقترح أستاذ نسخة مجهولة الهوية من هذا السؤال والجواب.',
+            'icon'    => 'megaphone',
+        ],
+        'review_approved' => [
+            'title'   => 'تم اعتماد الإجابة: :reference',
+            'message' => 'اعتُمدت إجابتك وأُرسلت إلى العضو.',
+            'icon'    => 'patch-check',
+        ],
+        'review_rejected' => [
+            'title'   => 'إجابة تحتاج مراجعة: :reference',
+            'message' => 'تطلب المراجعة تعديلات: :reason',
+            'icon'    => 'pencil-square',
+        ],
     ],
     'contact' => [
         'received' => [

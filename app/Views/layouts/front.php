@@ -87,7 +87,7 @@ $whatsapp = whatsapp_link(__('front.whatsapp.message'));
         <i class="bi bi-whatsapp" aria-hidden="true"></i>
     </a>
     <?php endif ?>
-    <?php if (route_exists('questions.create')): ?>
+    <?php if (route_exists('questions.create') && $this->yield('hide_float_mic') === ''): ?>
     <a class="df-float df-float--mic d-lg-none" href="<?= e(route('questions.create', ['mode' => 'voice'])) ?>" aria-label="<?= e(__('nav.ask')) ?>" title="<?= e(__('nav.ask')) ?>">
         <i class="bi bi-mic-fill" aria-hidden="true"></i>
     </a>

@@ -64,4 +64,5 @@ return [
         'body'    => 'Votre question a bien été transmise à nos professeurs sous la référence :reference. Délai indicatif de réponse : :late_hours heures. Vous serez prévenu dès qu\'une réponse sera disponible.',
         'button'  => 'Suivre ma question',
     ],
+    'late_digest' => ['subject' => ':count question(s) en retard — Darul Fatwa'],
 ];

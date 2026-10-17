@@ -77,5 +77,10 @@ return [
         'media_uuid' => 'التسجيل',
         'audio_file' => 'الملف الصوتي',
         'helpful' => 'الرأي',
+        'reason' => 'السبب',
+        'references' => 'المراجع',
+        'body_html' => 'نص الإجابة',
+        'transcript' => 'النص المكتوب',
+        'rephrased' => 'السؤال المعاد صياغته',
     ],
 ];

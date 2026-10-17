@@ -1900,18 +1900,18 @@ Chaque phase se termine par : tests passés, critères cochés, commit `Phase N 
 
 ### Phase 4 — Espace professeur, réponses, workflow, WhatsApp niveau 1, notifications
 
-- [ ] `QuestionWorkflow` (transitions de 4.2.3, horodatages, journaux) + tests unitaires de chaque transition autorisée/interdite
-- [ ] Espace professeur (4.5) : tableau de bord, file, fiche, réponse texte/vocal, références structurées (liste des 114 sourates FR/AR/EN), demande de précision, note interne, proposition de publication
-- [ ] Relecture obligatoire (option par professeur)
-- [ ] `WhatsAppGateway` + `LinkGateway` : liens `wa.me` préremplis traduits, « marqué comme envoyé », journal `whatsapp_messages`
-- [ ] `NotificationService` (in-app + e-mail via `message_queue`) + `cron/run.php` (envois, rappels de retard, clôture automatique)
-- [ ] Assignation automatique (option)
+- [x] `QuestionWorkflow` (transitions de 4.2.3, horodatages, journaux) + tests unitaires de chaque transition autorisée/interdite
+- [x] Espace professeur (4.5) : tableau de bord, file, fiche, réponse texte/vocal, références structurées (liste des 114 sourates FR/AR/EN), demande de précision, note interne, proposition de publication
+- [x] Relecture obligatoire (option par professeur)
+- [x] `WhatsAppGateway` + `LinkGateway` : liens `wa.me` préremplis traduits, « marqué comme envoyé », journal `whatsapp_messages`
+- [x] `NotificationService` (in-app + e-mail via `message_queue`) + `cron/run.php` (envois, rappels de retard, clôture automatique)
+- [x] Assignation automatique (option)
 
 **Critères d'acceptation**
-- [ ] Parcours complet : membre pose une question vocale → admin assigne → professeur répond en vocal + références → membre notifié (cloche + e-mail) → membre écoute la réponse
-- [ ] Une transition interdite (ex. `new` → `answered`) lève une exception et n'est pas enregistrée
-- [ ] Le professeur ne voit pas le numéro complet si le canal WhatsApp n'a pas été choisi
-- [ ] Le lien « Répondre via WhatsApp » ouvre la bonne conversation avec le message prérempli dans la langue de la réponse
+- [x] Parcours complet : membre pose une question vocale → admin assigne → professeur répond en vocal + références → membre notifié (cloche + e-mail) → membre écoute la réponse *(vérifié par `tests/Feature/ScholarTest.php` et dans Chromium ; parcours sur téléphones réels à refaire en HTTPS)*
+- [x] Une transition interdite (ex. `new` → `answered`) lève une exception et n'est pas enregistrée
+- [x] Le professeur ne voit pas le numéro complet si le canal WhatsApp n'a pas été choisi
+- [x] Le lien « Répondre via WhatsApp » ouvre la bonne conversation avec le message prérempli dans la langue de la réponse
 
 ### Phase 5 — Back-office d'administration
 

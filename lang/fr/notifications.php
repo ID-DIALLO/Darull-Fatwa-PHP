@@ -53,6 +53,26 @@ return [
             'message' => 'Cette question attend une réponse depuis plus de :hours heures.',
             'icon'    => 'alarm',
         ],
+        'reassign_requested' => [
+            'title'   => 'Demande de réassignation : :reference',
+            'message' => 'Le professeur demande à être déchargé de cette question. Motif : :reason',
+            'icon'    => 'arrow-left-right',
+        ],
+        'publication_proposed' => [
+            'title'   => 'Proposition de publication : :reference',
+            'message' => 'Un professeur propose une version anonymisée de cette question-réponse.',
+            'icon'    => 'megaphone',
+        ],
+        'review_approved' => [
+            'title'   => 'Réponse validée : :reference',
+            'message' => 'Votre réponse a été validée et envoyée au membre.',
+            'icon'    => 'patch-check',
+        ],
+        'review_rejected' => [
+            'title'   => 'Réponse à revoir : :reference',
+            'message' => 'La relecture demande des modifications : :reason',
+            'icon'    => 'pencil-square',
+        ],
     ],
     'contact' => [
         'received' => [

@@ -4,18 +4,36 @@ declare(strict_types=1);
 
 namespace App\Controllers\Scholar;
 
+use App\Core\Auth;
 use App\Core\Controller;
+use App\Core\Database;
+use App\Core\Lang;
 use App\Core\Request;
 use App\Core\Response;
+use App\Services\ScholarService;
 
 /**
- * Tableau de bord de l'espace professeur. Phase 1 : page d'attente protégée par les rôles ;
- * l'espace complet arrive en Phase 4.
+ * Tableau de bord du professeur (§4.5) : assignées par statut, à prendre, réponses du mois, délai moyen, retards.
  */
 final class DashboardController extends Controller
 {
     public function index(Request $request): Response
     {
-        return $this->view('account/placeholder', ['area' => 'scholar']);
+        $user = Auth::user();
+        $rubriques = Database::fetchAll(
+            'SELECT r.id, r.icon, COALESCE(t.name, d.name) AS name, COALESCE(t.slug, d.slug) AS slug FROM scholar_rubriques sr
+             JOIN rubriques r ON r.id = sr.rubrique_id
+             LEFT JOIN rubrique_translations t ON t.rubrique_id = r.id AND t.locale = ?
+             LEFT JOIN rubrique_translations d ON d.rubrique_id = r.id AND d.locale = ?
+             WHERE sr.user_id = ? ORDER BY r.sort_order',
+            [Lang::getLocale(), Lang::getDefault(), (int) $user['id']],
+        );
+
+        return $this->view('scholar/dashboard', [
+            'user'      => $user,
+            'stats'     => ScholarService::dashboard((int) $user['id']),
+            'rubriques' => $rubriques,
+            'recent'    => ScholarService::queue((int) $user['id'], 'mine', ['sort' => 'oldest'], 1, 5)['data'],
+        ]);
     }
 }
