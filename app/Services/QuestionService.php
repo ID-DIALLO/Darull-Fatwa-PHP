@@ -65,6 +65,7 @@ final class QuestionService
                 'answer_channel'  => $data['answer_channel'],
                 'whatsapp_number' => $data['answer_channel'] !== 'platform' ? ($data['whatsapp_number'] ?? null) : null,
                 'visibility'      => $data['visibility'],
+                'requested_scholar_id' => !empty($data['requested_scholar_id']) ? (int) $data['requested_scholar_id'] : null,
                 'status'          => 'new',
                 'ip_address'      => $data['ip'] ?? null,
                 'user_agent'      => isset($data['user_agent']) ? mb_substr((string) $data['user_agent'], 0, 255) : null,
@@ -96,6 +97,10 @@ final class QuestionService
                 'question_received',
                 ['reference' => (string) $question['reference'], 'late_hours' => self::lateHours()],
             );
+        }
+        // Professeur souhaité par le membre : prévenu directement
+        if (!empty($question['requested_scholar_id'])) {
+            NotificationService::notify((int) $question['requested_scholar_id'], 'question.requested', ['reference' => (string) $question['reference']], route('scholar.questions.show', ['reference' => $question['reference']]));
         }
         // Modérateurs et administrateurs : nouvelle question à assigner (sans e-mail individuel : récapitulatif quotidien en Phase 4)
         $staff = Database::fetchAll("SELECT u.id FROM users u JOIN roles r ON r.id = u.role_id WHERE r.slug IN ('moderator','admin','superadmin') AND u.status = 'active' AND u.deleted_at IS NULL");

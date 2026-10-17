@@ -3,6 +3,9 @@
 // Poser une question, Mes questions, enregistreur vocal, lecteur audio — français
 return [
     'create' => [
+        'scholar' => 'Professeur souhaité (facultatif)',
+        'scholar_any' => 'Laisser Darul Fatwa choisir le professeur',
+        'scholar_help' => 'La question lui sera confiée s\'il est disponible ; sinon l\'équipe l\'orientera.',
         'title'         => 'Poser une question',
         'subtitle'      => 'Trois étapes, en vocal ou par écrit. Votre question reste confidentielle.',
         'step'          => 'Étape :n sur :total',
@@ -80,6 +83,7 @@ return [
     ],
     'tabs' => ['all' => 'Toutes', 'pending' => 'En attente', 'answered' => 'Répondues', 'needs_info' => 'Précision demandée'],
     'list' => [
+        'answered_by' => 'Répondue par :name le :date',
         'title'      => 'Mes questions',
         'subtitle'   => 'Suivez l\'avancement de vos questions et retrouvez les réponses des professeurs.',
         'search'     => 'Référence ou mot-clé',
@@ -98,6 +102,16 @@ return [
         'count'      => ':count question|:count questions',
     ],
     'detail' => [
+        'answered_by' => 'Répondue par :name le :date',
+        'handled_by' => 'Suivie par :name',
+        'requested' => 'Adressée à :name',
+        'visibility_private' => 'Question privée',
+        'visibility_publishable' => 'Publication anonyme autorisée',
+        'visibility_help' => 'Une question publiée est reformulée par l\'administration, sans votre nom ni votre voix.',
+        'visibility_make_public' => 'Autoriser la publication anonyme',
+        'visibility_make_private' => 'Garder privée',
+        'visibility_changed' => 'Visibilité mise à jour.',
+        'visibility_locked' => 'Cette question est déjà publiée.',
         'title'          => 'Question :reference',
         'my_question'    => 'Ma question',
         'answer'         => 'Réponse du professeur',

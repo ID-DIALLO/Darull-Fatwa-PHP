@@ -31,6 +31,7 @@ return [
     ],
     'stats' => ['unknown' => 'غير محدد'],
     'questions' => [
+        'requested_scholar' => 'الأستاذ الذي طلبه العضو',
         'title' => 'الأسئلة', 'count' => ':count سؤال|:count أسئلة', 'empty' => 'لا يوجد سؤال يطابق هذه المرشحات.', 'search_placeholder' => 'المرجع، الاسم، الهاتف، البريد، كلمة مفتاحية…',
         'create_from_whatsapp' => 'سؤال وارد عبر واتساب', 'sheet_title' => 'السؤال :reference', 'late_badge' => 'متأخر (:hours س)', 'thread' => 'مسار السؤال', 'member' => 'السائل',
         'answered_at' => 'أُجيب في', 'answered_in' => 'أُجيب خلال :hours س', 'waiting_for' => 'بانتظار منذ :hours س', 'rejection_reason' => 'سبب الرفض', 'feedback' => 'رأي العضو (مفيد)',

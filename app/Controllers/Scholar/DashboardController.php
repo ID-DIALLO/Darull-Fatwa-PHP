@@ -36,4 +36,22 @@ final class DashboardController extends Controller
             'recent'    => ScholarService::queue((int) $user['id'], 'mine', ['sort' => 'oldest'], 1, 5)['data'],
         ]);
     }
+
+    /** Statistiques des questions du professeur (statuts, mois, rubriques, langues, source, délais). */
+    public function stats(Request $request): Response
+    {
+        return $this->view('scholar/stats', ['stats' => ScholarService::statistics((int) Auth::id())]);
+    }
+
+    /** Commentaires publiés sous ses articles et ses Q/R publiques. */
+    public function comments(Request $request): Response
+    {
+        return $this->view('scholar/comments', ['comments' => ScholarService::comments((int) Auth::id())]);
+    }
+
+    /** Sujets de forum ouverts par le professeur (questions à débattre) et accès à la création. */
+    public function debates(Request $request): Response
+    {
+        return $this->view('scholar/debates', ['topics' => \App\Services\ForumService::topicsOf((int) Auth::id()), 'categories' => \App\Services\ForumService::categories()]);
+    }
 }

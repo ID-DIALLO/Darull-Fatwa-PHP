@@ -3,6 +3,11 @@
 // Libellés des notifications (cloche et e-mails) — français. Paramètres : :reference, :reason…
 return [
     'question' => [
+        'requested' => [
+            'title' => 'Question :reference adressée à vous',
+            'message' => 'Un membre vous a choisi pour répondre à sa question.',
+            'icon' => 'star',
+        ],
         'received' => [
             'title'   => 'Question :reference bien reçue',
             'message' => 'Votre question a été transmise à nos professeurs. Vous serez prévenu dès qu\'une réponse sera disponible.',

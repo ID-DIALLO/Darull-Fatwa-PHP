@@ -13,7 +13,7 @@ use App\Core\Lang;
 final class ScholarService
 {
     private const SELECT = 'SELECT q.id, q.reference, q.title, q.input_type, q.spoken_language, q.answer_language, q.answer_channel, q.status, q.priority,
-            q.assigned_to, q.assigned_at, q.answered_at, q.created_at, q.user_id,
+            q.assigned_to, q.assigned_at, q.answered_at, q.created_at, q.user_id, q.source, q.requested_scholar_id, q.visibility,
             COALESCE(rt.name, rd.name) AS rubrique_name, r.icon AS rubrique_icon,
             u.full_name AS member_name, u.display_name AS member_display_name, u.country AS member_country,
             TIMESTAMPDIFF(HOUR, q.created_at, UTC_TIMESTAMP()) AS age_hours,
@@ -90,11 +90,14 @@ final class ScholarService
         if ($file === 'available') {
             $rubriques = self::rubriqueIds($scholarId);
             $canSelfAssign = (int) (Database::value('SELECT can_self_assign FROM scholar_profiles WHERE user_id = ?', [$scholarId]) ?? 0) === 1;
-            if ($rubriques === [] || !$canSelfAssign) {
-                return ['data' => [], 'total' => 0, 'page' => 1, 'per_page' => $perPage, 'last_page' => 1];
+            // Questions nouvelles de ses rubriques (si auto-attribution autorisée) + celles qui lui sont adressées
+            $conditions = ['q.requested_scholar_id = ?'];
+            $bindings[] = $scholarId;
+            if ($rubriques !== [] && $canSelfAssign) {
+                $conditions[] = 'q.rubrique_id IN (' . implode(',', array_fill(0, count($rubriques), '?')) . ')';
+                array_push($bindings, ...$rubriques);
             }
-            $where[] = 'q.status = ? AND q.assigned_to IS NULL AND q.rubrique_id IN (' . implode(',', array_fill(0, count($rubriques), '?')) . ')';
-            array_push($bindings, 'new', ...$rubriques);
+            $where[] = "q.status = 'new' AND q.assigned_to IS NULL AND (" . implode(' OR ', $conditions) . ')';
         } else {
             $where[] = 'q.assigned_to = ?';
             $bindings[] = $scholarId;
@@ -136,6 +139,102 @@ final class ScholarService
         );
 
         return ['data' => $rows, 'total' => $total, 'page' => $page, 'per_page' => $perPage, 'last_page' => max(1, (int) ceil($total / $perPage))];
+    }
+
+    /**
+     * Statistiques du professeur (§ demande du 18/10) : par statut, par mois (12 derniers), par rubrique, par langue, par source, délais.
+     *
+     * @return array<string, mixed>
+     */
+    public static function statistics(int $scholarId): array
+    {
+        $locale = Lang::getLocale();
+        $byStatus = [];
+        foreach (Database::fetchAll('SELECT status, COUNT(*) AS n FROM questions WHERE assigned_to = ? AND deleted_at IS NULL GROUP BY status', [$scholarId]) as $r) {
+            $byStatus[(string) $r['status']] = (int) $r['n'];
+        }
+        $months = [];
+        for ($i = 11; $i >= 0; $i--) {
+            $months[gmdate('Y-m', strtotime("first day of -{$i} month"))] = ['received' => 0, 'answered' => 0];
+        }
+        foreach (Database::fetchAll("SELECT DATE_FORMAT(assigned_at, '%Y-%m') AS m, COUNT(*) AS n FROM questions WHERE assigned_to = ? AND deleted_at IS NULL AND assigned_at >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 12 MONTH) GROUP BY m", [$scholarId]) as $r) {
+            if (isset($months[$r['m']])) { $months[$r['m']]['received'] = (int) $r['n']; }
+        }
+        foreach (Database::fetchAll("SELECT DATE_FORMAT(answered_at, '%Y-%m') AS m, COUNT(*) AS n FROM questions WHERE assigned_to = ? AND deleted_at IS NULL AND answered_at >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 12 MONTH) GROUP BY m", [$scholarId]) as $r) {
+            if (isset($months[$r['m']])) { $months[$r['m']]['answered'] = (int) $r['n']; }
+        }
+        $byRubrique = Database::fetchAll(
+            'SELECT COALESCE(rt.name, rd.name) AS name, COUNT(*) AS n, SUM(q.status IN (\'answered\',\'published\',\'closed\')) AS answered
+             FROM questions q JOIN rubriques r ON r.id = q.rubrique_id
+             LEFT JOIN rubrique_translations rt ON rt.rubrique_id = r.id AND rt.locale = ?
+             LEFT JOIN rubrique_translations rd ON rd.rubrique_id = r.id AND rd.locale = ?
+             WHERE q.assigned_to = ? AND q.deleted_at IS NULL GROUP BY r.id, name ORDER BY n DESC',
+            [$locale, Lang::getDefault(), $scholarId],
+        );
+        $byLanguage = Database::fetchAll('SELECT spoken_language AS code, COUNT(*) AS n FROM questions WHERE assigned_to = ? AND deleted_at IS NULL GROUP BY spoken_language ORDER BY n DESC', [$scholarId]);
+        $bySource = Database::fetchAll('SELECT source, COUNT(*) AS n FROM questions WHERE assigned_to = ? AND deleted_at IS NULL GROUP BY source', [$scholarId]);
+        $byType = Database::fetchAll('SELECT input_type, COUNT(*) AS n FROM questions WHERE assigned_to = ? AND deleted_at IS NULL GROUP BY input_type', [$scholarId]);
+        $delays = Database::fetch("SELECT AVG(first_response_minutes) AS avg_minutes, MIN(first_response_minutes) AS min_minutes, MAX(first_response_minutes) AS max_minutes,
+                                          SUM(user_found_helpful = 1) AS helpful, SUM(user_found_helpful = 0) AS not_helpful, SUM(requested_scholar_id = ?) AS requested
+                                   FROM questions WHERE assigned_to = ? AND deleted_at IS NULL", [$scholarId, $scholarId]) ?? [];
+        $total = array_sum($byStatus);
+        $answered = ($byStatus['answered'] ?? 0) + ($byStatus['published'] ?? 0) + ($byStatus['closed'] ?? 0);
+
+        return [
+            'total'       => $total,
+            'answered'    => $answered,
+            'open'        => ($byStatus['assigned'] ?? 0) + ($byStatus['in_progress'] ?? 0) + ($byStatus['needs_info'] ?? 0),
+            'published'   => $byStatus['published'] ?? 0,
+            'by_status'   => $byStatus,
+            'months'      => $months,
+            'by_rubrique' => $byRubrique,
+            'by_language' => $byLanguage,
+            'by_source'   => $bySource,
+            'by_type'     => $byType,
+            'avg_hours'   => $delays['avg_minutes'] !== null ? round((float) $delays['avg_minutes'] / 60, 1) : null,
+            'min_hours'   => $delays['min_minutes'] !== null ? round((float) $delays['min_minutes'] / 60, 1) : null,
+            'max_hours'   => $delays['max_minutes'] !== null ? round((float) $delays['max_minutes'] / 60, 1) : null,
+            'helpful'     => (int) ($delays['helpful'] ?? 0),
+            'not_helpful' => (int) ($delays['not_helpful'] ?? 0),
+            'requested'   => (int) ($delays['requested'] ?? 0),
+        ];
+    }
+
+    /**
+     * Commentaires (approuvés et en attente) sous les articles du professeur et ses Q/R publiques.
+     *
+     * @return list<array<string, mixed>>
+     */
+    public static function comments(int $scholarId, int $limit = 100): array
+    {
+        $locale = Lang::getLocale();
+        $rows = Database::fetchAll(
+            "SELECT c.id, c.body, c.status, c.created_at, c.commentable_type, c.commentable_id,
+                    u.full_name AS author_name, u.display_name AS author_display_name,
+                    COALESCE(at.title, ad.title) AS article_title, COALESCE(at.slug, ad.slug) AS article_slug,
+                    COALESCE(qt.title, qd.title) AS qa_title, COALESCE(qt.slug, qd.slug) AS qa_slug
+             FROM comments c
+             JOIN users u ON u.id = c.user_id
+             LEFT JOIN articles a ON c.commentable_type = 'article' AND a.id = c.commentable_id
+             LEFT JOIN article_translations at ON at.article_id = a.id AND at.locale = ?
+             LEFT JOIN article_translations ad ON ad.article_id = a.id AND ad.locale = ?
+             LEFT JOIN qa_publications p ON c.commentable_type = 'qa' AND p.id = c.commentable_id
+             LEFT JOIN qa_publication_translations qt ON qt.publication_id = p.id AND qt.locale = ?
+             LEFT JOIN qa_publication_translations qd ON qd.publication_id = p.id AND qd.locale = ?
+             WHERE c.status IN ('approved','pending') AND ((a.author_id = ?) OR (p.scholar_id = ?))
+             ORDER BY c.created_at DESC LIMIT " . (int) $limit,
+            [$locale, Lang::getDefault(), $locale, Lang::getDefault(), $scholarId, $scholarId],
+        );
+        foreach ($rows as &$row) {
+            $row['author'] = $row['author_display_name'] ?: $row['author_name'];
+            $row['target_title'] = $row['commentable_type'] === 'article' ? $row['article_title'] : $row['qa_title'];
+            $row['url'] = $row['commentable_type'] === 'article'
+                ? ($row['article_slug'] && route_exists('blog.show') ? route('blog.show', ['slug' => $row['article_slug']]) : null)
+                : ($row['qa_slug'] && route_exists('qa.show') ? route('qa.show', ['slug' => $row['qa_slug']]) : null);
+        }
+        unset($row);
+
+        return $rows;
     }
 
     /** Questions en retard (toutes) pour les rappels du cron. @return list<array<string, mixed>> */

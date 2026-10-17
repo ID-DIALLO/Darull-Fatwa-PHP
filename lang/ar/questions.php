@@ -3,6 +3,9 @@
 // طرح سؤال، أسئلتي، المسجّل الصوتي، مشغّل الصوت — العربية
 return [
     'create' => [
+        'scholar' => 'الأستاذ المطلوب (اختياري)',
+        'scholar_any' => 'دع دار الفتوى تختار الأستاذ',
+        'scholar_help' => 'سيُسند إليه السؤال إن كان متاحًا؛ وإلا يوجّهه الفريق.',
         'title'         => 'اطرح سؤالك',
         'subtitle'      => 'ثلاث خطوات، صوتيًا أو كتابةً. سؤالك يبقى سرّيًا.',
         'step'          => 'الخطوة :n من :total',
@@ -80,6 +83,7 @@ return [
     ],
     'tabs' => ['all' => 'الكل', 'pending' => 'قيد الانتظار', 'answered' => 'المُجاب عنها', 'needs_info' => 'مطلوب توضيح'],
     'list' => [
+        'answered_by' => 'أجاب عنه :name في :date',
         'title'      => 'أسئلتي',
         'subtitle'   => 'تابع تقدّم أسئلتك واطّلع على إجابات الأساتذة.',
         'search'     => 'الرقم المرجعي أو كلمة مفتاحية',
@@ -98,6 +102,16 @@ return [
         'count'      => 'لا أسئلة|سؤال واحد|:count أسئلة',
     ],
     'detail' => [
+        'answered_by' => 'أجاب عنه :name في :date',
+        'handled_by' => 'يتابعه :name',
+        'requested' => 'موجّه إلى :name',
+        'visibility_private' => 'سؤال خاص',
+        'visibility_publishable' => 'مسموح بالنشر المجهول',
+        'visibility_help' => 'يُعاد صياغة السؤال المنشور من طرف الإدارة دون اسمك ولا صوتك.',
+        'visibility_make_public' => 'السماح بالنشر المجهول',
+        'visibility_make_private' => 'إبقاؤه خاصًا',
+        'visibility_changed' => 'تم تحديث الظهور.',
+        'visibility_locked' => 'هذا السؤال منشور بالفعل.',
         'title'          => 'السؤال :reference',
         'my_question'    => 'سؤالي',
         'answer'         => 'إجابة الأستاذ',

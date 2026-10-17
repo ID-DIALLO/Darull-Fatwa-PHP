@@ -3,6 +3,9 @@
 // Ask a question, My questions, voice recorder, audio player — English
 return [
     'create' => [
+        'scholar' => 'Preferred scholar (optional)',
+        'scholar_any' => 'Let Darul Fatwa choose the scholar',
+        'scholar_help' => 'The question will be entrusted to them if available; otherwise the team will route it.',
         'title'         => 'Ask a question',
         'subtitle'      => 'Three steps, by voice or in writing. Your question stays confidential.',
         'step'          => 'Step :n of :total',
@@ -80,6 +83,7 @@ return [
     ],
     'tabs' => ['all' => 'All', 'pending' => 'Pending', 'answered' => 'Answered', 'needs_info' => 'Clarification requested'],
     'list' => [
+        'answered_by' => 'Answered by :name on :date',
         'title'      => 'My questions',
         'subtitle'   => 'Follow the progress of your questions and find the scholars\' answers.',
         'search'     => 'Reference or keyword',
@@ -98,6 +102,16 @@ return [
         'count'      => ':count question|:count questions',
     ],
     'detail' => [
+        'answered_by' => 'Answered by :name on :date',
+        'handled_by' => 'Handled by :name',
+        'requested' => 'Addressed to :name',
+        'visibility_private' => 'Private question',
+        'visibility_publishable' => 'Anonymous publication allowed',
+        'visibility_help' => 'A published question is rephrased by the administration, without your name or your voice.',
+        'visibility_make_public' => 'Allow anonymous publication',
+        'visibility_make_private' => 'Keep private',
+        'visibility_changed' => 'Visibility updated.',
+        'visibility_locked' => 'This question is already published.',
         'title'          => 'Question :reference',
         'my_question'    => 'My question',
         'answer'         => 'Scholar\'s answer',

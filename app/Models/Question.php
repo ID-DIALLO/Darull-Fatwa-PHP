@@ -19,7 +19,7 @@ class Question extends Model
 
     protected static array $fillable = [
         'reference', 'user_id', 'rubrique_id', 'title', 'input_type', 'source', 'spoken_language', 'answer_language',
-        'answer_channel', 'whatsapp_number', 'visibility', 'status', 'priority', 'assigned_to', 'assigned_at',
+        'answer_channel', 'whatsapp_number', 'visibility', 'status', 'priority', 'assigned_to', 'requested_scholar_id', 'assigned_at',
         'answered_at', 'first_response_minutes', 'answer_message_id', 'rejection_reason', 'user_found_helpful',
         'closed_at', 'ip_address', 'user_agent', 'deleted_at',
     ];
@@ -41,8 +41,10 @@ class Question extends Model
 
     private const SELECT = 'SELECT q.*, COALESCE(rt.name, rd.name) AS rubrique_name, COALESCE(rt.slug, rd.slug) AS rubrique_slug, r.icon AS rubrique_icon, r.code AS rubrique_code,
             s.full_name AS scholar_name, s.display_name AS scholar_display_name, s.avatar_path AS scholar_avatar,
-            st.title AS scholar_title, sp.photo_path AS scholar_photo
+            st.title AS scholar_title, sp.photo_path AS scholar_photo,
+            rq.full_name AS requested_scholar_name
         FROM questions q
+        LEFT JOIN users rq ON rq.id = q.requested_scholar_id
         JOIN rubriques r ON r.id = q.rubrique_id
         LEFT JOIN rubrique_translations rt ON rt.rubrique_id = r.id AND rt.locale = ?
         LEFT JOIN rubrique_translations rd ON rd.rubrique_id = r.id AND rd.locale = ?

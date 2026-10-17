@@ -70,7 +70,8 @@ $query = ['statut' => $filters['tab'], 'rubrique' => $filters['rubrique'], 'peri
             <p class="df-question-item__meta">
                 <span><img src="<?= e(asset((string) $q['rubrique_icon'])) ?>" alt="" width="18" height="18"> <?= e($q['rubrique_name']) ?></span>
                 <span><?= e(__('questions.list.asked_on', ['date' => format_date((string) $q['created_at'])])) ?></span>
-                <?php if (!empty($q['answered_at'])): ?><span><?= e(__('questions.list.answered_on', ['date' => format_date((string) $q['answered_at'])])) ?></span><?php endif ?>
+                <?php if (!empty($q['answered_at'])): ?><span><i class="bi bi-patch-check" aria-hidden="true"></i> <?= e($q['scholar_name'] ? __('questions.list.answered_by', ['name' => trim(($q['scholar_title'] ? $q['scholar_title'] . ' ' : '') . $q['scholar_name']), 'date' => format_date((string) $q['answered_at'])]) : __('questions.list.answered_on', ['date' => format_date((string) $q['answered_at'])])) ?></span>
+                <?php elseif (!empty($q['scholar_name'])): ?><span><i class="bi bi-person-badge" aria-hidden="true"></i> <?= e(__('questions.detail.handled_by', ['name' => $q['scholar_name']])) ?></span><?php endif ?>
             </p>
         </a>
     </li>

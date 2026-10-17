@@ -124,6 +124,20 @@ final class MyQuestionsController extends Controller
         return $this->redirectToRoute('account.questions.show', ['reference' => $reference])->with('success', __('questions.detail.resolved'));
     }
 
+    /** Le membre autorise (ou retire) la publication anonyme de sa question tant qu'elle n'est pas publiée. */
+    public function visibility(Request $request, string $reference): Response
+    {
+        $question = $this->ownQuestion($reference);
+        $data = $this->validate($request, ['visibility' => 'required|in:private,publishable']);
+        if ($question['status'] === 'published') {
+            return $this->redirectToRoute('account.questions.show', ['reference' => $reference])->with('error', __('questions.detail.visibility_locked'));
+        }
+        \App\Models\Question::update((int) $question['id'], ['visibility' => (string) $data['visibility']]);
+        \App\Services\ActivityLog::record('question.visibility_changed', 'question', (int) $question['id'], ['visibility' => $data['visibility']], (int) Auth::id());
+
+        return $this->redirectToRoute('account.questions.show', ['reference' => $reference])->with('success', __('questions.detail.visibility_changed'));
+    }
+
     public function feedback(Request $request, string $reference): Response
     {
         $question = $this->ownQuestion($reference);

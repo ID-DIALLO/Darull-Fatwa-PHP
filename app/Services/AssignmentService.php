@@ -57,6 +57,10 @@ final class AssignmentService
         if ($question['status'] !== 'new' || !empty($question['assigned_to'])) {
             return false;
         }
+        // Question adressée à ce professeur : il peut la prendre même sans auto-attribution générale
+        if ((int) ($question['requested_scholar_id'] ?? 0) === $scholarId) {
+            return Database::fetch("SELECT 1 FROM users u JOIN scholar_profiles sp ON sp.user_id = u.id WHERE u.id = ? AND u.status = 'active' AND u.deleted_at IS NULL", [$scholarId]) !== null;
+        }
 
         return Database::fetch(
             'SELECT 1 FROM scholar_rubriques sr JOIN scholar_profiles sp ON sp.user_id = sr.user_id
@@ -74,7 +78,25 @@ final class AssignmentService
      */
     public static function autoAssign(array $question): ?int
     {
-        if ((\App\Models\Setting::get('auto_assign') ?? '0') !== '1' || $question['status'] !== 'new') {
+        if ($question['status'] !== 'new') {
+            return null;
+        }
+        // Professeur demandé par le membre : assigné directement s'il est actif, disponible et sous sa charge maximale
+        $requested = (int) ($question['requested_scholar_id'] ?? 0);
+        if ($requested > 0) {
+            $ok = Database::fetch(
+                "SELECT sp.user_id FROM scholar_profiles sp JOIN users u ON u.id = sp.user_id AND u.status = 'active' AND u.deleted_at IS NULL
+                 WHERE sp.user_id = ? AND sp.is_available = 1
+                   AND (SELECT COUNT(*) FROM questions q WHERE q.assigned_to = sp.user_id AND q.status IN ('assigned','in_progress','needs_info') AND q.deleted_at IS NULL) < sp.max_open_questions",
+                [$requested],
+            );
+            if ($ok !== null) {
+                self::assign($question, $requested, null, 'Professeur demandé par le membre');
+
+                return $requested;
+            }
+        }
+        if ((\App\Models\Setting::get('auto_assign') ?? '0') !== '1') {
             return null;
         }
         $candidates = Database::fetchAll(

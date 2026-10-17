@@ -11,7 +11,7 @@ $name = trim(($scholar['title'] ? $scholar['title'] . ' ' : '') . $scholar['full
 $this->section('title', $name);
 $this->section('description', excerpt((string) ($scholar['bio'] ?? __('front.scholars.intro')), 160));
 $photo = $scholar['photo_path'] ?: $scholar['avatar_path'];
-$askUrl = route_exists('questions.create') ? route('questions.create') : route('auth.register');
+$askUrl = route_exists('questions.create') ? route('questions.create', ['professeur' => (int) $scholar['id']]) : route('auth.register');
 ?>
 <?php $this->section('content'); ?>
 <?= $this->partial('partials/breadcrumb', ['items' => [['label' => __('front.scholars.title'), 'url' => route('scholars.index')], ['label' => $name]]]) ?>

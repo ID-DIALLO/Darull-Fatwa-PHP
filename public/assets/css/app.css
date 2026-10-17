@@ -784,6 +784,7 @@ main:focus { outline: none; }
 .df-question-item__meta img { vertical-align: -3px; border-radius: 4px; }
 .df-badge { display: inline-flex; align-items: center; gap: .35rem; padding: .3rem .7rem; border-radius: 999px; font-size: .8rem; font-weight: 700; white-space: nowrap; }
 .df-badge--warning { background: rgba(183, 121, 31, .12); color: var(--df-warning); }
+.df-badge--gold { background: rgba(201, 162, 39, .18); color: var(--df-green-dark); }
 .df-badge--info { background: rgba(29, 111, 163, .12); color: var(--df-info); }
 .df-badge--success { background: rgba(46, 125, 50, .12); color: var(--df-success); }
 .df-badge--danger { background: rgba(180, 35, 24, .12); color: var(--df-danger); }

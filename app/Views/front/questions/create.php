@@ -11,6 +11,8 @@
  * @var int $limit
  * @var int $used
  * @var int $maxSeconds
+ * @var list<array<string, mixed>> $scholars
+ * @var int|null $requestedScholar
  * @var int $maxMb
  * @var string|null $whatsapp
  * @var string $defaultChannel
@@ -78,6 +80,18 @@ $this->section('head'); ?>
                         </label>
                         <?php endforeach ?>
                     </div>
+                    <?php if ($scholars !== []): ?>
+                    <div class="mt-3">
+                        <label class="form-label" for="requested_scholar_id"><?= e(__('questions.create.scholar')) ?></label>
+                        <select class="form-select" id="requested_scholar_id" name="requested_scholar_id" data-scholar-select aria-describedby="requested_scholar_help">
+                            <option value=""><?= e(__('questions.create.scholar_any')) ?></option>
+                            <?php foreach ($scholars as $s): ?>
+                            <option value="<?= (int) $s['id'] ?>" data-rubriques="<?= e((string) $s['rubrique_ids']) ?>" <?= (int) old('requested_scholar_id', $requestedScholar ?? 0) === (int) $s['id'] ? 'selected' : '' ?>><?= e(trim(($s['title'] ? $s['title'] . ' ' : '') . $s['full_name'])) ?><?= $s['rubriques'] ? ' — ' . e($s['rubriques']) : '' ?></option>
+                            <?php endforeach ?>
+                        </select>
+                        <div class="form-text" id="requested_scholar_help"><?= e(__('questions.create.scholar_help')) ?></div>
+                    </div>
+                    <?php endif ?>
                     <div class="df-wizard__nav">
                         <span></span>
                         <button type="button" class="btn btn-primary btn-lg" data-wizard-next><?= e(__('questions.create.next')) ?> <i class="bi bi-arrow-right icon-dir" aria-hidden="true"></i></button>

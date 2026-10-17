@@ -13,5 +13,6 @@
     "assets/js/offline.js": "assets/dist/js/offline.js",
     "assets/js/pcm-processor.js": "assets/dist/js/pcm-processor.js",
     "assets/js/question-wizard.js": "assets/dist/js/question-wizard.js",
+    "assets/js/scholar-stats.js": "assets/dist/js/scholar-stats.js",
     "assets/js/voice-recorder.js": "assets/dist/js/voice-recorder.js"
 }

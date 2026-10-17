@@ -58,6 +58,19 @@ que vous pouvez prendre vous-même avec *Prendre cette question*). Filtres : sta
 
 ---
 
+### 2.5 Répondre en privé ou en public
+
+Sous le formulaire de réponse, si le membre a accepté la publication anonyme de sa question, cochez **« Réponse publique : proposer en questions-réponses »** :
+votre réponse part au membre comme d'habitude **et** une proposition de publication est transmise à l'administration, qui reformule la question sans
+aucune donnée personnelle avant de la publier. Si le membre a gardé sa question privée, seule la réponse privée est possible (la fiche l'indique).
+
+### 2.6 Ce que la fiche vous indique
+
+- **Qui** a posé la question (pseudonyme choisi par le membre, sinon son nom), son pays, sa langue, et **quand** (date et heure, ancienneté).
+- **L'origine** : question posée sur Darul Fatwa, reçue sur **WhatsApp**, ou saisie par l'administration.
+- **« Adressée à vous »** : le membre vous a choisi en posant sa question. Ces questions vous sont attribuées directement si vous êtes disponible,
+  sinon elles apparaissent dans *À prendre*, même si l'auto-attribution n'est pas activée pour votre compte.
+
 ## 3. Le forum
 
 - Vous pouvez répondre aux sujets du forum comme tout membre ; vos messages portent le badge **Professeur**.
@@ -66,6 +79,14 @@ que vous pouvez prendre vous-même avec *Prendre cette question*). Filtres : sta
 - Signalez tout contenu contraire à la charte (bouton *Signaler*).
 
 ---
+
+## 3 bis. Questions à débattre, commentaires, statistiques
+
+- **Questions à débattre** : depuis votre espace, proposez une question à la communauté (c'est un sujet de forum signé « Professeur ») et retrouvez tous vos sujets avec le nombre de réponses.
+- **Commentaires** : tout ce que les lecteurs écrivent sous vos articles et vos questions-réponses publiées, avec le lien vers le contenu ; la modération reste assurée par l'équipe.
+- **Statistiques** : questions reçues, répondues, en cours, publiées, adressées à vous ; délai moyen (et plus court / plus long) de réponse ; évolution mensuelle ; répartition par rubrique, par langue, par origine (Darul Fatwa / WhatsApp) et par type (vocal / écrit) ; avis des membres sur vos réponses.
+
+![Statistiques du professeur](img/professeur-statistiques.jpg)
 
 ## 4. Vos articles
 

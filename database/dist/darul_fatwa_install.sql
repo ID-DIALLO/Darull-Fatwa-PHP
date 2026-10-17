@@ -214,6 +214,7 @@ CREATE TABLE questions (
                          NOT NULL DEFAULT 'new',
   priority               ENUM('normal','high') NOT NULL DEFAULT 'normal',
   assigned_to            INT UNSIGNED NULL,
+  requested_scholar_id   INT UNSIGNED NULL,                 -- professeur souhaité par le membre (facultatif)
   assigned_at            DATETIME NULL,
   answered_at            DATETIME NULL,
   first_response_minutes INT UNSIGNED NULL,
@@ -231,10 +232,12 @@ CREATE TABLE questions (
   KEY idx_questions_status (status, created_at),
   KEY idx_questions_rubrique_status (rubrique_id, status),
   KEY idx_questions_assigned_status (assigned_to, status),
+  KEY idx_questions_requested (requested_scholar_id),
   KEY idx_questions_user (user_id, created_at),
   CONSTRAINT fk_questions_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
   CONSTRAINT fk_questions_rubrique FOREIGN KEY (rubrique_id) REFERENCES rubriques (id),
-  CONSTRAINT fk_questions_assigned FOREIGN KEY (assigned_to) REFERENCES users (id) ON DELETE SET NULL
+  CONSTRAINT fk_questions_assigned FOREIGN KEY (assigned_to) REFERENCES users (id) ON DELETE SET NULL,
+  CONSTRAINT fk_questions_requested FOREIGN KEY (requested_scholar_id) REFERENCES users (id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE question_messages (
@@ -1093,5 +1096,6 @@ CREATE TABLE IF NOT EXISTS schema_migrations (
 INSERT IGNORE INTO schema_migrations (migration, batch) VALUES ('2026_10_17_phase2_contenus_initiaux.sql', 0);
 INSERT IGNORE INTO schema_migrations (migration, batch) VALUES ('2026_10_17_phase5_administration.sql', 0);
 INSERT IGNORE INTO schema_migrations (migration, batch) VALUES ('2026_10_17_phase9_invitations.sql', 0);
+INSERT IGNORE INTO schema_migrations (migration, batch) VALUES ('2026_10_18_requested_scholar.sql', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

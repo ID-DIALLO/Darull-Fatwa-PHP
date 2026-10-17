@@ -36,6 +36,8 @@ Langue de l'interface : boutons FR / ع / EN dans la barre du haut (mémorisée 
 - **En-tête** : référence `DF-AAAA-NNNNNN`, statut, rubrique, langue, canal de réponse choisi par le membre, demandeur (nom réel visible pour l'administration seulement).
 - **Fil** : message vocal ou écrit du membre, précisions, réponses du professeur, notes internes (jamais visibles du membre).
 - **Assigner** : choisissez un professeur de la rubrique (sa charge actuelle est affichée) ; il est notifié.
+  Si le membre a **demandé un professeur précis**, la fiche l'indique (étoile) : la question lui a été attribuée automatiquement s'il était disponible,
+  sinon elle reste à assigner et ce professeur peut aussi la prendre lui-même.
 - **Relecture** : quand un professeur « soumis à relecture » répond, sa réponse apparaît ici en attente. *Valider* la rend visible au membre ;
   *Refuser* la renvoie au professeur avec votre commentaire (note interne).
 - **Statuts** : nouvelle → assignée → en cours → (précision demandée) → répondue → clôturée ; *Rejeter* avec motif courtois ; chaque changement est journalisé et notifié.

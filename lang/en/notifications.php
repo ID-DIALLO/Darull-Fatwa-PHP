@@ -3,6 +3,11 @@
 // Notification labels (bell and emails) — English. Parameters: :reference, :reason…
 return [
     'question' => [
+        'requested' => [
+            'title' => 'Question :reference addressed to you',
+            'message' => 'A member chose you to answer their question.',
+            'icon' => 'star',
+        ],
         'received' => [
             'title'   => 'Question :reference received',
             'message' => 'Your question has been forwarded to our scholars. You will be notified as soon as an answer is available.',

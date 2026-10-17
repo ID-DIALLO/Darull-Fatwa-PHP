@@ -154,6 +154,7 @@ return static function (Router $router): void {
     $router->localized('GET', ['fr' => '/mon-espace/questions/{reference}', 'en' => '/my-account/questions/{reference}'], [MyQuestionsController::class, 'show'], 'account.questions.show', 'auth');
     $router->localized('POST', ['fr' => '/mon-espace/questions/{reference}/precision', 'en' => '/my-account/questions/{reference}/follow-up'], [MyQuestionsController::class, 'followUp'], 'account.questions.follow_up', ['auth', 'throttle:20,3600']);
     $router->localized('POST', ['fr' => '/mon-espace/questions/{reference}/resolue', 'en' => '/my-account/questions/{reference}/resolved'], [MyQuestionsController::class, 'resolve'], 'account.questions.resolve', 'auth');
+    $router->localized('POST', ['fr' => '/mon-espace/questions/{reference}/visibilite', 'en' => '/my-account/questions/{reference}/visibility'], [MyQuestionsController::class, 'visibility'], 'account.questions.visibility', 'auth');
     $router->localized('POST', ['fr' => '/mon-espace/questions/{reference}/avis', 'en' => '/my-account/questions/{reference}/feedback'], [MyQuestionsController::class, 'feedback'], 'account.questions.feedback', 'auth');
     $router->localized('GET', ['fr' => '/mon-espace/favoris', 'en' => '/my-account/favorites'], [FavoriteController::class, 'index'], 'account.favorites', 'auth');
     $router->localized('GET', ['fr' => '/mon-espace/forum', 'en' => '/my-account/forum'], [ForumController::class, 'mine'], 'account.forum', 'auth');
@@ -189,6 +190,9 @@ return static function (Router $router): void {
     $router->localized('POST', ['fr' => '/professeur/articles', 'en' => '/scholar/articles'], [ScholarArticlesController::class, 'store'], 'scholar.articles.store', $scholar);
     $router->localized('GET', ['fr' => '/professeur/articles/{id}', 'en' => '/scholar/articles/{id}'], [ScholarArticlesController::class, 'edit'], 'scholar.articles.edit', $scholar);
     $router->localized('POST', ['fr' => '/professeur/articles/{id}', 'en' => '/scholar/articles/{id}'], [ScholarArticlesController::class, 'update'], 'scholar.articles.update', $scholar);
+    $router->localized('GET', ['fr' => '/professeur/statistiques', 'en' => '/scholar/statistics'], [ScholarDashboardController::class, 'stats'], 'scholar.stats', $scholar);
+    $router->localized('GET', ['fr' => '/professeur/commentaires', 'en' => '/scholar/comments'], [ScholarDashboardController::class, 'comments'], 'scholar.comments', $scholar);
+    $router->localized('GET', ['fr' => '/professeur/debats', 'en' => '/scholar/debates'], [ScholarDashboardController::class, 'debates'], 'scholar.debates', $scholar);
     $router->localized('GET', ['fr' => '/professeur/profil', 'en' => '/scholar/profile'], [ScholarProfileController::class, 'edit'], 'scholar.profile', $scholar);
     $router->localized('POST', ['fr' => '/professeur/profil', 'en' => '/scholar/profile'], [ScholarProfileController::class, 'update'], 'scholar.profile.update', $scholar);
 

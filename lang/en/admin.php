@@ -31,6 +31,7 @@ return [
     ],
     'stats' => ['unknown' => 'Not provided'],
     'questions' => [
+        'requested_scholar' => 'Scholar requested by the member',
         'title' => 'Questions', 'count' => ':count question|:count questions', 'empty' => 'No question matches these filters.', 'search_placeholder' => 'Reference, name, phone, e-mail, keyword…',
         'create_from_whatsapp' => 'Question received on WhatsApp', 'sheet_title' => 'Question :reference', 'late_badge' => 'Overdue (:hours h)', 'thread' => 'Question thread', 'member' => 'Asker',
         'answered_at' => 'Answered on', 'answered_in' => 'Answered in :hours h', 'waiting_for' => 'Waiting for :hours h', 'rejection_reason' => 'Rejection reason', 'feedback' => 'Member feedback (helpful)',

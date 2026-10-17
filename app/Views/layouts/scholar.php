@@ -17,6 +17,9 @@ $items = [
     ['url' => route('scholar.questions'), 'icon' => 'inbox', 'label' => __('scholar.nav.mine'), 'active' => str_starts_with($current, 'scholar.questions') && $file !== 'a-prendre' && $file !== 'available'],
     ['url' => route('scholar.questions', ['file' => 'a-prendre']), 'icon' => 'hand-index-thumb', 'label' => __('scholar.nav.available'), 'active' => $current === 'scholar.questions' && ($file === 'a-prendre' || $file === 'available')],
     ['url' => route_exists('scholar.articles') ? route('scholar.articles') : null, 'icon' => 'journal-text', 'label' => __('scholar.nav.articles'), 'active' => str_starts_with($current, 'scholar.articles')],
+    ['url' => route('scholar.stats'), 'icon' => 'bar-chart-line', 'label' => __('scholar.nav.stats'), 'active' => $current === 'scholar.stats'],
+    ['url' => route('scholar.comments'), 'icon' => 'chat-left-quote', 'label' => __('scholar.nav.comments'), 'active' => $current === 'scholar.comments'],
+    ['url' => route('scholar.debates'), 'icon' => 'chat-square-text', 'label' => __('scholar.nav.debates'), 'active' => $current === 'scholar.debates'],
     ['url' => route('scholar.profile'), 'icon' => 'person-badge', 'label' => __('scholar.nav.profile'), 'active' => str_starts_with($current, 'scholar.profile')],
 ];
 $this->section('head');

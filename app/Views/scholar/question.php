@@ -89,6 +89,8 @@ $renderMessage = function (array $m) use ($question): void {
                 <span><i class="bi bi-<?= $question['input_type'] === 'text' ? 'pencil' : 'mic-fill' ?>" aria-hidden="true"></i> <?= e(__('questions.types.' . $question['input_type'])) ?></span>
                 <span><i class="bi bi-translate" aria-hidden="true"></i> <?= e(__('questions.languages.' . $question['spoken_language'])) ?> → <?= e(__('questions.languages.' . $question['answer_language'])) ?></span>
                 <span><i class="bi bi-calendar3" aria-hidden="true"></i> <?= e(__('scholar.question.asked_on')) ?> <?= e(format_date((string) $question['created_at'], true)) ?> (<?= e(time_ago((string) $question['created_at'])) ?>)</span>
+                <span><i class="bi bi-<?= $question['source'] === 'whatsapp' ? 'whatsapp' : 'globe2' ?>" aria-hidden="true"></i> <?= e(__('scholar.question.source')) ?> : <?= e(__('scholar.question.source_' . $question['source'])) ?></span>
+                <?php if (!empty($question['requested_scholar_id'])): ?><span class="df-badge df-badge--gold"><i class="bi bi-star-fill" aria-hidden="true"></i> <?= e((int) $question['requested_scholar_id'] === (int) auth()['id'] ? __('scholar.question.requested_you') : __('scholar.question.requested_other', ['name' => (string) ($question['requested_scholar_name'] ?? '')])) ?></span><?php endif ?>
             </p>
             <?php if ($canTake): ?>
             <form method="post" action="<?= e(route('scholar.questions.take', ['reference' => $question['reference']])) ?>" class="mt-3">
@@ -172,6 +174,14 @@ $renderMessage = function (array $m) use ($question): void {
                         </div>
                     </template>
                 </fieldset>
+                <?php if ($question['visibility'] === 'publishable'): ?>
+                <div class="form-check df-choice mt-3">
+                    <input class="form-check-input" type="checkbox" id="propose_public" name="propose_public" value="1" <?= old('propose_public') ? 'checked' : '' ?>>
+                    <label class="form-check-label" for="propose_public"><strong><?= e(__('scholar.actions.propose_public')) ?></strong><span class="d-block small text-secondary"><?= e(__('scholar.actions.propose_public_help')) ?></span></label>
+                </div>
+                <?php else: ?>
+                <p class="small text-secondary mt-3 mb-0"><i class="bi bi-lock" aria-hidden="true"></i> <?= e(__('scholar.actions.private_only')) ?></p>
+                <?php endif ?>
                 <button type="submit" class="btn btn-gold btn-lg mt-2"><i class="bi bi-send" aria-hidden="true"></i> <?= e(__('scholar.actions.send_answer')) ?></button>
             </form>
         </section>

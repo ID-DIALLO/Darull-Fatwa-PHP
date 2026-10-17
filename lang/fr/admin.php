@@ -31,6 +31,7 @@ return [
     ],
     'stats' => ['unknown' => 'Non renseigné'],
     'questions' => [
+        'requested_scholar' => 'Professeur souhaité par le membre',
         'title' => 'Questions', 'count' => ':count question|:count questions', 'empty' => 'Aucune question ne correspond à ces filtres.', 'search_placeholder' => 'Référence, nom, téléphone, e-mail, mot-clé…',
         'create_from_whatsapp' => 'Question reçue sur WhatsApp', 'sheet_title' => 'Question :reference', 'late_badge' => 'En retard (:hours h)', 'thread' => 'Fil de la question', 'member' => 'Demandeur',
         'answered_at' => 'Répondue le', 'answered_in' => 'Répondue en :hours h', 'waiting_for' => 'Attend depuis :hours h', 'rejection_reason' => 'Motif de refus', 'feedback' => 'Avis du membre (utile)',

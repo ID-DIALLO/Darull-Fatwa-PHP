@@ -47,6 +47,8 @@ final class QuestionController extends Controller
             'maxMb'       => (int) round(AudioService::maxBytes() / 1048576),
             'whatsapp'    => $user['whatsapp'] ?: $user['phone'],
             'defaultChannel' => $user['preferred_channel'] ?? 'platform',
+            'scholars'    => self::availableScholars(),
+            'requestedScholar' => ctype_digit((string) $request->query('professeur', $request->query('scholar', ''))) ? (int) $request->query('professeur', $request->query('scholar')) : null,
         ]);
     }
 
@@ -71,6 +73,7 @@ final class QuestionController extends Controller
             'answer_channel'  => 'required|in:platform,whatsapp,both',
             'whatsapp_number' => ($channel !== 'platform' ? 'required|' : 'nullable|') . 'phone',
             'visibility'      => 'required|in:private,publishable',
+            'requested_scholar_id' => 'nullable|integer|in:' . implode(',', array_merge([0], array_map(static fn (array $s): int => (int) $s['id'], self::availableScholars()))),
         ];
         $validator = Validator::make($input, $rules);
         if ($validator->fails()) {
@@ -108,6 +111,7 @@ final class QuestionController extends Controller
             'answer_channel'  => $data['answer_channel'],
             'whatsapp_number' => $data['whatsapp_number'],
             'visibility'      => $data['visibility'],
+            'requested_scholar_id' => !empty($data['requested_scholar_id']) ? (int) $data['requested_scholar_id'] : null,
             'source'          => 'web',
             'ip'              => $request->ip(),
             'user_agent'      => $request->userAgent(),
@@ -116,6 +120,31 @@ final class QuestionController extends Controller
         \App\Services\AssignmentService::autoAssign($question);
 
         return $this->redirectToRoute('questions.confirmation', ['reference' => $question['reference']]);
+    }
+
+    /**
+     * Professeurs auxquels un membre peut adresser sa question : profil public, actifs, avec leurs rubriques.
+     *
+     * @return list<array{id: int, full_name: string, title: string|null, rubrique_ids: string, rubriques: string}>
+     */
+    public static function availableScholars(): array
+    {
+        $locale = \App\Core\Lang::getLocale();
+
+        return \App\Core\Database::fetchAll(
+            "SELECT u.id, u.full_name, st.title,
+                    GROUP_CONCAT(DISTINCT sr.rubrique_id ORDER BY sr.rubrique_id) AS rubrique_ids,
+                    GROUP_CONCAT(DISTINCT COALESCE(rt.name, rd.name) ORDER BY r.sort_order SEPARATOR ', ') AS rubriques
+             FROM users u JOIN scholar_profiles sp ON sp.user_id = u.id
+             LEFT JOIN scholar_translations st ON st.user_id = u.id AND st.locale = ?
+             LEFT JOIN scholar_rubriques sr ON sr.user_id = u.id
+             LEFT JOIN rubriques r ON r.id = sr.rubrique_id
+             LEFT JOIN rubrique_translations rt ON rt.rubrique_id = r.id AND rt.locale = ?
+             LEFT JOIN rubrique_translations rd ON rd.rubrique_id = r.id AND rd.locale = ?
+             WHERE sp.is_public = 1 AND sp.is_available = 1 AND u.status = 'active' AND u.deleted_at IS NULL
+             GROUP BY u.id, u.full_name, st.title ORDER BY sp.sort_order, u.full_name",
+            [$locale, $locale, \App\Core\Lang::getDefault()],
+        );
     }
 
     public function confirmation(Request $request, string $reference): Response

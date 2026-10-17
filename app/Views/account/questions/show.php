@@ -61,11 +61,26 @@ $renderMessage = function (array $m) use ($question): void {
                 <span><i class="bi bi-calendar3" aria-hidden="true"></i> <?= e(format_date((string) $question['created_at'], true)) ?></span>
                 <span><i class="bi bi-<?= $question['input_type'] === 'text' ? 'pencil' : 'mic-fill' ?>" aria-hidden="true"></i> <?= e(__('questions.types.' . $question['input_type'])) ?></span>
                 <span><i class="bi bi-send" aria-hidden="true"></i> <?= e(__('questions.channels.' . $question['answer_channel'])) ?></span>
+                <?php if ($scholarName !== null && !empty($question['answered_at'])): ?><span><i class="bi bi-patch-check" aria-hidden="true"></i> <?= e(__('questions.detail.answered_by', ['name' => $scholarName, 'date' => format_date((string) $question['answered_at'], true)])) ?></span>
+                <?php elseif ($scholarName !== null): ?><span><i class="bi bi-person-badge" aria-hidden="true"></i> <?= e(__('questions.detail.handled_by', ['name' => $scholarName])) ?></span>
+                <?php elseif (!empty($question['requested_scholar_name'])): ?><span><i class="bi bi-person-badge" aria-hidden="true"></i> <?= e(__('questions.detail.requested', ['name' => $question['requested_scholar_name']])) ?></span><?php endif ?>
             </p>
         </div>
         <?= $this->partial('partials/status-badge', ['status' => $question['status']]) ?>
     </div>
 </div>
+
+<?php if ($question['status'] !== 'published' && $question['status'] !== 'rejected'): ?>
+<form method="post" action="<?= e(route('account.questions.visibility', ['reference' => $question['reference']])) ?>" class="df-card df-visibility mb-3 d-flex flex-wrap align-items-center justify-content-between gap-2">
+    <?= csrf_field() ?>
+    <div>
+        <p class="fw-semibold mb-0"><i class="bi bi-<?= $question['visibility'] === 'publishable' ? 'globe2' : 'lock' ?>" aria-hidden="true"></i> <?= e(__('questions.detail.visibility_' . $question['visibility'])) ?></p>
+        <p class="small text-secondary mb-0"><?= e(__('questions.detail.visibility_help')) ?></p>
+    </div>
+    <input type="hidden" name="visibility" value="<?= $question['visibility'] === 'publishable' ? 'private' : 'publishable' ?>">
+    <button type="submit" class="btn btn-sm btn-outline-primary"><?= e(__($question['visibility'] === 'publishable' ? 'questions.detail.visibility_make_private' : 'questions.detail.visibility_make_public')) ?></button>
+</form>
+<?php endif ?>
 
 <?php if ($question['status'] === 'rejected'): ?>
 <div class="alert alert-danger" role="alert"><strong><?= e(__('questions.detail.rejected')) ?></strong><?php if (!empty($question['rejection_reason'])): ?><br><?= e(__('questions.detail.rejection_reason')) ?> : <span dir="auto"><?= e($question['rejection_reason']) ?></span><?php endif ?></div>

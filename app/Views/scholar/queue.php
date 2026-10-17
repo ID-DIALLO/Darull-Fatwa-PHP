@@ -82,6 +82,8 @@ $query = ['file' => $file === 'available' ? 'a-prendre' : null, 'tri' => $filter
                 <span><img src="<?= e(asset((string) $q['rubrique_icon'])) ?>" alt="" width="18" height="18"> <?= e($q['rubrique_name']) ?></span>
                 <span><i class="bi bi-translate" aria-hidden="true"></i> <?= e(__('questions.languages.' . $q['spoken_language'])) ?> → <?= e(__('questions.languages.' . $q['answer_language'])) ?></span>
                 <span><i class="bi bi-person" aria-hidden="true"></i> <?= e($q['member_display_name'] ?: $q['member_name']) ?></span>
+                <span><i class="bi bi-<?= $q['source'] === 'whatsapp' ? 'whatsapp' : 'globe2' ?>" aria-hidden="true"></i> <?= e(__('scholar.question.source_' . $q['source'])) ?></span>
+                <?php if ((int) ($q['requested_scholar_id'] ?? 0) === (int) auth()['id']): ?><span class="df-badge df-badge--gold"><i class="bi bi-star-fill" aria-hidden="true"></i> <?= e(__('scholar.question.requested_you')) ?></span><?php endif ?>
                 <span><i class="bi bi-clock" aria-hidden="true"></i> <?= e(__('scholar.queue.age', ['ago' => time_ago((string) $q['created_at'])])) ?></span>
             </p>
             <div class="d-flex flex-wrap gap-2 mt-2">

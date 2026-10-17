@@ -133,6 +133,13 @@ final class QueueController extends Controller
             return $this->redirectToRoute('scholar.questions.show', ['reference' => $reference])->with('error', __('scholar.actions.wrong_state'));
         }
 
+        // Réponse « publique » : proposition de publication anonymisée transmise à l'administration en même temps
+        if ($question['visibility'] === 'publishable' && in_array($request->input('propose_public'), ['1', 1, 'on', true], true)) {
+            $first = Database::fetch("SELECT body FROM question_messages WHERE question_id = ? AND kind = 'question' ORDER BY id LIMIT 1", [(int) $question['id']]);
+            $text = trim(html_entity_decode(strip_tags((string) ($first['body'] ?? '')), ENT_QUOTES, 'UTF-8'));
+            AnswerService::proposePublication($question, (int) Auth::id(), (string) ($question['title'] ?: $question['reference']), $text !== '' ? mb_substr($text, 0, 5000) : (string) ($question['title'] ?: $question['reference']));
+        }
+
         return $this->redirectToRoute('scholar.questions.show', ['reference' => $reference])
             ->with('success', __($result['review'] ? 'scholar.actions.answer_submitted' : 'scholar.actions.answer_sent'));
     }
