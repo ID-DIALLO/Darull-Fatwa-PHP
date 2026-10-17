@@ -1,7 +1,15 @@
-# Hébergement mutualisé : si la racine web ne peut pas pointer sur public/,
-# toutes les requêtes y sont redirigées (app/, storage/, .env restent inaccessibles).
+# Hébergement mutualisé (Hostinger, cPanel…) : si la racine web ne peut pas pointer sur public/,
+# toutes les requêtes y sont redirigées (app/, storage/, vendor/, .env restent inaccessibles).
 <IfModule mod_rewrite.c>
     RewriteEngine On
+
+    # HTTPS obligatoire, décidé ici avec l'adresse d'origine : après la réécriture vers public/,
+    # la redirection de public/.htaccess ajouterait « /public » à l'adresse.
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)(:\d+)?$
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
 <IfModule !mod_rewrite.c>
