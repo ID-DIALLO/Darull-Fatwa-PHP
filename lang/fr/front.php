@@ -81,4 +81,6 @@ return [
     ],
     'social' => ['facebook' => 'Facebook', 'youtube' => 'YouTube', 'instagram' => 'Instagram', 'telegram' => 'Telegram', 'x' => 'X (Twitter)', 'tiktok' => 'TikTok'],
     'disclaimer' => 'Cette réponse est donnée par un professeur de Darul Fatwa sur la base des éléments fournis. Pour une situation personnelle complexe, rapprochez-vous également d\'un savant de votre localité.',
+    'share' => ['label' => 'Partager', 'on' => 'Partager sur :network', 'copy' => 'Copier le lien', 'copied' => 'Lien copié !'],
+    'favorites' => ['add' => 'Ajouter aux favoris', 'remove' => 'Retirer des favoris', 'login' => 'Se connecter pour enregistrer', 'added' => 'Ajouté à vos favoris.', 'removed' => 'Retiré de vos favoris.'],
 ];

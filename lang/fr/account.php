@@ -95,4 +95,5 @@ return [
         'scholar_title' => 'Espace professeur',
         'text'          => 'Cet espace est en cours de construction et sera disponible dans une prochaine phase.',
     ],
+    'favorites' => ['title' => 'Mes favoris', 'intro' => 'Les questions-réponses et articles que vous avez enregistrés.', 'empty' => 'Aucun favori pour le moment.', 'type_article' => 'Article', 'type_qa' => 'Question-réponse'],
 ];

@@ -827,3 +827,53 @@ main:focus { outline: none; }
 .ql-snow .ql-editor blockquote { border-inline-start: 4px solid var(--df-gold); background: var(--df-cream); padding: .5rem 1rem; border-radius: var(--df-radius-btn); }
 .df-reference { background: var(--df-cream); border-radius: var(--df-radius-btn); padding: .75rem; margin-block-end: .5rem; }
 .df-reference .form-label { margin-block-end: .15rem; color: var(--df-text-muted); }
+
+/* =====================================================================
+   Phase 6 : blog, Q/R publiques, recherche, partage, commentaires
+   ===================================================================== */
+.df-share { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
+.df-share__title { font-size: .9rem; color: var(--df-text-muted); margin-inline-end: .25rem; }
+.df-share__btn {
+  display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid rgba(7, 61, 46, .15); background: var(--df-white); color: var(--df-green); font-size: 1.15rem; text-decoration: none; cursor: pointer;
+}
+.df-share__btn:hover, .df-share__btn:focus-visible { background: var(--df-green); color: var(--df-white); border-color: var(--df-green); }
+.df-share__btn--whatsapp:hover { background: #25D366; border-color: #25D366; }
+.df-featured { display: grid; grid-template-columns: 1.2fr 1fr; overflow: hidden; padding: 0; }
+.df-featured__cover img, .df-featured__cover .df-article-card__placeholder { width: 100%; height: 100%; min-height: 260px; object-fit: cover; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--df-gold); }
+.df-featured__body { padding: 1.75rem; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+.df-featured__title { font-size: 1.75rem; }
+.df-featured__title a { text-decoration: none; }
+.df-article__header { margin-block-end: 1.5rem; }
+.df-article__cover { margin-block-end: 1.5rem; border-radius: var(--df-radius-card); overflow: hidden; box-shadow: var(--df-shadow); }
+.df-article__cover img { width: 100%; height: auto; display: block; }
+.df-prose--article { font-size: 1.08rem; line-height: 1.75; }
+.df-prose blockquote, .df-prose .df-ayah, .df-prose .df-hadith {
+  margin: 1.25rem 0; padding: 1rem 1.25rem; border-inline-start: 4px solid var(--df-gold); background: var(--df-cream); border-radius: var(--df-radius-btn);
+}
+.df-prose blockquote:lang(ar), .df-prose .df-ayah { font-family: var(--df-font-verse); font-size: 1.35rem; line-height: 2; text-align: center; }
+.df-author { display: flex; align-items: center; gap: 1rem; }
+.df-qa__question { border-inline-start: 4px solid var(--df-gold); }
+.df-qa__answer { background: var(--df-white); border-radius: var(--df-radius-card); padding: 1.5rem; box-shadow: var(--df-shadow); }
+.df-answer__scholar { display: flex; align-items: center; gap: .75rem; margin-block-end: 1rem; }
+.df-comments { margin: 0; }
+.df-comment { padding: 1rem 0; border-block-end: 1px solid rgba(7, 61, 46, .08); }
+.df-comment--reply { margin-inline-start: 2.5rem; border-block-end: 0; padding-block: .75rem 0; }
+.df-comment__head { display: flex; align-items: center; gap: .6rem; margin-block-end: .4rem; }
+.df-comment__author { font-weight: 600; }
+.df-comment__date { font-size: .85rem; color: var(--df-text-muted); margin-inline-start: auto; }
+.df-comment__body { margin: 0; white-space: pre-line; }
+.df-avatar--xs { width: 32px; height: 32px; font-size: .9rem; }
+.df-results { margin: 0; }
+.df-result { padding: 1rem 0; border-block-end: 1px solid rgba(7, 61, 46, .08); }
+.df-result__title { font-size: 1.1rem; font-weight: 600; text-decoration: none; }
+.df-result__excerpt { margin: .25rem 0; color: var(--df-text-muted); }
+.df-result__meta { margin: 0; }
+.df-qa-card__meta { display: flex; flex-wrap: wrap; gap: .35rem; }
+@media (max-width: 767.98px) {
+  .df-featured { grid-template-columns: 1fr; }
+  .df-featured__body { padding: 1.25rem; }
+  .df-featured__title { font-size: 1.4rem; }
+  .df-comment--reply { margin-inline-start: 1.25rem; }
+}
+.df-recorder__wave { max-width: 100%; }

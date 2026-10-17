@@ -81,4 +81,6 @@ return [
     ],
     'social' => ['facebook' => 'Facebook', 'youtube' => 'YouTube', 'instagram' => 'Instagram', 'telegram' => 'Telegram', 'x' => 'X (Twitter)', 'tiktok' => 'TikTok'],
     'disclaimer' => 'This answer is given by a Darul Fatwa scholar on the basis of the information provided. For a complex personal situation, also consult a scholar in your area.',
+    'share' => ['label' => 'Share', 'on' => 'Share on :network', 'copy' => 'Copy link', 'copied' => 'Link copied!'],
+    'favorites' => ['add' => 'Add to favourites', 'remove' => 'Remove from favourites', 'login' => 'Sign in to save', 'added' => 'Added to your favourites.', 'removed' => 'Removed from your favourites.'],
 ];

@@ -138,8 +138,15 @@ return [
             'admin.rubrique.created' => 'Rubrique créée', 'admin.rubrique.updated' => 'Rubrique modifiée', 'admin.rubrique.deleted' => 'Rubrique supprimée', 'admin.qa.updated' => 'Publication modifiée', 'admin.qa.deleted' => 'Publication supprimée',
             'admin.banner.created' => 'Bannière créée', 'admin.banner.updated' => 'Bannière modifiée', 'admin.banner.deleted' => 'Bannière supprimée', 'admin.home.updated' => 'Accueil modifié', 'admin.quote.created' => 'Verset ajouté', 'admin.quote.updated' => 'Verset modifié', 'admin.quote.deleted' => 'Verset supprimé', 'admin.page.created' => 'Page créée', 'admin.page.updated' => 'Page modifiée',
             'admin.contact.status' => 'Statut d\'un message de contact', 'admin.contact.replied' => 'Réponse à un message de contact', 'admin.contact.deleted' => 'Message de contact supprimé', 'admin.newsletter.exported' => 'Export des abonnés', 'admin.newsletter.deleted' => 'Abonné supprimé',
+            'admin.article.created' => 'Article créé', 'admin.article.updated' => 'Article modifié', 'admin.article.status' => 'Statut d\'un article modifié', 'admin.article.deleted' => 'Article supprimé', 'article.saved' => 'Brouillon d\'article enregistré', 'article.submitted' => 'Article soumis à la validation', 'comment.created' => 'Commentaire déposé', 'admin.comment.approved' => 'Commentaire approuvé', 'admin.comment.rejected' => 'Commentaire refusé', 'admin.comment.spam' => 'Commentaire marqué spam', 'admin.comment.pending' => 'Commentaire remis en attente', 'admin.comment.deleted' => 'Commentaire supprimé', 'admin.tag.updated' => 'Mot-clé renommé', 'admin.tag.deleted' => 'Mot-clé supprimé',
             'admin.settings.updated' => 'Paramètres modifiés', 'admin.cache.cleared' => 'Cache vidé', 'admin.backup.created' => 'Sauvegarde créée', 'admin.backup.downloaded' => 'Sauvegarde téléchargée', 'admin.backup.deleted' => 'Sauvegarde supprimée',
         ],
+    ],
+    'articles' => ['title' => 'Articles du blog', 'count' => ':count article|:count articles', 'create' => 'Nouvel article', 'edit_title' => 'Article', 'col' => ['title' => 'Titre', 'author' => 'Auteur', 'published_at' => 'Publication']],
+    'tags' => ['title' => 'Mots-clés', 'intro' => 'Les mots-clés se créent depuis les articles ; renommez ou supprimez-les ici.', 'col' => ['name' => 'Nom', 'slug' => 'Slug', 'articles' => 'Articles']],
+    'comments' => [
+        'title' => 'Commentaires', 'intro' => 'Modération a priori : un commentaire n\'est visible qu\'une fois approuvé.', 'approve' => 'Approuver', 'reject' => 'Refuser', 'spam' => 'Spam',
+        'status' => ['pending' => 'En attente', 'approved' => 'Approuvés', 'rejected' => 'Refusés', 'spam' => 'Spam'], 'col' => ['author' => 'Auteur', 'body' => 'Commentaire', 'target' => 'Sur'], 'type' => ['article' => 'Article', 'qa' => 'Question-réponse'],
     ],
     'backups' => [
         'title' => 'Sauvegardes', 'intro' => 'Export SQL compressé de la base. Les sauvegardes automatiques sont conservées :days jours.', 'create' => 'Sauvegarder la base maintenant', 'empty' => 'Aucune sauvegarde.', 'download' => 'Télécharger', 'auto' => 'auto',

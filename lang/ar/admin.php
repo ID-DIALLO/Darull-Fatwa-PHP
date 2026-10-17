@@ -138,8 +138,15 @@ return [
             'admin.rubrique.created' => 'إنشاء قسم', 'admin.rubrique.updated' => 'تعديل قسم', 'admin.rubrique.deleted' => 'حذف قسم', 'admin.qa.updated' => 'تعديل منشور', 'admin.qa.deleted' => 'حذف منشور',
             'admin.banner.created' => 'إنشاء لافتة', 'admin.banner.updated' => 'تعديل لافتة', 'admin.banner.deleted' => 'حذف لافتة', 'admin.home.updated' => 'تعديل الرئيسية', 'admin.quote.created' => 'إضافة آية', 'admin.quote.updated' => 'تعديل آية', 'admin.quote.deleted' => 'حذف آية', 'admin.page.created' => 'إنشاء صفحة', 'admin.page.updated' => 'تعديل صفحة',
             'admin.contact.status' => 'حالة رسالة تواصل', 'admin.contact.replied' => 'الرد على رسالة تواصل', 'admin.contact.deleted' => 'حذف رسالة تواصل', 'admin.newsletter.exported' => 'تصدير المشتركين', 'admin.newsletter.deleted' => 'حذف مشترك',
+            'admin.article.created' => 'إنشاء مقال', 'admin.article.updated' => 'تعديل مقال', 'admin.article.status' => 'تغيير حالة مقال', 'admin.article.deleted' => 'حذف مقال', 'article.saved' => 'حفظ مسودة مقال', 'article.submitted' => 'تقديم مقال للاعتماد', 'comment.created' => 'إضافة تعليق', 'admin.comment.approved' => 'اعتماد تعليق', 'admin.comment.rejected' => 'رفض تعليق', 'admin.comment.spam' => 'تعليق مزعج', 'admin.comment.pending' => 'إعادة تعليق للانتظار', 'admin.comment.deleted' => 'حذف تعليق', 'admin.tag.updated' => 'إعادة تسمية كلمة مفتاحية', 'admin.tag.deleted' => 'حذف كلمة مفتاحية',
             'admin.settings.updated' => 'تعديل الإعدادات', 'admin.cache.cleared' => 'مسح الذاكرة المؤقتة', 'admin.backup.created' => 'إنشاء نسخة احتياطية', 'admin.backup.downloaded' => 'تنزيل نسخة احتياطية', 'admin.backup.deleted' => 'حذف نسخة احتياطية',
         ],
+    ],
+    'articles' => ['title' => 'مقالات المدونة', 'count' => ':count مقال|:count مقالات', 'create' => 'مقال جديد', 'edit_title' => 'المقال', 'col' => ['title' => 'العنوان', 'author' => 'الكاتب', 'published_at' => 'النشر']],
+    'tags' => ['title' => 'الكلمات المفتاحية', 'intro' => 'تُنشأ الكلمات المفتاحية من المقالات؛ أعد تسميتها أو احذفها هنا.', 'col' => ['name' => 'الاسم', 'slug' => 'المعرّف', 'articles' => 'المقالات']],
+    'comments' => [
+        'title' => 'التعليقات', 'intro' => 'مراجعة مسبقة: لا يظهر التعليق إلا بعد اعتماده.', 'approve' => 'اعتماد', 'reject' => 'رفض', 'spam' => 'مزعج',
+        'status' => ['pending' => 'بانتظار', 'approved' => 'معتمدة', 'rejected' => 'مرفوضة', 'spam' => 'مزعجة'], 'col' => ['author' => 'الكاتب', 'body' => 'التعليق', 'target' => 'على'], 'type' => ['article' => 'مقال', 'qa' => 'سؤال وجواب'],
     ],
     'backups' => [
         'title' => 'النسخ الاحتياطية', 'intro' => 'تصدير SQL مضغوط لقاعدة البيانات. تُحفظ النسخ التلقائية :days يومًا.', 'create' => 'نسخ قاعدة البيانات الآن', 'empty' => 'لا توجد نسخة احتياطية.', 'download' => 'تنزيل', 'auto' => 'تلقائي',

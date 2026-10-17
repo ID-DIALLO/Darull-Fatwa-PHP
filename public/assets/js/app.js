@@ -122,3 +122,52 @@ export function csrfToken() {
   refresh();
   setInterval(refresh, 60000);
 })();
+
+// Partage : copier le lien (Phase 6)
+document.querySelectorAll('[data-copy-link]').forEach((button) => {
+  button.addEventListener('click', async () => {
+    const status = button.parentElement?.querySelector('.df-share__status');
+    try {
+      await navigator.clipboard.writeText(button.dataset.copyLink);
+      if (status) { status.textContent = button.dataset.copiedLabel; setTimeout(() => { status.textContent = ''; }, 2500); }
+    } catch {
+      window.prompt(button.dataset.copiedLabel, button.dataset.copyLink);
+    }
+  });
+});
+
+// Favoris : bascule sans rechargement (repli : envoi classique du formulaire)
+document.querySelectorAll('[data-favorite-form]').forEach((form) => {
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = form.querySelector('button');
+    try {
+      const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' }, credentials: 'same-origin' });
+      if (!response.ok) throw new Error(String(response.status));
+      const data = await response.json();
+      button.classList.toggle('btn-gold', data.favorite);
+      button.classList.toggle('btn-outline-primary', !data.favorite);
+      button.setAttribute('aria-pressed', String(data.favorite));
+      button.querySelector('i').className = 'bi bi-bookmark' + (data.favorite ? '-fill' : '');
+      button.querySelector('[data-favorite-label]').textContent = data.favorite ? button.dataset.labelRemove : button.dataset.labelAdd;
+      button.querySelector('[data-favorite-count]').textContent = String(data.count);
+    } catch {
+      form.submit();
+    }
+  });
+});
+
+// Commentaires : répondre à un commentaire
+(() => {
+  const form = document.getElementById('comment-form');
+  if (!form) return;
+  const parent = form.querySelector('[data-reply-parent]');
+  const indicator = form.querySelector('[data-reply-indicator]');
+  document.querySelectorAll('[data-reply-to]').forEach((btn) => btn.addEventListener('click', () => {
+    parent.value = btn.dataset.replyTo;
+    indicator.hidden = false;
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    form.querySelector('textarea').focus();
+  }));
+  form.querySelector('[data-reply-cancel]')?.addEventListener('click', () => { parent.value = ''; indicator.hidden = true; });
+})();

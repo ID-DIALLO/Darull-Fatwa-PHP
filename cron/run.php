@@ -45,6 +45,12 @@ try {
         Logger::info("File d'envoi : {$sent} envoyé(s), {$failed} en échec définitif");
     }
 
+    // Chaque minute : articles planifiés dont l'heure est atteinte (§4.7)
+    $published = \App\Services\ArticleService::publishScheduled();
+    if ($published > 0) {
+        Logger::info("Articles planifiés publiés : {$published}");
+    }
+
     // Chaque jour à 08:00 (heure locale) : rappels des questions en retard (§4.12)
     if ($hour === 8 && $minute === 0) {
         $late = Maintenance::remindLateQuestions();

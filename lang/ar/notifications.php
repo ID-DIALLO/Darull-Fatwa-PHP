@@ -95,4 +95,11 @@ return [
             'icon'    => 'lightbulb',
         ],
     ],
+    'comment' => [
+        'pending' => ['title' => 'تعليق بانتظار المراجعة', 'message' => 'أضاف عضو تعليقًا بانتظار المراجعة.', 'icon' => 'chat-left-text'],
+    ],
+    'article' => [
+        'submitted' => ['title' => 'مقال مقدَّم من :author', 'message' => 'قدّم أستاذ مقالًا للاعتماد.', 'icon' => 'journal-text'],
+        'published' => ['title' => 'تم نشر مقالك', 'message' => 'اعتمدت الإدارة مقالك ونشرته.', 'icon' => 'journal-check'],
+    ],
 ];

@@ -138,8 +138,15 @@ return [
             'admin.rubrique.created' => 'Topic created', 'admin.rubrique.updated' => 'Topic updated', 'admin.rubrique.deleted' => 'Topic deleted', 'admin.qa.updated' => 'Publication updated', 'admin.qa.deleted' => 'Publication deleted',
             'admin.banner.created' => 'Banner created', 'admin.banner.updated' => 'Banner updated', 'admin.banner.deleted' => 'Banner deleted', 'admin.home.updated' => 'Home page updated', 'admin.quote.created' => 'Verse added', 'admin.quote.updated' => 'Verse updated', 'admin.quote.deleted' => 'Verse deleted', 'admin.page.created' => 'Page created', 'admin.page.updated' => 'Page updated',
             'admin.contact.status' => 'Contact message status', 'admin.contact.replied' => 'Reply to a contact message', 'admin.contact.deleted' => 'Contact message deleted', 'admin.newsletter.exported' => 'Subscribers exported', 'admin.newsletter.deleted' => 'Subscriber deleted',
+            'admin.article.created' => 'Article created', 'admin.article.updated' => 'Article updated', 'admin.article.status' => 'Article status changed', 'admin.article.deleted' => 'Article deleted', 'article.saved' => 'Article draft saved', 'article.submitted' => 'Article submitted for approval', 'comment.created' => 'Comment posted', 'admin.comment.approved' => 'Comment approved', 'admin.comment.rejected' => 'Comment rejected', 'admin.comment.spam' => 'Comment marked as spam', 'admin.comment.pending' => 'Comment set back to pending', 'admin.comment.deleted' => 'Comment deleted', 'admin.tag.updated' => 'Tag renamed', 'admin.tag.deleted' => 'Tag deleted',
             'admin.settings.updated' => 'Settings updated', 'admin.cache.cleared' => 'Cache cleared', 'admin.backup.created' => 'Backup created', 'admin.backup.downloaded' => 'Backup downloaded', 'admin.backup.deleted' => 'Backup deleted',
         ],
+    ],
+    'articles' => ['title' => 'Blog articles', 'count' => ':count article|:count articles', 'create' => 'New article', 'edit_title' => 'Article', 'col' => ['title' => 'Title', 'author' => 'Author', 'published_at' => 'Publication']],
+    'tags' => ['title' => 'Tags', 'intro' => 'Tags are created from articles; rename or delete them here.', 'col' => ['name' => 'Name', 'slug' => 'Slug', 'articles' => 'Articles']],
+    'comments' => [
+        'title' => 'Comments', 'intro' => 'Prior moderation: a comment is visible only once approved.', 'approve' => 'Approve', 'reject' => 'Reject', 'spam' => 'Spam',
+        'status' => ['pending' => 'Pending', 'approved' => 'Approved', 'rejected' => 'Rejected', 'spam' => 'Spam'], 'col' => ['author' => 'Author', 'body' => 'Comment', 'target' => 'On'], 'type' => ['article' => 'Article', 'qa' => 'Q&A'],
     ],
     'backups' => [
         'title' => 'Backups', 'intro' => 'Compressed SQL export of the database. Automatic backups are kept :days days.', 'create' => 'Back up the database now', 'empty' => 'No backup.', 'download' => 'Download', 'auto' => 'auto',

@@ -95,4 +95,11 @@ return [
             'icon'    => 'lightbulb',
         ],
     ],
+    'comment' => [
+        'pending' => ['title' => 'Commentaire à modérer', 'message' => 'Un membre a déposé un commentaire en attente de relecture.', 'icon' => 'chat-left-text'],
+    ],
+    'article' => [
+        'submitted' => ['title' => 'Article soumis par :author', 'message' => 'Un professeur a soumis un article à la validation.', 'icon' => 'journal-text'],
+        'published' => ['title' => 'Votre article a été publié', 'message' => 'L\'administration a validé et publié votre article.', 'icon' => 'journal-check'],
+    ],
 ];

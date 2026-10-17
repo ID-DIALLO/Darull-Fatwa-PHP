@@ -1928,15 +1928,15 @@ Chaque phase se termine par : tests passés, critères cochés, commit `Phase N 
 
 ### Phase 6 — Blog, Q/R publiques, recherche
 
-- [ ] Blog (4.7) côté public + gestion admin + soumission par les professeurs + commentaires modérés
-- [ ] Base publique Q/R (4.8) avec `QAPage`
-- [ ] Recherche globale (4.13) FULLTEXT
-- [ ] Favoris, partage (WhatsApp, Facebook, X, Telegram, copier)
+- [x] Blog (4.7) côté public + gestion admin + soumission par les professeurs + commentaires modérés
+- [x] Base publique Q/R (4.8) avec `QAPage`
+- [x] Recherche globale (4.13) FULLTEXT
+- [x] Favoris, partage (WhatsApp, Facebook, X, Telegram, copier)
 
 **Critères d'acceptation**
-- [ ] Un article publié en FR et AR bascule correctement d'une langue à l'autre via le sélecteur
-- [ ] Une Q/R publiée ne contient aucune donnée personnelle du demandeur
-- [ ] La recherche trouve un article par un mot de son contenu dans les 3 langues
+- [x] Un article publié en FR et AR bascule correctement d'une langue à l'autre via le sélecteur *(`tests/Feature/BlogQaSearchTest.php`)*
+- [x] Une Q/R publiée ne contient aucune donnée personnelle du demandeur
+- [x] La recherche trouve un article par un mot de son contenu dans les 3 langues *(FULLTEXT booléen + repli LIKE, vérifié FR/AR/EN)*
 
 ### Phase 7 — Forum et boîte à idées
 

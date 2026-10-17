@@ -138,6 +138,7 @@ final class App
                 (int) $this->config('app.session.idle_minutes', 120),
             );
             View::share('request', $request);
+            View::share('alternates', null); // Adresses par langue d'un contenu traduit : propres à chaque requête
             Auth::restoreFromCookie($request);
 
             $response = $this->router->dispatch($request, (array) $this->config('app.global_middleware', []));

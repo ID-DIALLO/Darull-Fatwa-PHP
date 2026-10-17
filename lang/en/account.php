@@ -95,4 +95,5 @@ return [
         'scholar_title' => 'Scholar area',
         'text'          => 'This area is under construction and will be available in a coming phase.',
     ],
+    'favorites' => ['title' => 'My favourites', 'intro' => 'The questions & answers and articles you saved.', 'empty' => 'No favourite yet.', 'type_article' => 'Article', 'type_qa' => 'Q&A'],
 ];
