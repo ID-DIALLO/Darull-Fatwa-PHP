@@ -26,4 +26,10 @@ return [
     'back_to_top'   => 'Back to top',
     'main_nav'      => 'Main navigation',
     'breadcrumb'    => 'Breadcrumb',
+    'pages' => 'Pages',
+    'about' => 'About',
+    'rubriques_all' => 'All topics',
+    'account_menu' => 'My account',
+    'whatsapp' => 'WhatsApp',
+    'skip_nav' => 'Skip navigation',
 ];

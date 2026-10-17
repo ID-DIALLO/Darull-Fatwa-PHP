@@ -68,5 +68,6 @@ return [
         'avatar' => 'profile photo',
         'confirm' => 'the confirmation',
         'terms' => 'the terms of use',
+        'name' => 'name',
     ],
 ];

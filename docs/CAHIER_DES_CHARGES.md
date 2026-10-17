@@ -1870,17 +1870,17 @@ Chaque phase se termine par : tests passés, critères cochés, commit `Phase N 
 
 ### Phase 2 — Gabarit public, accueil, rubriques, pages, contact
 
-- [ ] Layout public : barre supérieure (date hégirienne), en-tête collant, méga-menu, sélecteur de langue, pied de page, bouton WhatsApp flottant, retour en haut
-- [ ] Accueil complet (section 6) alimenté par la base (bannières, rubriques, sections activables, verset du jour, chiffres clés) ; contenus vides gérés proprement
-- [ ] Hero Swiper (autoplay, pause, RTL, reduced-motion, images desktop/mobile)
-- [ ] Pages Rubriques (liste + détail avec Q/R et articles de la rubrique), pages CMS, Nos professeurs (liste + profil)
-- [ ] Contact (formulaire, anti-spam, enregistrement, e-mails), newsletter (double confirmation)
+- [x] Layout public : barre supérieure (date hégirienne), en-tête collant, méga-menu, sélecteur de langue, pied de page, bouton WhatsApp flottant, retour en haut
+- [x] Accueil complet (section 6) alimenté par la base (bannières, rubriques, sections activables, verset du jour, chiffres clés) ; contenus vides gérés proprement
+- [x] Hero Swiper (autoplay, pause, RTL, reduced-motion, images desktop/mobile)
+- [x] Pages Rubriques (liste + détail avec Q/R et articles de la rubrique), pages CMS, Nos professeurs (liste + profil)
+- [x] Contact (formulaire, anti-spam, enregistrement, e-mails), newsletter (double confirmation)
 
 **Critères d'acceptation**
-- [ ] L'accueil s'affiche correctement à 360 px, 768 px et 1440 px, en FR, AR (RTL) et EN
-- [ ] Le Hero défile, se met en pause au survol et respecte `prefers-reduced-motion`
-- [ ] Le changement de langue conserve la page courante (ou sa traduction)
-- [ ] Le formulaire de contact est bloqué après 3 envois / heure / IP
+- [x] L'accueil s'affiche correctement à 360 px, 768 px et 1440 px, en FR, AR (RTL) et EN *(captures Chromium 360/1280 px sans défilement horizontal ni erreur console ; test `PublicPagesTest::testHomeShowsEverySectionInThreeLanguages`)*
+- [x] Le Hero défile, se met en pause au survol et respecte `prefers-reduced-motion` *(vérifié dans Chromium : diapositive 2 après 7 s, immobile au survol et avec reduced-motion)*
+- [x] Le changement de langue conserve la page courante (ou sa traduction) *(test `testRubriquePagesUseTranslatedSlugsAndKeepThePageWhenSwitchingLanguage`)*
+- [x] Le formulaire de contact est bloqué après 3 envois / heure / IP *(test `testContactFormStoresMessageSendsEmailsAndIsThrottled`)*
 
 ### Phase 3 — Poser une question (vocal + texte) et Mon espace ⭐ prioritaire
 

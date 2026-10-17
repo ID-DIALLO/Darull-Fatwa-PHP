@@ -26,4 +26,10 @@ return [
     'back_to_top'   => 'Retour en haut',
     'main_nav'      => 'Navigation principale',
     'breadcrumb'    => 'Fil d\'Ariane',
+    'pages' => 'Pages',
+    'about' => 'À propos',
+    'rubriques_all' => 'Toutes les rubriques',
+    'account_menu' => 'Mon compte',
+    'whatsapp' => 'WhatsApp',
+    'skip_nav' => 'Passer la navigation',
 ];

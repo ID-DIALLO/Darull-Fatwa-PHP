@@ -131,6 +131,11 @@ if (!function_exists('alternate_urls')) {
      */
     function alternate_urls(): array
     {
+        // Contenus traduits (rubrique, page, article…) : le contrôleur fournit les adresses par langue.
+        $custom = View::shared('alternates');
+        if (is_array($custom) && $custom !== []) {
+            return $custom;
+        }
         $request = View::shared('request');
         if (!$request instanceof Request || !App::hasInstance()) {
             return [];
@@ -240,6 +245,83 @@ if (!function_exists('gregorian_date')) {
     function gregorian_date(?DateTimeInterface $date = null, ?string $locale = null): string
     {
         return HijriDateService::gregorian($date ?? new DateTimeImmutable(), $locale ?? Lang::getLocale(), (string) config('app.timezone', 'Africa/Bamako'));
+    }
+}
+
+if (!function_exists('setting')) {
+    /** Paramètre du site (table settings), avec valeur par défaut. */
+    function setting(string $key, ?string $default = null): ?string
+    {
+        return \App\Models\Setting::get($key, $default);
+    }
+}
+
+if (!function_exists('whatsapp_link')) {
+    /** Lien wa.me vers le numéro officiel (ou un numéro donné) avec un message prérempli (§4.3). */
+    function whatsapp_link(?string $message = null, ?string $number = null): ?string
+    {
+        $number ??= setting('whatsapp_number') ?? (string) config('whatsapp.official_number', '');
+        if ($number === null || $number === '' || str_contains($number, 'X')) {
+            return null;
+        }
+        $digits = \App\Services\PhoneNumber::forWhatsApp($number);
+
+        return 'https://wa.me/' . $digits . ($message !== null && $message !== '' ? '?text=' . rawurlencode($message) : '');
+    }
+}
+
+if (!function_exists('excerpt')) {
+    /** Extrait texte d'un contenu HTML, coupé au mot ($length caractères). */
+    function excerpt(?string $html, int $length = 160): string
+    {
+        $text = trim((string) preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags((string) $html), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+        if (mb_strlen($text) <= $length) {
+            return $text;
+        }
+        $cut = mb_substr($text, 0, $length);
+        $space = mb_strrpos($cut, ' ');
+
+        return rtrim($space !== false && $space > $length * 0.6 ? mb_substr($cut, 0, $space) : $cut, " ,;:.") . '…';
+    }
+}
+
+if (!function_exists('format_date')) {
+    /** Date courte dans la langue courante (ex. « 17 oct. 2026 »), depuis une date UTC de la base. */
+    function format_date(?string $utcDate, bool $withTime = false): string
+    {
+        if ($utcDate === null || $utcDate === '') {
+            return '';
+        }
+        try {
+            $date = new DateTimeImmutable($utcDate, new DateTimeZone('UTC'));
+        } catch (\Exception) {
+            return $utcDate;
+        }
+        $icu = (string) config('app.intl_locales.' . Lang::getLocale(), 'fr_FR') . '@numbers=latn';
+        $formatter = new IntlDateFormatter($icu, IntlDateFormatter::MEDIUM, $withTime ? IntlDateFormatter::SHORT : IntlDateFormatter::NONE, (string) config('app.timezone', 'Africa/Bamako'));
+
+        return (string) $formatter->format($date);
+    }
+}
+
+if (!function_exists('time_ago')) {
+    /** « il y a 3 h » dans la langue courante (clés common.ago.*). */
+    function time_ago(?string $utcDate): string
+    {
+        if ($utcDate === null || $utcDate === '') {
+            return '';
+        }
+        $seconds = max(0, time() - (int) strtotime($utcDate . ' UTC'));
+        [$key, $value] = match (true) {
+            $seconds < 60      => ['now', 0],
+            $seconds < 3600    => ['minutes', intdiv($seconds, 60)],
+            $seconds < 86400   => ['hours', intdiv($seconds, 3600)],
+            $seconds < 2592000 => ['days', intdiv($seconds, 86400)],
+            $seconds < 31536000 => ['months', intdiv($seconds, 2592000)],
+            default            => ['years', intdiv($seconds, 31536000)],
+        };
+
+        return $key === 'now' ? __('common.ago.now') : trans_choice('common.ago.' . $key, $value);
     }
 }
 

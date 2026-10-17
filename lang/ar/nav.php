@@ -26,4 +26,10 @@ return [
     'back_to_top'   => 'العودة إلى الأعلى',
     'main_nav'      => 'التنقل الرئيسي',
     'breadcrumb'    => 'مسار التنقل',
+    'pages' => 'الصفحات',
+    'about' => 'من نحن',
+    'rubriques_all' => 'جميع الأقسام',
+    'account_menu' => 'حسابي',
+    'whatsapp' => 'واتساب',
+    'skip_nav' => 'تخطي التنقل',
 ];

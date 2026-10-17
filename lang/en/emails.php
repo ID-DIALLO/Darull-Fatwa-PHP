@@ -34,4 +34,24 @@ return [
         'title'   => 'Account deleted',
         'body'    => 'Your Darul Fatwa account and your private questions have been deleted, as you requested. May Allah make things easy for you.',
     ],
+    'contact_received' => [
+        'subject' => 'New contact message: :subject_label',
+        'title'   => 'New contact message',
+        'body'    => 'A message has just been sent from the website contact form.',
+        'from'    => 'From',
+        'reply'   => 'Reply',
+    ],
+    'contact_ack' => [
+        'subject' => 'We have received your message — Darul Fatwa',
+        'title'   => 'Message received',
+        'body'    => 'Thank you for writing to us. Your message has been received; we will reply as soon as possible, in sha Allah.',
+        'copy'    => 'Copy of your message:',
+    ],
+    'newsletter_confirm' => [
+        'subject' => 'Confirm your subscription — Darul Fatwa',
+        'title'   => 'Confirm your subscription',
+        'body'    => 'You asked to receive Darul Fatwa news by email. Confirm your subscription by clicking the button below.',
+        'button'  => 'Confirm my subscription',
+        'unsubscribe' => 'Unsubscribe',
+    ],
 ];

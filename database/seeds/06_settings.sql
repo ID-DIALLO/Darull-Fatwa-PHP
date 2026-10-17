@@ -19,4 +19,15 @@ INSERT INTO settings (setting_key, setting_value, setting_group) VALUES
  ('auto_assign','0','questions'),
  ('auto_close_days','30','questions'),
  ('prophet_honorific_fr','ﷺ','content'),
- ('maintenance_mode','0','general');
+ ('maintenance_mode','0','general'),
+ ('opening_hours','','contact'),
+ ('social_facebook','','social'),
+ ('social_youtube','','social'),
+ ('social_instagram','','social'),
+ ('social_telegram','','social'),
+ ('social_x','','social'),
+ ('social_tiktok','','social'),
+ ('stats_answered','','home'),
+ ('stats_members','','home'),
+ ('stats_articles','','home'),
+ ('stats_scholars','','home');

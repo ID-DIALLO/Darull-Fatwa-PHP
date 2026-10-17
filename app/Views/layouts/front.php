@@ -1,7 +1,8 @@
 <?php
 /**
  * Gabarit principal du site public.
- * Sections : title (texte), description (texte), content, robots (texte), head (HTML), scripts (HTML).
+ * Sections : title (texte), description (texte), content, robots (texte), head (HTML), scripts (HTML),
+ * og_image (URL), body_class (texte).
  *
  * @var \App\Core\View $this
  * @var string $locale
@@ -14,7 +15,9 @@ $noindex = $this->hasSection('robots') && str_contains($this->yield('robots'), '
 $alternates = $noindex ? [] : alternate_urls();
 $title = $this->hasSection('title') ? $this->yield('title') . ' | ' . e(__('common.site.name')) : e(__('common.site.title'));
 $description = $this->hasSection('description') ? $this->yield('description') : e(__('common.site.description'));
+$ogImage = $this->hasSection('og_image') ? $this->yield('og_image') : e(url('/assets/img/logo/darul-fatwa-logo-vertical.png'));
 $intlLocales = ['fr' => 'fr_FR', 'ar' => 'ar_AR', 'en' => 'en_GB'];
+$whatsapp = whatsapp_link(__('front.whatsapp.message'));
 ?>
 <!doctype html>
 <html lang="<?= e($locale) ?>" dir="<?= e($dir) ?>">
@@ -41,10 +44,12 @@ $intlLocales = ['fr' => 'fr_FR', 'ar' => 'ar_AR', 'en' => 'en_GB'];
     <?php endif ?>
 
     <meta property="og:site_name" content="<?= e(__('common.site.name')) ?>">
+    <meta property="og:type" content="website">
     <meta property="og:title" content="<?= $title ?>">
     <meta property="og:description" content="<?= $description ?>">
     <meta property="og:locale" content="<?= e($intlLocales[$locale] ?? 'fr_FR') ?>">
-    <meta property="og:image" content="<?= e(url('/assets/img/logo/darul-fatwa-logo-vertical.png')) ?>">
+    <meta property="og:image" content="<?= $ogImage ?>">
+    <?php if (isset($alternates[$locale])): ?><meta property="og:url" content="<?= e(url($alternates[$locale])) ?>"><?php endif ?>
     <meta name="twitter:card" content="summary_large_image">
 
     <link rel="icon" href="/assets/img/favicons/favicon.ico" sizes="32x32">
@@ -64,7 +69,7 @@ $intlLocales = ['fr' => 'fr_FR', 'ar' => 'ar_AR', 'en' => 'en_GB'];
     <?php endif ?>
     <?= $this->yield('head') ?>
 </head>
-<body class="df-body df-locale-<?= e($locale) ?>">
+<body class="df-body df-locale-<?= e($locale) ?> <?= $this->yield('body_class') ?>">
     <a class="visually-hidden-focusable df-skip-link" href="#main"><?= e(__('common.skip_to_content')) ?></a>
 
     <?= $this->partial('partials/topbar') ?>
@@ -76,6 +81,20 @@ $intlLocales = ['fr' => 'fr_FR', 'ar' => 'ar_AR', 'en' => 'en_GB'];
     </main>
 
     <?= $this->partial('partials/footer') ?>
+
+    <?php if ($whatsapp !== null): ?>
+    <a class="df-float df-float--whatsapp" href="<?= e($whatsapp) ?>" target="_blank" rel="noopener" aria-label="<?= e(__('front.whatsapp.float')) ?>" title="<?= e(__('front.whatsapp.float')) ?>">
+        <i class="bi bi-whatsapp" aria-hidden="true"></i>
+    </a>
+    <?php endif ?>
+    <?php if (route_exists('questions.create')): ?>
+    <a class="df-float df-float--mic d-lg-none" href="<?= e(route('questions.create', ['mode' => 'voice'])) ?>" aria-label="<?= e(__('nav.ask')) ?>" title="<?= e(__('nav.ask')) ?>">
+        <i class="bi bi-mic-fill" aria-hidden="true"></i>
+    </a>
+    <?php endif ?>
+    <button type="button" class="df-float df-float--top" data-back-to-top aria-label="<?= e(__('nav.back_to_top')) ?>" title="<?= e(__('nav.back_to_top')) ?>" hidden>
+        <i class="bi bi-arrow-up" aria-hidden="true"></i>
+    </button>
 
     <script src="<?= e(asset('vendor/bootstrap/js/bootstrap.bundle.min.js')) ?>" defer></script>
     <script src="<?= e(asset('assets/js/app.js')) ?>" type="module"></script>

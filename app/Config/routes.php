@@ -9,7 +9,12 @@ use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\PasswordController;
 use App\Controllers\Auth\RegisterController;
 use App\Controllers\Auth\VerificationController;
+use App\Controllers\Front\ContactController;
 use App\Controllers\Front\HomeController;
+use App\Controllers\Front\NewsletterController;
+use App\Controllers\Front\PageController;
+use App\Controllers\Front\RubriqueController;
+use App\Controllers\Front\ScholarController;
 use App\Controllers\Scholar\DashboardController as ScholarDashboardController;
 use App\Core\Router;
 
@@ -23,6 +28,18 @@ return static function (Router $router): void {
 
     // Accueil : /fr, /ar, /en
     $router->localized('GET', '', [HomeController::class, 'index'], 'home');
+
+    // ---- Site public (§11.1) ------------------------------------------------------------------
+    $router->localized('GET', ['fr' => '/rubriques', 'en' => '/topics'], [RubriqueController::class, 'index'], 'rubriques.index');
+    $router->localized('GET', ['fr' => '/rubriques/{slug}', 'en' => '/topics/{slug}'], [RubriqueController::class, 'show'], 'rubriques.show');
+    $router->localized('GET', ['fr' => '/professeurs', 'en' => '/scholars'], [ScholarController::class, 'index'], 'scholars.index');
+    $router->localized('GET', ['fr' => '/professeurs/{slug}', 'en' => '/scholars/{slug}'], [ScholarController::class, 'show'], 'scholars.show');
+    $router->localized('GET', ['fr' => '/page/{slug}', 'en' => '/page/{slug}'], [PageController::class, 'show'], 'pages.show');
+    $router->localized('GET', ['fr' => '/contact', 'en' => '/contact'], [ContactController::class, 'show'], 'contact');
+    $router->localized('POST', ['fr' => '/contact', 'en' => '/contact'], [ContactController::class, 'send'], 'contact.send', 'throttle:3,3600');
+    $router->post('/newsletter', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe')->middleware('throttle:5,3600');
+    $router->localized('GET', ['fr' => '/newsletter/confirmer/{token}', 'en' => '/newsletter/confirm/{token}'], [NewsletterController::class, 'confirm'], 'newsletter.confirm');
+    $router->localized('GET', ['fr' => '/newsletter/desinscription/{token}', 'en' => '/newsletter/unsubscribe/{token}'], [NewsletterController::class, 'unsubscribe'], 'newsletter.unsubscribe');
 
     // ---- Authentification (§4.1, §11.1) ------------------------------------------------------
     $router->localized('GET', ['fr' => '/connexion', 'en' => '/login'], [LoginController::class, 'show'], 'auth.login', 'guest');

@@ -69,5 +69,6 @@ return [
         'avatar' => 'photo de profil',
         'confirm' => 'la confirmation',
         'terms' => 'les conditions d\'utilisation',
+        'name' => 'nom',
     ],
 ];

@@ -34,4 +34,24 @@ return [
         'title'   => 'Compte supprimé',
         'body'    => 'Votre compte Darul Fatwa et vos questions privées ont été supprimés, conformément à votre demande. Qu\'Allah vous facilite.',
     ],
+    'contact_received' => [
+        'subject' => 'Nouveau message de contact : :subject_label',
+        'title'   => 'Nouveau message de contact',
+        'body'    => 'Un message vient d\'être envoyé depuis le formulaire de contact du site.',
+        'from'    => 'De',
+        'reply'   => 'Répondre',
+    ],
+    'contact_ack' => [
+        'subject' => 'Nous avons bien reçu votre message — Darul Fatwa',
+        'title'   => 'Message bien reçu',
+        'body'    => 'Merci de nous avoir écrit. Votre message a bien été reçu ; nous vous répondrons dès que possible, in shâ Allah.',
+        'copy'    => 'Copie de votre message :',
+    ],
+    'newsletter_confirm' => [
+        'subject' => 'Confirmez votre abonnement — Darul Fatwa',
+        'title'   => 'Confirmez votre abonnement',
+        'body'    => 'Vous avez demandé à recevoir les nouvelles de Darul Fatwa par e-mail. Confirmez votre abonnement en cliquant sur le bouton ci-dessous.',
+        'button'  => 'Confirmer mon abonnement',
+        'unsubscribe' => 'Se désabonner',
+    ],
 ];

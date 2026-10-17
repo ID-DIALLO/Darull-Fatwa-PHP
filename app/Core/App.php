@@ -89,6 +89,7 @@ final class App
         );
 
         View::setBasePath($this->basePath . '/app/Views');
+        Cache::setDirectory($this->basePath . '/storage/cache', $this->config('app.env') !== 'testing');
         Database::configure((array) $this->config['database']);
         Auth::setPermissions((array) ($this->config['permissions'] ?? []));
 
