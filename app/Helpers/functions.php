@@ -195,8 +195,19 @@ if (!function_exists('old')) {
     function old(string $key, mixed $default = ''): mixed
     {
         $old = (array) Session::getFlash('_old_input', []);
+        if (array_key_exists($key, $old)) {
+            return $old[$key];
+        }
+        // Notation pointée pour les champs tableau (ex. « title.ar »)
+        $value = $old;
+        foreach (explode('.', $key) as $segment) {
+            if (!is_array($value) || !array_key_exists($segment, $value)) {
+                return $default;
+            }
+            $value = $value[$segment];
+        }
 
-        return $old[$key] ?? $default;
+        return $value;
     }
 }
 

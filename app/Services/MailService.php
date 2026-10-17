@@ -60,7 +60,7 @@ final class MailService
 
             return true;
         }
-        if ($driver === 'log' || (string) config('mail.host', '') === '') {
+        if ($driver === 'log' || self::option('host') === '') {
             self::writeLog($to, $subject, $html);
 
             return true;
@@ -75,18 +75,18 @@ final class MailService
         try {
             $mail->isSMTP();
             $mail->CharSet = PHPMailer::CHARSET_UTF8;
-            $mail->Host = (string) config('mail.host');
-            $mail->Port = (int) config('mail.port', 587);
-            $encryption = (string) config('mail.encryption', 'tls');
+            $mail->Host = self::option('host');
+            $mail->Port = (int) (self::option('port') ?: 587);
+            $encryption = self::option('encryption') ?: 'tls';
             $mail->SMTPSecure = $encryption === 'ssl' ? PHPMailer::ENCRYPTION_SMTPS : ($encryption === 'tls' ? PHPMailer::ENCRYPTION_STARTTLS : '');
-            $username = (string) config('mail.username', '');
+            $username = self::option('username');
             $mail->SMTPAuth = $username !== '';
             if ($mail->SMTPAuth) {
                 $mail->Username = $username;
-                $mail->Password = (string) config('mail.password', '');
+                $mail->Password = (string) (\App\Models\Setting::secret('mail_password') ?? config('mail.password', ''));
             }
             $mail->Timeout = 15;
-            $mail->setFrom((string) config('mail.from.address'), (string) config('mail.from.name'));
+            $mail->setFrom(self::option('from_address') ?: (string) config('mail.from.address'), self::option('from_name') ?: (string) config('mail.from.name'));
             $mail->addAddress($to, $toName ?? '');
             $mail->isHTML(true);
             $mail->Subject = $subject;
@@ -100,6 +100,18 @@ final class MailService
 
             return false;
         }
+    }
+
+    /** Paramètre SMTP : valeur saisie dans l'administration (mail_*) sinon .env (config mail.*). */
+    private static function option(string $key): string
+    {
+        $fromSettings = \App\Models\Setting::get('mail_' . $key);
+        if ($fromSettings !== null && $fromSettings !== '') {
+            return $fromSettings;
+        }
+        $configKey = match ($key) { 'from_address' => 'mail.from.address', 'from_name' => 'mail.from.name', default => 'mail.' . $key };
+
+        return (string) config($configKey, '');
     }
 
     private static function writeLog(string $to, string $subject, string $html): void

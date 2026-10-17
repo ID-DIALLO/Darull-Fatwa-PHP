@@ -18,12 +18,19 @@ final class Turnstile
 
     public static function enabled(): bool
     {
-        return (string) config('app.turnstile.site_key', '') !== '' && (string) config('app.turnstile.secret_key', '') !== '';
+        return self::siteKey() !== '' && self::secretKey() !== '';
     }
 
+    /** Clé de site : paramètre de l'administration (turnstile_site_key) sinon .env. */
     public static function siteKey(): string
     {
-        return (string) config('app.turnstile.site_key', '');
+        return (string) (\App\Models\Setting::get('turnstile_site_key') ?: config('app.turnstile.site_key', ''));
+    }
+
+    /** Clé secrète : paramètre chiffré de l'administration sinon .env. */
+    private static function secretKey(): string
+    {
+        return (string) (\App\Models\Setting::secret('turnstile_secret_key') ?? config('app.turnstile.secret_key', ''));
     }
 
     /**
@@ -49,7 +56,7 @@ final class Turnstile
         $ch = curl_init('https://challenges.cloudflare.com/turnstile/v0/siteverify');
         curl_setopt_array($ch, [
             CURLOPT_POST           => true,
-            CURLOPT_POSTFIELDS     => http_build_query(['secret' => config('app.turnstile.secret_key'), 'response' => $token, 'remoteip' => $ip]),
+            CURLOPT_POSTFIELDS     => http_build_query(['secret' => self::secretKey(), 'response' => $token, 'remoteip' => $ip]),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT        => 8,
         ]);

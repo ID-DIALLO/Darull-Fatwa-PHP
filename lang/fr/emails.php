@@ -65,4 +65,16 @@ return [
         'button'  => 'Suivre ma question',
     ],
     'late_digest' => ['subject' => ':count question(s) en retard — Darul Fatwa'],
+    'account_created' => [
+        'subject' => 'Votre compte Darul Fatwa a été créé',
+        'title'   => 'Bienvenue sur Darul Fatwa',
+        'body'    => 'Un compte a été créé pour vous par l\'équipe de Darul Fatwa. Cliquez sur le bouton ci-dessous pour choisir votre mot de passe et vous connecter.',
+        'button'  => 'Choisir mon mot de passe',
+    ],
+    'contact_reply' => [
+        'subject' => 'Réponse à votre message — Darul Fatwa',
+        'title'   => 'Réponse à votre message',
+        'body'    => 'Merci de nous avoir écrit (:subject). Voici notre réponse :',
+        'original' => 'Votre message :',
+    ],
 ];

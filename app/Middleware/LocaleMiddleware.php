@@ -51,7 +51,7 @@ final class LocaleMiddleware implements Middleware
     private static function userLocale(Request $request): ?string
     {
         // On n'interroge la base que si une session utilisateur existe.
-        if ($request->cookie((string) config('app.session.name', 'df_session')) === null) {
+        if (!\App\Core\Session::has('user_id')) {
             return null;
         }
         $locale = Auth::user()['locale'] ?? null;

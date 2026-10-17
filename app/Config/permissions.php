@@ -16,15 +16,15 @@ $scholar = array_merge($member, [
 ]);
 
 $moderator = array_merge($member, [
-    'questions.view_all', 'questions.assign', 'questions.change_status',
-    'forum.moderate', 'comments.moderate', 'ideas.moderate', 'reports.handle', 'admin.access',
+    'questions.view_all', 'questions.assign', 'questions.change_status', 'questions.internal_note',
+    'forum.moderate', 'comments.moderate', 'ideas.moderate', 'reports.handle', 'contact.manage', 'admin.access', 'stats.view',
 ]);
 
 $admin = array_values(array_unique(array_merge($scholar, $moderator, [
     'questions.publish', 'questions.review', 'questions.export', 'questions.delete',
     'articles.publish', 'users.manage', 'scholars.manage', 'rubriques.manage', 'qa.manage',
     'banners.manage', 'pages.manage', 'home.manage', 'contact.manage', 'newsletter.manage',
-    'settings.manage', 'activity_log.view', 'stats.view',
+    'settings.manage', 'activity_log.view', 'stats.view', 'cache.clear',
 ])));
 
 return [

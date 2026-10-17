@@ -65,4 +65,16 @@ return [
         'button'  => 'Follow my question',
     ],
     'late_digest' => ['subject' => ':count overdue question(s) — Darul Fatwa'],
+    'account_created' => [
+        'subject' => 'Your Darul Fatwa account has been created',
+        'title'   => 'Welcome to Darul Fatwa',
+        'body'    => 'An account has been created for you by the Darul Fatwa team. Click the button below to choose your password and sign in.',
+        'button'  => 'Choose my password',
+    ],
+    'contact_reply' => [
+        'subject' => 'Reply to your message — Darul Fatwa',
+        'title'   => 'Reply to your message',
+        'body'    => 'Thank you for writing to us (:subject). Here is our reply:',
+        'original' => 'Your message:',
+    ],
 ];

@@ -8,7 +8,7 @@ declare(strict_types=1);
  *
  * Chaque minute : file d'envoi (e-mails). Chaque jour : rappels de retard (08:00), clôture automatique (02:30),
  * rotation des journaux, nettoyage des jetons, tentatives de connexion et limites de débit (03:00).
- * Sitemap et sauvegardes arrivent avec leurs phases.
+ * Sauvegarde de la base chaque jour (01:00). Le sitemap arrive en Phase 8.
  */
 
 if (PHP_SAPI !== 'cli') {
@@ -61,12 +61,20 @@ try {
         }
     }
 
+    // Chaque jour à 01:00 : sauvegarde de la base (rétention 14 jours, §12.5)
+    if ($hour === 1 && $minute === 0) {
+        $file = \App\Services\Admin\BackupService::create(null, 'cron');
+        $purged = \App\Services\Admin\BackupService::purge();
+        Logger::info("Sauvegarde automatique : {$file}" . ($purged > 0 ? " ({$purged} ancienne(s) supprimée(s))" : ''));
+    }
+
     // Chaque jour à 03:00 : ménage
     if ($hour === 3 && $minute === 0) {
         Logger::rotate(30);
         TokenService::purge();
         LoginThrottle::purge(30);
         QueueService::purge(30);
+        \App\Services\Admin\ExportService::purge(24);
         Database::execute('DELETE FROM rate_limits WHERE reset_at < DATE_SUB(UTC_TIMESTAMP(), INTERVAL 1 DAY)');
     }
 } catch (\Throwable $e) {

@@ -7,7 +7,21 @@ use App\Controllers\Account\MyQuestionsController;
 use App\Controllers\Account\NotificationsController;
 use App\Controllers\Account\ProfileController;
 use App\Controllers\Api\AudioUploadController;
+use App\Controllers\Admin\ActivityLogController;
+use App\Controllers\Admin\BackupsController;
+use App\Controllers\Admin\BannersController;
+use App\Controllers\Admin\ContactMessagesController;
+use App\Controllers\Admin\DailyQuotesController;
 use App\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Controllers\Admin\HomeSectionsController;
+use App\Controllers\Admin\NewsletterController as AdminNewsletterController;
+use App\Controllers\Admin\PagesController;
+use App\Controllers\Admin\QaController;
+use App\Controllers\Admin\QuestionsController as AdminQuestionsController;
+use App\Controllers\Admin\RubriquesController as AdminRubriquesController;
+use App\Controllers\Admin\ScholarsController as AdminScholarsController;
+use App\Controllers\Admin\SettingsController;
+use App\Controllers\Admin\UsersController;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\PasswordController;
 use App\Controllers\Auth\RegisterController;
@@ -112,8 +126,93 @@ return static function (Router $router): void {
     $router->localized('GET', ['fr' => '/professeur/profil', 'en' => '/scholar/profile'], [ScholarProfileController::class, 'edit'], 'scholar.profile', $scholar);
     $router->localized('POST', ['fr' => '/professeur/profil', 'en' => '/scholar/profile'], [ScholarProfileController::class, 'update'], 'scholar.profile.update', $scholar);
 
-    // ---- Administration (§11.4) : tableau de bord provisoire, complété en Phase 5 -------------
+    // ---- Administration (§4.6, §11.4) : modérateurs, administrateurs et super-administrateur -------
+    // Chaque contrôleur vérifie en plus la permission de son module (users.manage, settings.manage…).
     $router->group(['prefix' => '/admin', 'middleware' => 'role:moderator,admin'], static function (Router $router): void {
         $router->get('/', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+        $router->get('/stats/data', [AdminDashboardController::class, 'data'])->name('admin.stats.data');
+        $router->get('/lang/{code}', [AdminDashboardController::class, 'language'])->name('admin.lang');
+
+        // Questions
+        $router->get('/questions', [AdminQuestionsController::class, 'index'])->name('admin.questions');
+        $router->get('/questions/export', [AdminQuestionsController::class, 'export'])->name('admin.questions.export');
+        $router->get('/questions/new', [AdminQuestionsController::class, 'create'])->name('admin.questions.create');
+        $router->post('/questions', [AdminQuestionsController::class, 'store'])->name('admin.questions.store');
+        $router->post('/questions/bulk', [AdminQuestionsController::class, 'bulk'])->name('admin.questions.bulk');
+        $router->get('/questions/{id}', [AdminQuestionsController::class, 'show'])->name('admin.questions.show');
+        $router->post('/questions/{id}/assign', [AdminQuestionsController::class, 'assign'])->name('admin.questions.assign');
+        $router->post('/questions/{id}/status', [AdminQuestionsController::class, 'status'])->name('admin.questions.status');
+        $router->post('/questions/{id}/review/{messageId}', [AdminQuestionsController::class, 'review'])->name('admin.questions.review');
+        $router->post('/questions/{id}/publish', [AdminQuestionsController::class, 'publish'])->name('admin.questions.publish');
+        $router->post('/questions/{id}/import-audio', [AdminQuestionsController::class, 'importAudio'])->name('admin.questions.import_audio');
+        $router->post('/questions/{id}/note', [AdminQuestionsController::class, 'note'])->name('admin.questions.note');
+        $router->post('/questions/{id}/delete', [AdminQuestionsController::class, 'destroy'])->name('admin.questions.destroy');
+
+        // Utilisateurs et professeurs
+        $router->get('/users', [UsersController::class, 'index'])->name('admin.users');
+        $router->get('/users/new', [UsersController::class, 'create'])->name('admin.users.create');
+        $router->post('/users', [UsersController::class, 'store'])->name('admin.users.store');
+        $router->get('/users/{id}', [UsersController::class, 'show'])->name('admin.users.show');
+        $router->get('/users/{id}/edit', [UsersController::class, 'edit'])->name('admin.users.edit');
+        $router->post('/users/{id}', [UsersController::class, 'update'])->name('admin.users.update');
+        $router->post('/users/{id}/role', [UsersController::class, 'role'])->name('admin.users.role');
+        $router->post('/users/{id}/status', [UsersController::class, 'status'])->name('admin.users.status');
+        $router->post('/users/{id}/reset-link', [UsersController::class, 'resetLink'])->name('admin.users.reset_link');
+        $router->post('/users/{id}/delete', [UsersController::class, 'destroy'])->name('admin.users.destroy');
+        $router->get('/scholars', [AdminScholarsController::class, 'index'])->name('admin.scholars');
+        $router->get('/scholars/{id}/edit', [AdminScholarsController::class, 'edit'])->name('admin.scholars.edit');
+        $router->post('/scholars/{id}', [AdminScholarsController::class, 'update'])->name('admin.scholars.update');
+
+        // Contenus
+        $router->get('/rubriques', [AdminRubriquesController::class, 'index'])->name('admin.rubriques');
+        $router->get('/rubriques/new', [AdminRubriquesController::class, 'create'])->name('admin.rubriques.create');
+        $router->post('/rubriques', [AdminRubriquesController::class, 'store'])->name('admin.rubriques.store');
+        $router->post('/rubriques/reorder', [AdminRubriquesController::class, 'reorder'])->name('admin.rubriques.reorder');
+        $router->get('/rubriques/{id}/edit', [AdminRubriquesController::class, 'edit'])->name('admin.rubriques.edit');
+        $router->post('/rubriques/{id}', [AdminRubriquesController::class, 'update'])->name('admin.rubriques.update');
+        $router->post('/rubriques/{id}/delete', [AdminRubriquesController::class, 'destroy'])->name('admin.rubriques.destroy');
+        $router->get('/qa', [QaController::class, 'index'])->name('admin.qa');
+        $router->get('/qa/{id}/edit', [QaController::class, 'edit'])->name('admin.qa.edit');
+        $router->post('/qa/{id}', [QaController::class, 'update'])->name('admin.qa.update');
+        $router->post('/qa/{id}/delete', [QaController::class, 'destroy'])->name('admin.qa.destroy');
+        $router->get('/banners', [BannersController::class, 'index'])->name('admin.banners');
+        $router->get('/banners/new', [BannersController::class, 'create'])->name('admin.banners.create');
+        $router->post('/banners', [BannersController::class, 'store'])->name('admin.banners.store');
+        $router->get('/banners/{id}/edit', [BannersController::class, 'edit'])->name('admin.banners.edit');
+        $router->post('/banners/{id}', [BannersController::class, 'update'])->name('admin.banners.update');
+        $router->post('/banners/{id}/delete', [BannersController::class, 'destroy'])->name('admin.banners.destroy');
+        $router->get('/home-sections', [HomeSectionsController::class, 'index'])->name('admin.home_sections');
+        $router->post('/home-sections', [HomeSectionsController::class, 'update'])->name('admin.home_sections.update');
+        $router->get('/daily-quotes', [DailyQuotesController::class, 'index'])->name('admin.daily_quotes');
+        $router->get('/daily-quotes/new', [DailyQuotesController::class, 'create'])->name('admin.daily_quotes.create');
+        $router->post('/daily-quotes', [DailyQuotesController::class, 'store'])->name('admin.daily_quotes.store');
+        $router->get('/daily-quotes/{id}/edit', [DailyQuotesController::class, 'edit'])->name('admin.daily_quotes.edit');
+        $router->post('/daily-quotes/{id}', [DailyQuotesController::class, 'update'])->name('admin.daily_quotes.update');
+        $router->post('/daily-quotes/{id}/delete', [DailyQuotesController::class, 'destroy'])->name('admin.daily_quotes.destroy');
+        $router->get('/pages', [PagesController::class, 'index'])->name('admin.pages');
+        $router->get('/pages/new', [PagesController::class, 'create'])->name('admin.pages.create');
+        $router->post('/pages', [PagesController::class, 'store'])->name('admin.pages.store');
+        $router->get('/pages/{id}/edit', [PagesController::class, 'edit'])->name('admin.pages.edit');
+        $router->post('/pages/{id}', [PagesController::class, 'update'])->name('admin.pages.update');
+
+        // Contact, newsletter
+        $router->get('/contact-messages', [ContactMessagesController::class, 'index'])->name('admin.contact');
+        $router->get('/contact-messages/{id}', [ContactMessagesController::class, 'show'])->name('admin.contact.show');
+        $router->post('/contact-messages/{id}/status', [ContactMessagesController::class, 'status'])->name('admin.contact.status');
+        $router->post('/contact-messages/{id}/reply', [ContactMessagesController::class, 'reply'])->name('admin.contact.reply');
+        $router->post('/contact-messages/{id}/delete', [ContactMessagesController::class, 'destroy'])->name('admin.contact.destroy');
+        $router->get('/newsletter', [AdminNewsletterController::class, 'index'])->name('admin.newsletter');
+        $router->get('/newsletter/export', [AdminNewsletterController::class, 'export'])->name('admin.newsletter.export');
+        $router->post('/newsletter/{id}/delete', [AdminNewsletterController::class, 'destroy'])->name('admin.newsletter.destroy');
+
+        // Paramètres, journal, sauvegardes
+        $router->get('/settings', [SettingsController::class, 'index'])->name('admin.settings');
+        $router->post('/settings/cache/clear', [SettingsController::class, 'clearCache'])->name('admin.cache.clear');
+        $router->post('/settings/{group}', [SettingsController::class, 'update'])->name('admin.settings.update');
+        $router->get('/activity-log', [ActivityLogController::class, 'index'])->name('admin.activity_log');
+        $router->get('/backups', [BackupsController::class, 'index'])->name('admin.backups');
+        $router->post('/backups', [BackupsController::class, 'store'])->name('admin.backups.store');
+        $router->get('/backups/{name}/download', [BackupsController::class, 'download'])->name('admin.backups.download');
+        $router->post('/backups/{name}/delete', [BackupsController::class, 'destroy'])->name('admin.backups.destroy');
     });
 };

@@ -70,7 +70,8 @@ Les logos se trouvent dans `public/assets/img/logo/` (SVG à utiliser sur le sit
 - [x] **Phase 2** — Gabarit public, accueil, rubriques, pages, contact
 - [x] **Phase 3** — Poser une question (vocal + texte) et Mon espace ⭐ *(test sur téléphones réels à faire en HTTPS)*
 - [x] **Phase 4** — Espace professeur, réponses, workflow, WhatsApp niveau 1, notifications, cron
-- [ ] Phases 5 à 9 — voir §17 du cahier des charges
+- [x] **Phase 5** — Back-office d'administration (tableau de bord, questions, utilisateurs, professeurs, contenus, paramètres chiffrés, journal, sauvegardes)
+- [ ] Phases 6 à 9 — voir §17 du cahier des charges
 
 ---
 Maître d'ouvrage : Idrissa Diallo — Bamako, Mali.

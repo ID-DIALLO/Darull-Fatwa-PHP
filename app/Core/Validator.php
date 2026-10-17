@@ -117,7 +117,7 @@ class Validator
         $this->validated = true;
         foreach ($this->rules as $field => $definition) {
             $rules = is_array($definition) ? $definition : explode('|', $definition);
-            $value = $this->data[$field] ?? null;
+            $value = $this->value($field);
             $ruleNames = array_map(static fn (string $r): string => explode(':', $r, 2)[0], $rules);
             $empty = $this->isEmpty($value);
 
@@ -165,8 +165,8 @@ class Validator
             'min'              => $this->size($value, $ruleNames) >= (float) ($params[0] ?? 0),
             'max'              => $this->size($value, $ruleNames) <= (float) ($params[0] ?? 0),
             'between'          => $this->size($value, $ruleNames) >= (float) ($params[0] ?? 0) && $this->size($value, $ruleNames) <= (float) ($params[1] ?? 0),
-            'same'             => $value === ($this->data[$params[0] ?? ''] ?? null),
-            'confirmed'        => $value === ($this->data[$field . '_confirmation'] ?? null),
+            'same'             => $value === $this->value($params[0] ?? ''),
+            'confirmed'        => $value === $this->value($field . '_confirmation'),
             'file'             => $this->isValidFile($value),
             'mimes'            => $this->isValidFile($value) && $this->hasAllowedMime($value, $params),
             'max_size'         => $this->isValidFile($value) && ((int) $value['size']) <= ((int) ($params[0] ?? 0)) * 1024,
@@ -174,6 +174,23 @@ class Validator
             'exists'           => $this->existsInDatabase($params[0] ?? '', $params[1] ?? $field, $value, null),
             default            => throw new \InvalidArgumentException('Règle de validation inconnue : ' . $rule),
         };
+    }
+
+    /** Valeur d'un champ, avec notation pointée pour les tableaux (ex. « name.fr » → $data['name']['fr']). */
+    private function value(string $field): mixed
+    {
+        if (array_key_exists($field, $this->data)) {
+            return $this->data[$field];
+        }
+        $value = $this->data;
+        foreach (explode('.', $field) as $segment) {
+            if (!is_array($value) || !array_key_exists($segment, $value)) {
+                return null;
+            }
+            $value = $value[$segment];
+        }
+
+        return $value;
     }
 
     private function isEmpty(mixed $value): bool
@@ -189,7 +206,7 @@ class Validator
     private function allEmpty(array $fields): bool
     {
         foreach ($fields as $other) {
-            if (!$this->isEmpty($this->data[$other] ?? null)) {
+            if (!$this->isEmpty($this->value($other))) {
                 return false;
             }
         }

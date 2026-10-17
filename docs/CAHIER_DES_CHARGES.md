@@ -1915,16 +1915,16 @@ Chaque phase se termine par : tests passés, critères cochés, commit `Phase N 
 
 ### Phase 5 — Back-office d'administration
 
-- [ ] Layout admin (barre latérale, responsive), tableau de bord KPI + graphiques Chart.js + filtre de période
-- [ ] Gestion complète des questions (4.6.2) : tableau filtrable, actions groupées, fiche avec chronologie, assignation, statut, relecture, publication anonymisée, import audio WhatsApp, export CSV/Excel
-- [ ] Fiche membre (toutes ses questions), gestion utilisateurs et professeurs
-- [ ] Rubriques, bannières, sections d'accueil, verset du jour, pages, messages de contact, newsletter, paramètres (secrets chiffrés), journal d'activité, sauvegardes
+- [x] Layout admin (barre latérale, responsive), tableau de bord KPI + graphiques Chart.js + filtre de période
+- [x] Gestion complète des questions (4.6.2) : tableau filtrable, actions groupées, fiche avec chronologie, assignation, statut, relecture, publication anonymisée, import audio WhatsApp, export CSV/Excel
+- [x] Fiche membre (toutes ses questions), gestion utilisateurs et professeurs
+- [x] Rubriques, bannières, sections d'accueil, verset du jour, pages, messages de contact, newsletter, paramètres (secrets chiffrés), journal d'activité, sauvegardes
 
 **Critères d'acceptation**
-- [ ] L'admin retrouve en moins de 3 clics : qui a posé une question, quand, sur quel thème, qui y a répondu et en combien de temps
-- [ ] L'export Excel respecte les filtres actifs et s'ouvre correctement (accents et arabe)
-- [ ] Chaque action d'administration apparaît dans le journal d'activité
-- [ ] Un modérateur n'a pas accès aux paramètres ni aux utilisateurs
+- [x] L'admin retrouve en moins de 3 clics : qui a posé une question, quand, sur quel thème, qui y a répondu et en combien de temps *(tableau des questions → fiche : demandeur, date, rubrique, professeur, délai)*
+- [x] L'export Excel respecte les filtres actifs et s'ouvre correctement (accents et arabe) *(vérifié par `tests/Feature/AdminTest.php` : CSV UTF-8 BOM + XLSX relu avec PhpSpreadsheet)*
+- [x] Chaque action d'administration apparaît dans le journal d'activité
+- [x] Un modérateur n'a pas accès aux paramètres ni aux utilisateurs
 
 ### Phase 6 — Blog, Q/R publiques, recherche
 
