@@ -31,7 +31,7 @@ jobs:
         run: |
           cp .env.example .env
           sed -i 's/^DB_HOST=.*/DB_HOST=127.0.0.1/; s/^DB_USERNAME=.*/DB_USERNAME=root/; s/^DB_PASSWORD=.*/DB_PASSWORD=root/' .env
-          grep -q '^APP_KEY=.\+' .env || sed -i "s|^APP_KEY=.*|APP_KEY=base64:$(openssl rand -base64 32)|" .env
+          sed -i "s|^APP_KEY=.*|APP_KEY=base64:$(openssl rand -base64 32)|" .env   # clé de chiffrement des secrets (la ligne du modèle n'est qu'un commentaire)
           mysql -h127.0.0.1 -uroot -proot -e "SET GLOBAL innodb_ft_min_token_size=3;" || true
       - name: Tests
         run: vendor/bin/phpunit
