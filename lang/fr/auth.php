@@ -103,4 +103,22 @@ return [
     'robot' => [
         'failed' => 'La vérification anti-robot a échoué. Rechargez la page puis réessayez.',
     ],
+    'setup' => [
+        'title' => 'Mise en service',
+        'subtitle' => 'Créez le premier compte super-administrateur de Darul Fatwa.',
+        'token' => 'Jeton de mise en service',
+        'token_help' => 'Valeur de SETUP_TOKEN dans le fichier .env du serveur.',
+        'full_name' => 'Nom complet',
+        'email' => 'Adresse e-mail',
+        'password' => 'Mot de passe',
+        'password_help' => '10 caractères minimum, avec des lettres et des chiffres.',
+        'password_confirmation' => 'Confirmez le mot de passe',
+        'submit' => "Créer le compte et ouvrir l'administration",
+        'bad_token' => 'Jeton de mise en service incorrect.',
+        'done' => 'Bienvenue ! Votre compte super-administrateur est créé. Supprimez maintenant SETUP_TOKEN du fichier .env.',
+        'aside_title' => 'Après cette étape',
+        'aside_1' => 'Supprimez la ligne SETUP_TOKEN du fichier .env : cette page disparaît.',
+        'aside_2' => 'Renseignez le courrier sortant (SMTP) et le numéro WhatsApp dans Paramètres.',
+        'aside_3' => 'Créez les comptes des professeurs depuis Utilisateurs.',
+    ],
 ];

@@ -29,6 +29,7 @@ use App\Controllers\Admin\SettingsController;
 use App\Controllers\Admin\TagsController;
 use App\Controllers\Admin\UsersController;
 use App\Controllers\Auth\LoginController;
+use App\Controllers\Auth\SetupController;
 use App\Controllers\Auth\PasswordController;
 use App\Controllers\Auth\RegisterController;
 use App\Controllers\Auth\VerificationController;
@@ -126,6 +127,9 @@ return static function (Router $router): void {
     $router->post('/api/notifications/read-all', [NotificationsController::class, 'readAll'])->name('api.notifications.read_all')->middleware('auth');
 
     // ---- Authentification (§4.1, §11.1) ------------------------------------------------------
+    // Mise en service sans SSH (§16.2) : premier super-administrateur, uniquement avec SETUP_TOKEN et sans administrateur existant
+    $router->get('/setup', [SetupController::class, 'show'])->name('setup')->middleware('guest');
+    $router->post('/setup', [SetupController::class, 'store'])->name('setup.store')->middleware(['guest', 'throttle:5,3600']);
     $router->localized('GET', ['fr' => '/connexion', 'en' => '/login'], [LoginController::class, 'show'], 'auth.login', 'guest');
     $router->localized('POST', ['fr' => '/connexion', 'en' => '/login'], [LoginController::class, 'login'], 'auth.login.post', ['guest', 'throttle:20,60']);
     $router->localized('POST', ['fr' => '/deconnexion', 'en' => '/logout'], [LoginController::class, 'logout'], 'auth.logout', 'auth');

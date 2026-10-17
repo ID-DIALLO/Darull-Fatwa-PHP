@@ -103,4 +103,22 @@ return [
     'robot' => [
         'failed' => 'The anti-robot check failed. Reload the page and try again.',
     ],
+    'setup' => [
+        'title' => 'Initial setup',
+        'subtitle' => 'Create the first super-administrator account of Darul Fatwa.',
+        'token' => 'Setup token',
+        'token_help' => "Value of SETUP_TOKEN in the server's .env file.",
+        'full_name' => 'Full name',
+        'email' => 'Email address',
+        'password' => 'Password',
+        'password_help' => 'At least 10 characters, with letters and digits.',
+        'password_confirmation' => 'Confirm password',
+        'submit' => 'Create the account and open the admin panel',
+        'bad_token' => 'Incorrect setup token.',
+        'done' => 'Welcome! Your super-administrator account is created. Now remove SETUP_TOKEN from the .env file.',
+        'aside_title' => 'After this step',
+        'aside_1' => 'Remove the SETUP_TOKEN line from .env: this page disappears.',
+        'aside_2' => 'Fill in outgoing mail (SMTP) and the WhatsApp number in Settings.',
+        'aside_3' => "Create the scholars' accounts from Users.",
+    ],
 ];

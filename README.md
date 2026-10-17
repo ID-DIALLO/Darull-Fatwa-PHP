@@ -43,8 +43,17 @@ Ouvrez ensuite <http://localhost:8000> : vous êtes redirigé vers `/fr`, `/ar` 
 | `vendor/bin/phpunit` | Lance les tests |
 | `php cron/run.php` | Tâches planifiées (à lancer chaque minute par le cron du serveur) |
 | `php bin/build-assets.php` | Construit les CSS/JS de production dans `public/assets/dist/` et l'image de partage (à relancer après toute modification de `public/assets/css` ou `js`) |
+| `php bin/doctor.php` | Vérifie une installation : PHP, `.env`, base, migrations, dossiers, ressources, cron, sauvegardes |
+| `php bin/export-sql.php` | Génère `database/dist/darul_fatwa_install.sql` (import phpMyAdmin, hébergement sans SSH) |
+| `php bin/restore-backup.php <fichier> [--database=…]` | Restaure une sauvegarde `.sql.gz` (dans la base courante ou une base de test) |
+| `php bin/seed-demo.php` | Comptes de recette et contenus de démonstration (jamais en production) |
 
 Mode maintenance : créez le fichier `storage/maintenance.flag` (supprimez-le pour rouvrir le site).
+
+## Mise en production
+
+Guide complet : [`docs/DEPLOIEMENT.md`](docs/DEPLOIEMENT.md) (Hostinger sans SSH : paquet ZIP, import de `database/dist/darul_fatwa_install.sql`, `.env`, page `/setup` ; ou SSH/Git : `composer install --no-dev`, `php bin/install.php`, `php bin/doctor.php`).
+Guides d'utilisation : [`docs/GUIDE_ADMINISTRATEUR.md`](docs/GUIDE_ADMINISTRATEUR.md) et [`docs/GUIDE_PROFESSEUR.md`](docs/GUIDE_PROFESSEUR.md). Qualité, sécurité et recette : [`docs/QUALITE.md`](docs/QUALITE.md).
 
 ## Arborescence
 
@@ -75,7 +84,7 @@ Les logos se trouvent dans `public/assets/img/logo/` (SVG à utiliser sur le sit
 - [x] **Phase 6** — Blog multilingue, Q/R publiques (QAPage), recherche plein texte, favoris, partage, commentaires modérés
 - [x] **Phase 7** — Forum communautaire (modération a priori, charte, abonnements, J'aime, badge professeur, signalements) et boîte à idées (vote unique, statuts, réponse officielle)
 - [x] **Phase 8** — Qualité : sitemaps et robots par langue, JSON-LD, Open Graph, assets construits (`bin/build-assets.php`), PWA (service worker + page hors-ligne), revue sécurité, accessibilité, Lighthouse mobile ≥ 98 (voir `docs/QUALITE.md`)
-- [ ] Phase 9 — voir §17 du cahier des charges
+- [x] **Phase 9** — Mise en production côté code : guide de déploiement (`docs/DEPLOIEMENT.md`), page `/setup`, SQL d'installation complet, paquet GitHub Actions, `bin/doctor.php`, `bin/restore-backup.php`, comptes de recette, guides administrateur et professeur. *Reste à faire chez l'hébergeur : mise en ligne HTTPS et test du micro sur appareils réels.*
 
 ---
 Maître d'ouvrage : Idrissa Diallo — Bamako, Mali.

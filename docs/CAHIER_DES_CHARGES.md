@@ -1964,14 +1964,14 @@ Chaque phase se termine par : tests passés, critères cochés, commit `Phase N 
 
 ### Phase 9 — Mise en production (et préparation V2)
 
-- [ ] Déploiement selon 16.2, cron, SSL, SMTP, sauvegardes
-- [ ] Création des comptes professeurs réels, contenus initiaux (rubriques, pages, bannières, 3 articles)
-- [ ] Guide administrateur et guide professeur (`docs/`)
+- [x] Déploiement selon 16.2, cron, SSL, SMTP, sauvegardes *(côté code : `docs/DEPLOIEMENT.md`, paquet GitHub Actions, `database/dist/darul_fatwa_install.sql`, page `/setup`, `bin/doctor.php`, `bin/restore-backup.php` ; l'activation chez l'hébergeur reste une action manuelle)*
+- [x] Création des comptes professeurs réels, contenus initiaux (rubriques, pages, bannières, 3 articles) *(rubriques, pages, bannières et 3 articles en brouillon installés par les seeds ; comptes réels à créer par l'administration, comptes de recette via `bin/seed-demo.php`)*
+- [x] Guide administrateur et guide professeur (`docs/`) *(`docs/GUIDE_ADMINISTRATEUR.md`, `docs/GUIDE_PROFESSEUR.md`, captures dans `docs/img/`)*
 - [ ] (V2) `CloudApiGateway` WhatsApp, webhook signé, templates, OTP
 
 **Critères d'acceptation**
-- [ ] Site en ligne en HTTPS, enregistrement vocal fonctionnel sur mobile en production
-- [ ] Une sauvegarde automatique a été générée et restaurée avec succès sur un environnement de test
+- [ ] Site en ligne en HTTPS, enregistrement vocal fonctionnel sur mobile en production *(à valider lors de la mise en ligne : liste de contrôle `docs/DEPLOIEMENT.md` §4)*
+- [x] Une sauvegarde automatique a été générée et restaurée avec succès sur un environnement de test *(17/10/2026 : `BackupService` → `bin/restore-backup.php --database=darul_fatwa_restore`, 48 tables et mêmes effectifs ; voir `docs/DEPLOIEMENT.md` §5)*
 
 ---
 

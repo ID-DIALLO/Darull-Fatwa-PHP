@@ -1,0 +1,36 @@
+# Paquet de déploiement : archive prête à téléverser chez l'hébergeur (vendor installé sans les outils de
+# développement, ressources construites, sans tests ni .git). Téléchargeable dans l'onglet « Actions » du dépôt.
+name: Paquet de déploiement
+
+on:
+  push:
+    branches: [main, master]
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo_mysql, mbstring, intl, fileinfo, openssl, gd, zip
+          coverage: none
+      - name: Dépendances de production
+        run: composer install --no-dev --no-interaction --no-progress --prefer-dist --optimize-autoloader
+      - name: Ressources construites et SQL d'installation
+        run: |
+          php bin/build-assets.php
+          php bin/export-sql.php
+      - name: Archive
+        run: |
+          mkdir -p dist
+          zip -rq dist/darul-fatwa-site.zip . -x '.git/*' '.github/*' 'tests/*' 'dist/*' '.env' 'storage/logs/*' 'storage/cache/*' 'storage/audio/*' 'storage/backups/*' 'storage/exports/*' 'storage/testing/*' 'node_modules/*' '.phpunit.cache/*'
+          cp database/dist/darul_fatwa_install.sql dist/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: darul-fatwa-deploiement
+          path: dist/
+          retention-days: 30

@@ -1,0 +1,37 @@
+# Intégration continue : tests PHPUnit sur une vraie base MariaDB, à chaque push et pull request.
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10.11
+        env:
+          MARIADB_ROOT_PASSWORD: root
+          MARIADB_DATABASE: darul_fatwa_test
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s --health-timeout=5s --health-retries=10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_mysql, mbstring, intl, fileinfo, openssl, gd, zip
+          coverage: none
+      - name: Dépendances
+        run: composer install --no-interaction --no-progress --prefer-dist
+      - name: Configuration de test
+        run: |
+          cp .env.example .env
+          sed -i 's/^DB_HOST=.*/DB_HOST=127.0.0.1/; s/^DB_USERNAME=.*/DB_USERNAME=root/; s/^DB_PASSWORD=.*/DB_PASSWORD=root/' .env
+          grep -q '^APP_KEY=.\+' .env || sed -i "s|^APP_KEY=.*|APP_KEY=base64:$(openssl rand -base64 32)|" .env
+          mysql -h127.0.0.1 -uroot -proot -e "SET GLOBAL innodb_ft_min_token_size=3;" || true
+      - name: Tests
+        run: vendor/bin/phpunit
