@@ -102,4 +102,18 @@ return [
         'submitted' => ['title' => 'مقال مقدَّم من :author', 'message' => 'قدّم أستاذ مقالًا للاعتماد.', 'icon' => 'journal-text'],
         'published' => ['title' => 'تم نشر مقالك', 'message' => 'اعتمدت الإدارة مقالك ونشرته.', 'icon' => 'journal-check'],
     ],
+    'forum' => [
+        'reply' => ['title' => 'رد جديد: :title', 'message' => 'رد :author في موضوع تتابعه.', 'icon' => 'chat-square-text'],
+        'topic_approved' => ['title' => 'نُشر الموضوع: :title', 'message' => 'اعتمد الإشراف موضوعك.', 'icon' => 'check2-circle'],
+        'post_approved' => ['title' => 'نُشر ردك في «:title»', 'message' => 'اعتمد الإشراف ردك.', 'icon' => 'check2-circle'],
+        'answer_validated' => ['title' => 'جواب معتمد من أستاذ', 'message' => 'يحمل ردك في «:title» الآن شارة «معتمد من أستاذ».', 'icon' => 'patch-check'],
+        'pending' => ['title' => 'المنتدى: محتوى للمراجعة', 'message' => 'مشاركة بانتظار مراجعة مشرف (:title).', 'icon' => 'shield'],
+        'report' => ['title' => 'بلاغ جديد', 'message' => 'أبلغ عضو عن محتوى (:reason).', 'icon' => 'flag'],
+    ],
+    'idea' => [
+        'pending' => ['title' => 'فكرة جديدة للمراجعة', 'message' => '«:title» بانتظار مراجعة الفريق.', 'icon' => 'lightbulb'],
+        'status' => ['title' => 'فكرتك «:title»', 'message' => 'الحالة الجديدة: :status.', 'icon' => 'lightbulb'],
+        'response' => ['title' => 'رد رسمي على فكرتك', 'message' => 'رد الفريق على «:title» (:status).', 'icon' => 'patch-check'],
+        'comment' => ['title' => 'تعليق جديد على فكرتك', 'message' => 'علّق عضو على «:title».', 'icon' => 'chat-left'],
+    ],
 ];

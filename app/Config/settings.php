@@ -50,6 +50,13 @@ return [
             'auto_assign'         => ['type' => 'bool'],
         ],
     ],
+    'forum' => [
+        'icon' => 'chat-square-text',
+        'fields' => [
+            'forum_first_posts_moderated' => ['type' => 'int', 'rules' => 'integer|between:0,20'],
+            'forum_banned_words'          => ['type' => 'textarea'],
+        ],
+    ],
     'home' => [
         'icon' => 'house',
         'fields' => [

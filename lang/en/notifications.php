@@ -102,4 +102,18 @@ return [
         'submitted' => ['title' => 'Article submitted by :author', 'message' => 'A scholar submitted an article for approval.', 'icon' => 'journal-text'],
         'published' => ['title' => 'Your article has been published', 'message' => 'The administration approved and published your article.', 'icon' => 'journal-check'],
     ],
+    'forum' => [
+        'reply' => ['title' => 'New reply: :title', 'message' => ':author replied in a topic you follow.', 'icon' => 'chat-square-text'],
+        'topic_approved' => ['title' => 'Topic published: :title', 'message' => 'Your topic has been approved by the moderators.', 'icon' => 'check2-circle'],
+        'post_approved' => ['title' => 'Reply published in ":title"', 'message' => 'Your reply has been approved by the moderators.', 'icon' => 'check2-circle'],
+        'answer_validated' => ['title' => 'Answer validated by a scholar', 'message' => 'Your reply in ":title" now carries the "validated by a scholar" badge.', 'icon' => 'patch-check'],
+        'pending' => ['title' => 'Forum: content to moderate', 'message' => 'A post is awaiting a moderator\'s review (:title).', 'icon' => 'shield'],
+        'report' => ['title' => 'New report', 'message' => 'A member reported some content (:reason).', 'icon' => 'flag'],
+    ],
+    'idea' => [
+        'pending' => ['title' => 'New idea to moderate', 'message' => '":title" is awaiting the team\'s review.', 'icon' => 'lightbulb'],
+        'status' => ['title' => 'Your idea ":title"', 'message' => 'New status: :status.', 'icon' => 'lightbulb'],
+        'response' => ['title' => 'Official response to your idea', 'message' => 'The team answered ":title" (:status).', 'icon' => 'patch-check'],
+        'comment' => ['title' => 'New comment on your idea', 'message' => 'A member commented on ":title".', 'icon' => 'chat-left'],
+    ],
 ];

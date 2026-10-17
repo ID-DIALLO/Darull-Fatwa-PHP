@@ -47,3 +47,8 @@ INSERT INTO settings (setting_key, setting_value, setting_group, is_secret) VALU
  ('mail_from_name','','mail',0),
  ('turnstile_site_key','','security',0),
  ('turnstile_secret_key',NULL,'security',1);
+
+-- Phase 7 : forum
+INSERT INTO settings (setting_key, setting_value, setting_group) VALUES
+ ('forum_first_posts_moderated','3','forum'),
+ ('forum_banned_words','','forum');

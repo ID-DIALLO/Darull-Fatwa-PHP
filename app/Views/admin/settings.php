@@ -43,6 +43,10 @@ $this->section('actions');
                     <label class="form-label" for="<?= e($key) ?>"><?= e($label) ?> <i class="bi bi-lock-fill text-secondary small" aria-hidden="true"></i></label>
                     <input type="password" class="form-control" id="<?= e($key) ?>" name="<?= e($key) ?>" autocomplete="new-password" placeholder="<?= e(!empty($secrets[$key]) ? __('admin.settings.secret_set') : __('admin.settings.secret_unset')) ?>" dir="ltr">
                     <div class="d-flex justify-content-between"><div class="form-text"><?= e($help ?? __('admin.settings.secret_help')) ?></div><?php if (!empty($secrets[$key])): ?><div class="form-check form-check-inline mt-1"><input class="form-check-input" type="checkbox" id="clear_<?= e($key) ?>" name="clear_<?= e($key) ?>" value="1"><label class="form-check-label small" for="clear_<?= e($key) ?>"><?= e(__('admin.settings.secret_clear')) ?></label></div><?php endif ?></div>
+                    <?php elseif ($type === 'textarea'): ?>
+                    <label class="form-label" for="<?= e($key) ?>"><?= e($label) ?></label>
+                    <textarea class="form-control" id="<?= e($key) ?>" name="<?= e($key) ?>" rows="5" dir="auto"><?= e(old($key, $values[$key] ?? '')) ?></textarea>
+                    <?php if ($help): ?><div class="form-text"><?= e($help) ?></div><?php endif ?>
                     <?php elseif (str_starts_with($type, 'select:')): ?>
                     <label class="form-label" for="<?= e($key) ?>"><?= e($label) ?></label>
                     <select class="form-select" id="<?= e($key) ?>" name="<?= e($key) ?>"><?php foreach (explode(',', substr($type, 7)) as $opt): ?><option value="<?= e($opt) ?>" <?= ($values[$key] ?? '') === $opt ? 'selected' : '' ?>><?= e(\App\Core\Lang::has('admin.settings.option.' . $key . '.' . $opt) ? __('admin.settings.option.' . $key . '.' . $opt) : $opt) ?></option><?php endforeach ?></select>

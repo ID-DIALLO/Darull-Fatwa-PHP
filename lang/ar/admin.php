@@ -110,7 +110,7 @@ return [
     'settings' => [
         'title' => 'الإعدادات', 'intro' => 'الهوية، بيانات التواصل، الحدود، واتساب، البريد، الأمان.', 'groups' => 'مجموعات الإعدادات', 'clear_cache' => 'مسح الذاكرة المؤقتة', 'maintenance_flag' => 'الملف storage/maintenance.flag موجود: الموقع في وضع الصيانة بغض النظر عن الإعداد.',
         'secret_set' => '•••••••• (مُعيَّن)', 'secret_unset' => 'غير مُعيَّن', 'secret_help' => 'مشفَّر في قاعدة البيانات؛ اتركه فارغًا للإبقاء على القيمة الحالية.', 'secret_clear' => 'مسح',
-        'group' => ['general' => 'عام', 'contact' => 'بيانات التواصل', 'social' => 'الشبكات الاجتماعية', 'questions' => 'الأسئلة والحدود', 'home' => 'الرئيسية', 'whatsapp' => 'واتساب', 'mail' => 'البريد (SMTP)', 'security' => 'الأمان'],
+        'group' => ['general' => 'عام', 'contact' => 'بيانات التواصل', 'social' => 'الشبكات الاجتماعية', 'questions' => 'الأسئلة والحدود', 'forum' => 'المنتدى', 'home' => 'الرئيسية', 'whatsapp' => 'واتساب', 'mail' => 'البريد (SMTP)', 'security' => 'الأمان'],
         'group_help' => ['whatsapp' => 'المستوى 1: روابط wa.me. وضع «Cloud API» (النسخة 2) يتطلب حساب Meta Business؛ الرموز مشفَّرة.', 'mail' => 'هذه القيم تتقدم على ملف .env. اتركها فارغة لاستخدام .env.', 'security' => 'مفاتيح Cloudflare Turnstile (مكافحة الروبوتات). فارغة: حماية الحقل الفخ فقط.'],
         'field' => [
             'site_name' => 'اسم الموقع', 'site_slogan_fr' => 'الشعار (فرنسي)', 'site_slogan_ar' => 'الشعار (عربي)', 'site_slogan_en' => 'الشعار (إنجليزي)', 'prophet_honorific_fr' => 'الصلاة على النبي', 'maintenance_mode' => 'وضع الصيانة',
@@ -120,9 +120,10 @@ return [
             'stats_answered' => 'أسئلة مُجابة (يدوي)', 'stats_members' => 'أعضاء (يدوي)', 'stats_articles' => 'مقالات (يدوي)', 'stats_scholars' => 'أساتذة (يدوي)',
             'whatsapp_number' => 'رقم واتساب الرسمي', 'whatsapp_mode' => 'الوضع', 'whatsapp_phone_number_id' => 'Phone number ID (Cloud API)', 'whatsapp_access_token' => 'رمز الوصول (Cloud API)', 'whatsapp_app_secret' => 'App secret', 'whatsapp_verify_token' => 'رمز التحقق من الويبهوك',
             'mail_host' => 'خادم SMTP', 'mail_port' => 'المنفذ', 'mail_encryption' => 'التشفير', 'mail_username' => 'اسم المستخدم', 'mail_password' => 'كلمة المرور', 'mail_from_address' => 'عنوان المرسل', 'mail_from_name' => 'اسم المرسل',
+            'forum_first_posts_moderated' => 'مشاركات تُراجع قبل النشر (عضو جديد)', 'forum_banned_words' => 'كلمات محظورة (واحدة في كل سطر)',
             'turnstile_site_key' => 'مفتاح موقع Turnstile', 'turnstile_secret_key' => 'المفتاح السري Turnstile',
         ],
-        'help' => ['maintenance_mode' => 'يحتفظ المشرفون بإمكانية الدخول.', 'auto_assign' => 'يُسند كل سؤال جديد إلى الأستاذ المتاح الأقل انشغالًا في القسم.', 'prophet_honorific_fr' => 'يُضاف بعد اسم النبي (ﷺ).'],
+        'help' => ['forum_first_posts_moderated' => '0 لتعطيل المراجعة المسبقة.', 'forum_banned_words' => 'المشاركة التي تحوي إحدى هذه الكلمات تمر بالمراجعة.', 'maintenance_mode' => 'يحتفظ المشرفون بإمكانية الدخول.', 'auto_assign' => 'يُسند كل سؤال جديد إلى الأستاذ المتاح الأقل انشغالًا في القسم.', 'prophet_honorific_fr' => 'يُضاف بعد اسم النبي (ﷺ).'],
         'option' => ['whatsapp_mode' => ['link' => 'روابط wa.me (المستوى 1)', 'cloud_api' => 'Meta Cloud API (النسخة 2)'], 'mail_encryption' => ['tls' => 'TLS (STARTTLS)', 'ssl' => 'SSL', 'none' => 'بدون']],
         'flash' => ['cache_cleared' => 'تم مسح الذاكرة المؤقتة.'],
     ],
@@ -139,6 +140,7 @@ return [
             'admin.banner.created' => 'إنشاء لافتة', 'admin.banner.updated' => 'تعديل لافتة', 'admin.banner.deleted' => 'حذف لافتة', 'admin.home.updated' => 'تعديل الرئيسية', 'admin.quote.created' => 'إضافة آية', 'admin.quote.updated' => 'تعديل آية', 'admin.quote.deleted' => 'حذف آية', 'admin.page.created' => 'إنشاء صفحة', 'admin.page.updated' => 'تعديل صفحة',
             'admin.contact.status' => 'حالة رسالة تواصل', 'admin.contact.replied' => 'الرد على رسالة تواصل', 'admin.contact.deleted' => 'حذف رسالة تواصل', 'admin.newsletter.exported' => 'تصدير المشتركين', 'admin.newsletter.deleted' => 'حذف مشترك',
             'admin.article.created' => 'إنشاء مقال', 'admin.article.updated' => 'تعديل مقال', 'admin.article.status' => 'تغيير حالة مقال', 'admin.article.deleted' => 'حذف مقال', 'article.saved' => 'حفظ مسودة مقال', 'article.submitted' => 'تقديم مقال للاعتماد', 'comment.created' => 'إضافة تعليق', 'admin.comment.approved' => 'اعتماد تعليق', 'admin.comment.rejected' => 'رفض تعليق', 'admin.comment.spam' => 'تعليق مزعج', 'admin.comment.pending' => 'إعادة تعليق للانتظار', 'admin.comment.deleted' => 'حذف تعليق', 'admin.tag.updated' => 'إعادة تسمية كلمة مفتاحية', 'admin.tag.deleted' => 'حذف كلمة مفتاحية',
+            'forum.topic_created' => 'إنشاء موضوع', 'forum.post_created' => 'نشر رد', 'forum.reported' => 'الإبلاغ عن محتوى', 'forum.answer_validated' => 'اعتماد جواب من أستاذ', 'forum.answer_unvalidated' => 'إلغاء الاعتماد', 'admin.forum.topic_approved' => 'اعتماد موضوع', 'admin.forum.post_approved' => 'اعتماد رد', 'admin.forum.topic_hidden' => 'إخفاء موضوع', 'admin.forum.post_hidden' => 'إخفاء رد', 'admin.forum.topic_updated' => 'تعديل موضوع (إشراف)', 'admin.forum.topic_deleted' => 'حذف موضوع', 'admin.forum.post_deleted' => 'حذف رد', 'admin.forum.category_saved' => 'حفظ قسم المنتدى', 'admin.report.resolved' => 'معالجة بلاغ', 'admin.report.dismissed' => 'حفظ بلاغ', 'idea.created' => 'اقتراح فكرة', 'idea.comment_created' => 'تعليق على فكرة', 'admin.idea.status' => 'حالة فكرة', 'admin.idea.deleted' => 'حذف فكرة', 'admin.idea.comment_visible' => 'اعتماد تعليق فكرة', 'admin.idea.comment_hidden' => 'إخفاء تعليق فكرة',
             'admin.settings.updated' => 'تعديل الإعدادات', 'admin.cache.cleared' => 'مسح الذاكرة المؤقتة', 'admin.backup.created' => 'إنشاء نسخة احتياطية', 'admin.backup.downloaded' => 'تنزيل نسخة احتياطية', 'admin.backup.deleted' => 'حذف نسخة احتياطية',
         ],
     ],
@@ -148,6 +150,19 @@ return [
         'title' => 'التعليقات', 'intro' => 'مراجعة مسبقة: لا يظهر التعليق إلا بعد اعتماده.', 'approve' => 'اعتماد', 'reject' => 'رفض', 'spam' => 'مزعج',
         'status' => ['pending' => 'بانتظار', 'approved' => 'معتمدة', 'rejected' => 'مرفوضة', 'spam' => 'مزعجة'], 'col' => ['author' => 'الكاتب', 'body' => 'التعليق', 'target' => 'على'], 'type' => ['article' => 'مقال', 'qa' => 'سؤال وجواب'],
     ],
+    'forum' => [
+        'title' => 'المنتدى', 'topics_count' => ':count موضوع|:count مواضيع', 'categories' => 'الأقسام', 'categories_intro' => 'قسم لكل باب + نقاشات عامة وحياة المجتمع. الأسماء مترجمة.', 'add_category' => 'إضافة قسم',
+        'posts' => 'الردود', 'posts_intro' => 'ردود بانتظار الإشراف (أعضاء جدد، كلمات محظورة)، ظاهرة أو مخفية.',
+        'col' => ['topic' => 'الموضوع', 'author' => 'الكاتب', 'category' => 'القسم', 'replies' => 'الردود', 'message' => 'الرسالة', 'rubrique' => 'الباب المرتبط'],
+        'post_status' => ['pending' => 'بانتظار', 'visible' => 'ظاهرة', 'hidden' => 'مخفية'],
+    ],
+    'reports' => [
+        'title' => 'البلاغات', 'intro' => 'محتويات أبلغ عنها الأعضاء: أخفِ الهدف وأغلق، أو أغلق دون إجراء، أو احفظ البلاغ.',
+        'status' => ['open' => 'مفتوحة', 'resolved' => 'مُعالجة', 'dismissed' => 'محفوظة'], 'col' => ['date' => 'التاريخ', 'target' => 'المحتوى', 'reason' => 'السبب', 'reporter' => 'المبلِّغ'],
+        'types' => ['forum_topic' => 'موضوع', 'forum_post' => 'رد في المنتدى', 'comment' => 'تعليق', 'idea' => 'فكرة', 'idea_comment' => 'تعليق على فكرة'],
+        'hide_and_resolve' => 'إخفاء ومعالجة', 'hide_confirm' => 'إخفاء هذا المحتوى وإغلاق البلاغ؟', 'resolve' => 'معالجة', 'dismiss' => 'حفظ', 'handled_by' => 'عالجه :name في :date',
+    ],
+    'ideas' => ['title' => 'صندوق الأفكار', 'intro' => 'راجع المقترحات وحدّث حالتها ورد رسميًا.', 'col' => ['votes' => 'الأصوات', 'comments' => 'التعليقات'], 'decision' => 'القرار', 'status_help' => '«قيد الإشراف» ← «جديدة» يجعل الفكرة عامة ومفتوحة للتصويت.', 'response_help' => 'يظهر علنًا تحت الفكرة؛ يُبلَّغ الكاتب.'],
     'backups' => [
         'title' => 'النسخ الاحتياطية', 'intro' => 'تصدير SQL مضغوط لقاعدة البيانات. تُحفظ النسخ التلقائية :days يومًا.', 'create' => 'نسخ قاعدة البيانات الآن', 'empty' => 'لا توجد نسخة احتياطية.', 'download' => 'تنزيل', 'auto' => 'تلقائي',
         'offsite' => 'نزّل نسخة احتياطية بانتظام واحتفظ بها خارج الخادم (توصية §12.5).',

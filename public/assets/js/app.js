@@ -171,3 +171,44 @@ document.querySelectorAll('[data-favorite-form]').forEach((form) => {
   }));
   form.querySelector('[data-reply-cancel]')?.addEventListener('click', () => { parent.value = ''; indicator.hidden = true; });
 })();
+
+// Forum et idées : J'aime / vote sans rechargement (repli : envoi classique), citation d'un message (Phase 7)
+const toggleFetch = (selector, key) => document.querySelectorAll(selector).forEach((form) => {
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = form.querySelector('button');
+    try {
+      const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' }, credentials: 'same-origin' });
+      if (!response.ok) throw new Error(String(response.status));
+      const data = await response.json();
+      const active = Boolean(data[key]);
+      button.classList.toggle('btn-primary', active);
+      button.classList.toggle('btn-outline-primary', !active);
+      button.setAttribute('aria-pressed', String(active));
+      const icon = button.querySelector('i');
+      if (icon) icon.className = 'bi bi-hand-thumbs-up' + (active ? '-fill' : '');
+      const count = button.querySelector('[data-like-count], [data-vote-count]');
+      if (count) count.textContent = String(data.count);
+    } catch {
+      form.submit();
+    }
+  });
+});
+toggleFetch('[data-like-form]', 'liked');
+toggleFetch('[data-vote-form]', 'voted');
+
+(() => {
+  const form = document.getElementById('reply-form');
+  if (!form) return;
+  const field = form.querySelector('[data-quote-field]');
+  const indicator = form.querySelector('[data-quote-indicator]');
+  const name = form.querySelector('[data-quote-name]');
+  document.querySelectorAll('[data-quote-post]').forEach((btn) => btn.addEventListener('click', () => {
+    field.value = btn.dataset.quotePost;
+    name.textContent = btn.dataset.quoteAuthor;
+    indicator.hidden = false;
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    form.querySelector('textarea').focus();
+  }));
+  form.querySelector('[data-quote-cancel]')?.addEventListener('click', () => { field.value = ''; indicator.hidden = true; });
+})();

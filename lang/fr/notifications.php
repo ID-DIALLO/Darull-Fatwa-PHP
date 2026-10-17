@@ -102,4 +102,18 @@ return [
         'submitted' => ['title' => 'Article soumis par :author', 'message' => 'Un professeur a soumis un article à la validation.', 'icon' => 'journal-text'],
         'published' => ['title' => 'Votre article a été publié', 'message' => 'L\'administration a validé et publié votre article.', 'icon' => 'journal-check'],
     ],
+    'forum' => [
+        'reply' => ['title' => 'Nouvelle réponse : :title', 'message' => ':author a répondu dans un sujet que vous suivez.', 'icon' => 'chat-square-text'],
+        'topic_approved' => ['title' => 'Sujet publié : :title', 'message' => 'Votre sujet a été approuvé par la modération.', 'icon' => 'check2-circle'],
+        'post_approved' => ['title' => 'Réponse publiée dans « :title »', 'message' => 'Votre réponse a été approuvée par la modération.', 'icon' => 'check2-circle'],
+        'answer_validated' => ['title' => 'Réponse validée par un professeur', 'message' => 'Votre réponse dans « :title » porte désormais le badge « validée par un professeur ».', 'icon' => 'patch-check'],
+        'pending' => ['title' => 'Forum : contenu à modérer', 'message' => 'Un message attend la relecture d\'un modérateur (:title).', 'icon' => 'shield'],
+        'report' => ['title' => 'Nouveau signalement', 'message' => 'Un membre a signalé un contenu (:reason).', 'icon' => 'flag'],
+    ],
+    'idea' => [
+        'pending' => ['title' => 'Nouvelle idée à modérer', 'message' => '« :title » attend la relecture de l\'équipe.', 'icon' => 'lightbulb'],
+        'status' => ['title' => 'Votre idée « :title »', 'message' => 'Nouveau statut : :status.', 'icon' => 'lightbulb'],
+        'response' => ['title' => 'Réponse officielle à votre idée', 'message' => 'L\'équipe a répondu à « :title » (:status).', 'icon' => 'patch-check'],
+        'comment' => ['title' => 'Nouveau commentaire sur votre idée', 'message' => 'Un membre a commenté « :title ».', 'icon' => 'chat-left'],
+    ],
 ];

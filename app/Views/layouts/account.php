@@ -13,6 +13,8 @@ $items = [
     ['route' => 'account.dashboard', 'icon' => 'speedometer2', 'label' => __('account.nav.dashboard'), 'match' => 'account.dashboard'],
     ['route' => 'account.questions', 'icon' => 'chat-left-dots', 'label' => __('account.nav.questions'), 'match' => 'account.questions'],
     ['route' => 'account.favorites', 'icon' => 'bookmark', 'label' => __('account.nav.favorites'), 'match' => 'account.favorites'],
+    ['route' => 'account.forum', 'icon' => 'chat-square-text', 'label' => __('account.nav.forum'), 'match' => 'account.forum'],
+    ['route' => 'account.ideas', 'icon' => 'lightbulb', 'label' => __('account.nav.ideas'), 'match' => 'account.ideas'],
     ['route' => 'account.notifications', 'icon' => 'bell', 'label' => __('account.nav.notifications'), 'match' => 'account.notifications'],
     ['route' => 'account.profile', 'icon' => 'person', 'label' => __('account.nav.profile'), 'match' => 'account.profile'],
     ['route' => 'account.security', 'icon' => 'shield-lock', 'label' => __('account.nav.security'), 'match' => 'account.security'],

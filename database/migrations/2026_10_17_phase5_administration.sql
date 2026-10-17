@@ -18,3 +18,8 @@ INSERT IGNORE INTO settings (setting_key, setting_value, setting_group, is_secre
  ('mail_from_name','','mail',0),
  ('turnstile_site_key','','security',0),
  ('turnstile_secret_key',NULL,'security',1);
+
+-- Phase 7 : paramètres du forum (modération des premiers messages, mots interdits)
+INSERT IGNORE INTO settings (setting_key, setting_value, setting_group, is_secret) VALUES
+ ('forum_first_posts_moderated','3','forum',0),
+ ('forum_banned_words','','forum',0);

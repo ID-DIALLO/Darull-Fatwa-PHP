@@ -78,8 +78,8 @@ final class SearchService
         if (route_exists('forum.topic')) {
             [$topicSql, $topicParams] = self::matchClause(['ft.title', 'ft.body'], $query);
             $results['topics'] = Database::fetchAll(
-                "SELECT ft.id, ft.title, ft.slug, ft.replies_count, ft.created_at, ft.locale FROM forum_topics ft
-                 WHERE ft.status IN ('open','locked') AND ft.deleted_at IS NULL AND ft.locale = ? AND " . $topicSql . ' ORDER BY ft.created_at DESC LIMIT ' . (int) $limit,
+                "SELECT ft.id, ft.title, ft.slug, ft.replies_count, ft.created_at, ft.language FROM forum_topics ft
+                 WHERE ft.status IN ('open','locked') AND ft.deleted_at IS NULL AND ft.language = ? AND " . $topicSql . ' ORDER BY ft.created_at DESC LIMIT ' . (int) $limit,
                 array_merge([$locale], $topicParams),
             );
         }

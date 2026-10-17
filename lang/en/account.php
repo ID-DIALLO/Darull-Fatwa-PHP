@@ -96,4 +96,6 @@ return [
         'text'          => 'This area is under construction and will be available in a coming phase.',
     ],
     'favorites' => ['title' => 'My favourites', 'intro' => 'The questions & answers and articles you saved.', 'empty' => 'No favourite yet.', 'type_article' => 'Article', 'type_qa' => 'Q&A'],
+    'forum' => ['title' => 'My forum', 'intro' => 'Your topics and the discussions you follow.', 'my_topics' => 'My topics', 'subscriptions' => 'Followed topics', 'empty_topics' => 'You have not opened any topic yet.', 'empty_subscriptions' => 'You do not follow any topic.'],
+    'ideas' => ['title' => 'My ideas', 'intro' => 'The ideas you proposed and their progress.', 'empty' => 'You have not proposed any idea yet.'],
 ];

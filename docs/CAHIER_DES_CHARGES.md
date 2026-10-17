@@ -1940,14 +1940,14 @@ Chaque phase se termine par : tests passés, critères cochés, commit `Phase N 
 
 ### Phase 7 — Forum et boîte à idées
 
-- [ ] Forum (4.9) : catégories, sujets, réponses, citation, J'aime, abonnements, signalements, badge « validée par un professeur », modération a priori des nouveaux membres, charte
-- [ ] Idées (4.10) : proposition, vote unique, commentaires, statuts, réponse officielle
-- [ ] Modération admin (sujets, messages, signalements, idées)
+- [x] Forum (4.9) : catégories, sujets, réponses, citation, J'aime, abonnements, signalements, badge « validée par un professeur », modération a priori des nouveaux membres, charte
+- [x] Idées (4.10) : proposition, vote unique, commentaires, statuts, réponse officielle
+- [x] Modération admin (sujets, messages, signalements, idées)
 
 **Critères d'acceptation**
-- [ ] Les 3 premiers messages d'un nouveau membre sont en attente de modération
-- [ ] Un membre ne peut voter qu'une fois par idée (contrôle serveur)
-- [ ] Les abonnés d'un sujet reçoivent une notification lors d'une nouvelle réponse
+- [x] Les 3 premiers messages d'un nouveau membre sont en attente de modération
+- [x] Un membre ne peut voter qu'une fois par idée (contrôle serveur)
+- [x] Les abonnés d'un sujet reçoivent une notification lors d'une nouvelle réponse
 
 ### Phase 8 — Qualité : SEO, performance, sécurité, accessibilité, PWA
 

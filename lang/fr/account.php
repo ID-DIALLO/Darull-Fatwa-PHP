@@ -96,4 +96,6 @@ return [
         'text'          => 'Cet espace est en cours de construction et sera disponible dans une prochaine phase.',
     ],
     'favorites' => ['title' => 'Mes favoris', 'intro' => 'Les questions-réponses et articles que vous avez enregistrés.', 'empty' => 'Aucun favori pour le moment.', 'type_article' => 'Article', 'type_qa' => 'Question-réponse'],
+    'forum' => ['title' => 'Mon forum', 'intro' => 'Vos sujets et les discussions que vous suivez.', 'my_topics' => 'Mes sujets', 'subscriptions' => 'Sujets suivis', 'empty_topics' => 'Vous n\'avez pas encore ouvert de sujet.', 'empty_subscriptions' => 'Vous ne suivez aucun sujet.'],
+    'ideas' => ['title' => 'Mes idées', 'intro' => 'Les idées que vous avez proposées et leur avancement.', 'empty' => 'Vous n\'avez pas encore proposé d\'idée.'],
 ];

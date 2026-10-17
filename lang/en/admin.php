@@ -110,7 +110,7 @@ return [
     'settings' => [
         'title' => 'Settings', 'intro' => 'Identity, contact details, limits, WhatsApp, e-mail, security.', 'groups' => 'Setting groups', 'clear_cache' => 'Clear cache', 'maintenance_flag' => 'The storage/maintenance.flag file exists: the site is in maintenance regardless of the setting.',
         'secret_set' => '•••••••• (set)', 'secret_unset' => 'Not set', 'secret_help' => 'Encrypted in the database; leave empty to keep the current value.', 'secret_clear' => 'Clear',
-        'group' => ['general' => 'General', 'contact' => 'Contact details', 'social' => 'Social networks', 'questions' => 'Questions and limits', 'home' => 'Home', 'whatsapp' => 'WhatsApp', 'mail' => 'E-mail (SMTP)', 'security' => 'Security'],
+        'group' => ['general' => 'General', 'contact' => 'Contact details', 'social' => 'Social networks', 'questions' => 'Questions and limits', 'forum' => 'Forum', 'home' => 'Home', 'whatsapp' => 'WhatsApp', 'mail' => 'E-mail (SMTP)', 'security' => 'Security'],
         'group_help' => ['whatsapp' => 'Level 1: wa.me links. The "Cloud API" mode (V2) needs a Meta Business account; tokens are encrypted.', 'mail' => 'These values override the .env file. Leave empty to use .env.', 'security' => 'Cloudflare Turnstile keys (anti-bot). Empty: honeypot protection only.'],
         'field' => [
             'site_name' => 'Site name', 'site_slogan_fr' => 'Slogan (French)', 'site_slogan_ar' => 'Slogan (Arabic)', 'site_slogan_en' => 'Slogan (English)', 'prophet_honorific_fr' => 'Prophet\'s honorific', 'maintenance_mode' => 'Maintenance mode',
@@ -120,9 +120,10 @@ return [
             'stats_answered' => 'Questions answered (manual)', 'stats_members' => 'Members (manual)', 'stats_articles' => 'Articles (manual)', 'stats_scholars' => 'Scholars (manual)',
             'whatsapp_number' => 'Official WhatsApp number', 'whatsapp_mode' => 'Mode', 'whatsapp_phone_number_id' => 'Phone number ID (Cloud API)', 'whatsapp_access_token' => 'Access token (Cloud API)', 'whatsapp_app_secret' => 'App secret', 'whatsapp_verify_token' => 'Webhook verify token',
             'mail_host' => 'SMTP server', 'mail_port' => 'Port', 'mail_encryption' => 'Encryption', 'mail_username' => 'Username', 'mail_password' => 'Password', 'mail_from_address' => 'Sender address', 'mail_from_name' => 'Sender name',
+            'forum_first_posts_moderated' => 'Posts reviewed before publication (new member)', 'forum_banned_words' => 'Banned words (one per line)',
             'turnstile_site_key' => 'Turnstile site key', 'turnstile_secret_key' => 'Turnstile secret key',
         ],
-        'help' => ['maintenance_mode' => 'Administrators keep access.', 'auto_assign' => 'Assigns each new question to the least loaded available scholar of the topic.', 'prophet_honorific_fr' => 'Added after the Prophet\'s name (ﷺ).'],
+        'help' => ['forum_first_posts_moderated' => '0 disables prior moderation.', 'forum_banned_words' => 'A post containing one of these words goes to moderation.', 'maintenance_mode' => 'Administrators keep access.', 'auto_assign' => 'Assigns each new question to the least loaded available scholar of the topic.', 'prophet_honorific_fr' => 'Added after the Prophet\'s name (ﷺ).'],
         'option' => ['whatsapp_mode' => ['link' => 'wa.me links (level 1)', 'cloud_api' => 'Meta Cloud API (V2)'], 'mail_encryption' => ['tls' => 'TLS (STARTTLS)', 'ssl' => 'SSL', 'none' => 'None']],
         'flash' => ['cache_cleared' => 'Cache cleared.'],
     ],
@@ -139,6 +140,7 @@ return [
             'admin.banner.created' => 'Banner created', 'admin.banner.updated' => 'Banner updated', 'admin.banner.deleted' => 'Banner deleted', 'admin.home.updated' => 'Home page updated', 'admin.quote.created' => 'Verse added', 'admin.quote.updated' => 'Verse updated', 'admin.quote.deleted' => 'Verse deleted', 'admin.page.created' => 'Page created', 'admin.page.updated' => 'Page updated',
             'admin.contact.status' => 'Contact message status', 'admin.contact.replied' => 'Reply to a contact message', 'admin.contact.deleted' => 'Contact message deleted', 'admin.newsletter.exported' => 'Subscribers exported', 'admin.newsletter.deleted' => 'Subscriber deleted',
             'admin.article.created' => 'Article created', 'admin.article.updated' => 'Article updated', 'admin.article.status' => 'Article status changed', 'admin.article.deleted' => 'Article deleted', 'article.saved' => 'Article draft saved', 'article.submitted' => 'Article submitted for approval', 'comment.created' => 'Comment posted', 'admin.comment.approved' => 'Comment approved', 'admin.comment.rejected' => 'Comment rejected', 'admin.comment.spam' => 'Comment marked as spam', 'admin.comment.pending' => 'Comment set back to pending', 'admin.comment.deleted' => 'Comment deleted', 'admin.tag.updated' => 'Tag renamed', 'admin.tag.deleted' => 'Tag deleted',
+            'forum.topic_created' => 'Topic created', 'forum.post_created' => 'Reply posted', 'forum.reported' => 'Content reported', 'forum.answer_validated' => 'Answer validated by a scholar', 'forum.answer_unvalidated' => 'Validation removed', 'admin.forum.topic_approved' => 'Topic approved', 'admin.forum.post_approved' => 'Reply approved', 'admin.forum.topic_hidden' => 'Topic hidden', 'admin.forum.post_hidden' => 'Reply hidden', 'admin.forum.topic_updated' => 'Topic updated (moderation)', 'admin.forum.topic_deleted' => 'Topic deleted', 'admin.forum.post_deleted' => 'Reply deleted', 'admin.forum.category_saved' => 'Forum category saved', 'admin.report.resolved' => 'Report resolved', 'admin.report.dismissed' => 'Report dismissed', 'idea.created' => 'Idea proposed', 'idea.comment_created' => 'Comment on an idea', 'admin.idea.status' => 'Idea status', 'admin.idea.deleted' => 'Idea deleted', 'admin.idea.comment_visible' => 'Idea comment approved', 'admin.idea.comment_hidden' => 'Idea comment hidden',
             'admin.settings.updated' => 'Settings updated', 'admin.cache.cleared' => 'Cache cleared', 'admin.backup.created' => 'Backup created', 'admin.backup.downloaded' => 'Backup downloaded', 'admin.backup.deleted' => 'Backup deleted',
         ],
     ],
@@ -148,6 +150,19 @@ return [
         'title' => 'Comments', 'intro' => 'Prior moderation: a comment is visible only once approved.', 'approve' => 'Approve', 'reject' => 'Reject', 'spam' => 'Spam',
         'status' => ['pending' => 'Pending', 'approved' => 'Approved', 'rejected' => 'Rejected', 'spam' => 'Spam'], 'col' => ['author' => 'Author', 'body' => 'Comment', 'target' => 'On'], 'type' => ['article' => 'Article', 'qa' => 'Q&A'],
     ],
+    'forum' => [
+        'title' => 'Forum', 'topics_count' => ':count topic|:count topics', 'categories' => 'Categories', 'categories_intro' => 'One category per topic + general discussions and community life. Names are translated.', 'add_category' => 'Add a category',
+        'posts' => 'Replies', 'posts_intro' => 'Replies awaiting moderation (new members, banned words), visible or hidden.',
+        'col' => ['topic' => 'Topic', 'author' => 'Author', 'category' => 'Category', 'replies' => 'Replies', 'message' => 'Message', 'rubrique' => 'Linked topic'],
+        'post_status' => ['pending' => 'Pending', 'visible' => 'Visible', 'hidden' => 'Hidden'],
+    ],
+    'reports' => [
+        'title' => 'Reports', 'intro' => 'Content reported by members: hide the target and resolve, resolve without action, or dismiss.',
+        'status' => ['open' => 'Open', 'resolved' => 'Resolved', 'dismissed' => 'Dismissed'], 'col' => ['date' => 'Date', 'target' => 'Content', 'reason' => 'Reason', 'reporter' => 'Reported by'],
+        'types' => ['forum_topic' => 'Topic', 'forum_post' => 'Forum reply', 'comment' => 'Comment', 'idea' => 'Idea', 'idea_comment' => 'Idea comment'],
+        'hide_and_resolve' => 'Hide and resolve', 'hide_confirm' => 'Hide this content and close the report?', 'resolve' => 'Resolve', 'dismiss' => 'Dismiss', 'handled_by' => 'handled by :name on :date',
+    ],
+    'ideas' => ['title' => 'Idea box', 'intro' => 'Moderate proposals, update their status and answer officially.', 'col' => ['votes' => 'Votes', 'comments' => 'Comments'], 'decision' => 'Decision', 'status_help' => '"In moderation" → "New" makes the idea public and open to voting.', 'response_help' => 'Shown publicly under the idea; the author is notified.'],
     'backups' => [
         'title' => 'Backups', 'intro' => 'Compressed SQL export of the database. Automatic backups are kept :days days.', 'create' => 'Back up the database now', 'empty' => 'No backup.', 'download' => 'Download', 'auto' => 'auto',
         'offsite' => 'Download a backup regularly and keep it off the server (recommendation §12.5).',

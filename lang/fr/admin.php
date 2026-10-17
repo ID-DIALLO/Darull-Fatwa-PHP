@@ -110,7 +110,7 @@ return [
     'settings' => [
         'title' => 'Paramètres', 'intro' => 'Identité, coordonnées, limites, WhatsApp, e-mail, sécurité.', 'groups' => 'Groupes de paramètres', 'clear_cache' => 'Vider le cache', 'maintenance_flag' => 'Le fichier storage/maintenance.flag est présent : le site est en maintenance quel que soit le paramètre.',
         'secret_set' => '•••••••• (renseigné)', 'secret_unset' => 'Non renseigné', 'secret_help' => 'Chiffré en base ; laissez vide pour conserver la valeur actuelle.', 'secret_clear' => 'Effacer',
-        'group' => ['general' => 'Général', 'contact' => 'Coordonnées', 'social' => 'Réseaux sociaux', 'questions' => 'Questions et limites', 'home' => 'Accueil', 'whatsapp' => 'WhatsApp', 'mail' => 'E-mail (SMTP)', 'security' => 'Sécurité'],
+        'group' => ['general' => 'Général', 'contact' => 'Coordonnées', 'social' => 'Réseaux sociaux', 'questions' => 'Questions et limites', 'forum' => 'Forum', 'home' => 'Accueil', 'whatsapp' => 'WhatsApp', 'mail' => 'E-mail (SMTP)', 'security' => 'Sécurité'],
         'group_help' => ['whatsapp' => 'Niveau 1 : liens wa.me. Le mode « API Cloud » (V2) nécessite un compte Meta Business ; les jetons sont chiffrés.', 'mail' => 'Ces valeurs priment sur le fichier .env. Laissez vide pour utiliser .env.', 'security' => 'Clés Cloudflare Turnstile (anti-robot). Vides : protection par champ piège seule.'],
         'field' => [
             'site_name' => 'Nom du site', 'site_slogan_fr' => 'Slogan (français)', 'site_slogan_ar' => 'Slogan (arabe)', 'site_slogan_en' => 'Slogan (anglais)', 'prophet_honorific_fr' => 'Eulogie du Prophète', 'maintenance_mode' => 'Mode maintenance',
@@ -120,9 +120,10 @@ return [
             'stats_answered' => 'Questions répondues (manuel)', 'stats_members' => 'Membres (manuel)', 'stats_articles' => 'Articles (manuel)', 'stats_scholars' => 'Professeurs (manuel)',
             'whatsapp_number' => 'Numéro WhatsApp officiel', 'whatsapp_mode' => 'Mode', 'whatsapp_phone_number_id' => 'Phone number ID (API Cloud)', 'whatsapp_access_token' => 'Jeton d\'accès (API Cloud)', 'whatsapp_app_secret' => 'App secret', 'whatsapp_verify_token' => 'Jeton de vérification du webhook',
             'mail_host' => 'Serveur SMTP', 'mail_port' => 'Port', 'mail_encryption' => 'Chiffrement', 'mail_username' => 'Utilisateur', 'mail_password' => 'Mot de passe', 'mail_from_address' => 'Adresse d\'expédition', 'mail_from_name' => 'Nom d\'expéditeur',
+            'forum_first_posts_moderated' => 'Messages relus avant publication (nouveau membre)', 'forum_banned_words' => 'Mots interdits (un par ligne)',
             'turnstile_site_key' => 'Clé de site Turnstile', 'turnstile_secret_key' => 'Clé secrète Turnstile',
         ],
-        'help' => ['maintenance_mode' => 'Les administrateurs gardent l\'accès.', 'auto_assign' => 'Attribue chaque nouvelle question au professeur disponible le moins chargé de la rubrique.', 'prophet_honorific_fr' => 'Ajouté après le nom du Prophète (ﷺ).'],
+        'help' => ['forum_first_posts_moderated' => '0 pour désactiver la modération a priori.', 'forum_banned_words' => 'Un message contenant l\'un de ces mots passe en modération.', 'maintenance_mode' => 'Les administrateurs gardent l\'accès.', 'auto_assign' => 'Attribue chaque nouvelle question au professeur disponible le moins chargé de la rubrique.', 'prophet_honorific_fr' => 'Ajouté après le nom du Prophète (ﷺ).'],
         'option' => ['whatsapp_mode' => ['link' => 'Liens wa.me (niveau 1)', 'cloud_api' => 'API Cloud Meta (V2)'], 'mail_encryption' => ['tls' => 'TLS (STARTTLS)', 'ssl' => 'SSL', 'none' => 'Aucun']],
         'flash' => ['cache_cleared' => 'Cache vidé.'],
     ],
@@ -139,6 +140,7 @@ return [
             'admin.banner.created' => 'Bannière créée', 'admin.banner.updated' => 'Bannière modifiée', 'admin.banner.deleted' => 'Bannière supprimée', 'admin.home.updated' => 'Accueil modifié', 'admin.quote.created' => 'Verset ajouté', 'admin.quote.updated' => 'Verset modifié', 'admin.quote.deleted' => 'Verset supprimé', 'admin.page.created' => 'Page créée', 'admin.page.updated' => 'Page modifiée',
             'admin.contact.status' => 'Statut d\'un message de contact', 'admin.contact.replied' => 'Réponse à un message de contact', 'admin.contact.deleted' => 'Message de contact supprimé', 'admin.newsletter.exported' => 'Export des abonnés', 'admin.newsletter.deleted' => 'Abonné supprimé',
             'admin.article.created' => 'Article créé', 'admin.article.updated' => 'Article modifié', 'admin.article.status' => 'Statut d\'un article modifié', 'admin.article.deleted' => 'Article supprimé', 'article.saved' => 'Brouillon d\'article enregistré', 'article.submitted' => 'Article soumis à la validation', 'comment.created' => 'Commentaire déposé', 'admin.comment.approved' => 'Commentaire approuvé', 'admin.comment.rejected' => 'Commentaire refusé', 'admin.comment.spam' => 'Commentaire marqué spam', 'admin.comment.pending' => 'Commentaire remis en attente', 'admin.comment.deleted' => 'Commentaire supprimé', 'admin.tag.updated' => 'Mot-clé renommé', 'admin.tag.deleted' => 'Mot-clé supprimé',
+            'forum.topic_created' => 'Sujet créé', 'forum.post_created' => 'Réponse publiée', 'forum.reported' => 'Contenu signalé', 'forum.answer_validated' => 'Réponse validée par un professeur', 'forum.answer_unvalidated' => 'Validation retirée', 'admin.forum.topic_approved' => 'Sujet approuvé', 'admin.forum.post_approved' => 'Réponse approuvée', 'admin.forum.topic_hidden' => 'Sujet masqué', 'admin.forum.post_hidden' => 'Réponse masquée', 'admin.forum.topic_updated' => 'Sujet modifié (modération)', 'admin.forum.topic_deleted' => 'Sujet supprimé', 'admin.forum.post_deleted' => 'Réponse supprimée', 'admin.forum.category_saved' => 'Catégorie du forum enregistrée', 'admin.report.resolved' => 'Signalement résolu', 'admin.report.dismissed' => 'Signalement classé', 'idea.created' => 'Idée proposée', 'idea.comment_created' => 'Commentaire sur une idée', 'admin.idea.status' => 'Statut d\'une idée', 'admin.idea.deleted' => 'Idée supprimée', 'admin.idea.comment_visible' => 'Commentaire d\'idée approuvé', 'admin.idea.comment_hidden' => 'Commentaire d\'idée masqué',
             'admin.settings.updated' => 'Paramètres modifiés', 'admin.cache.cleared' => 'Cache vidé', 'admin.backup.created' => 'Sauvegarde créée', 'admin.backup.downloaded' => 'Sauvegarde téléchargée', 'admin.backup.deleted' => 'Sauvegarde supprimée',
         ],
     ],
@@ -148,6 +150,19 @@ return [
         'title' => 'Commentaires', 'intro' => 'Modération a priori : un commentaire n\'est visible qu\'une fois approuvé.', 'approve' => 'Approuver', 'reject' => 'Refuser', 'spam' => 'Spam',
         'status' => ['pending' => 'En attente', 'approved' => 'Approuvés', 'rejected' => 'Refusés', 'spam' => 'Spam'], 'col' => ['author' => 'Auteur', 'body' => 'Commentaire', 'target' => 'Sur'], 'type' => ['article' => 'Article', 'qa' => 'Question-réponse'],
     ],
+    'forum' => [
+        'title' => 'Forum', 'topics_count' => ':count sujet|:count sujets', 'categories' => 'Catégories', 'categories_intro' => 'Une catégorie par rubrique + discussions générales et vie de la communauté. Les noms sont traduits.', 'add_category' => 'Ajouter une catégorie',
+        'posts' => 'Réponses', 'posts_intro' => 'Réponses en attente de modération (nouveaux membres, mots interdits), visibles ou masquées.',
+        'col' => ['topic' => 'Sujet', 'author' => 'Auteur', 'category' => 'Catégorie', 'replies' => 'Réponses', 'message' => 'Message', 'rubrique' => 'Rubrique liée'],
+        'post_status' => ['pending' => 'En attente', 'visible' => 'Visibles', 'hidden' => 'Masquées'],
+    ],
+    'reports' => [
+        'title' => 'Signalements', 'intro' => 'Contenus signalés par les membres : masquez la cible et résolvez, résolvez sans action, ou classez sans suite.',
+        'status' => ['open' => 'Ouverts', 'resolved' => 'Résolus', 'dismissed' => 'Classés'], 'col' => ['date' => 'Date', 'target' => 'Contenu', 'reason' => 'Motif', 'reporter' => 'Signalé par'],
+        'types' => ['forum_topic' => 'Sujet', 'forum_post' => 'Réponse forum', 'comment' => 'Commentaire', 'idea' => 'Idée', 'idea_comment' => 'Commentaire d\'idée'],
+        'hide_and_resolve' => 'Masquer et résoudre', 'hide_confirm' => 'Masquer ce contenu et clore le signalement ?', 'resolve' => 'Résoudre', 'dismiss' => 'Classer', 'handled_by' => 'traité par :name le :date',
+    ],
+    'ideas' => ['title' => 'Boîte à idées', 'intro' => 'Modérez les propositions, faites évoluer leur statut et répondez officiellement.', 'col' => ['votes' => 'Votes', 'comments' => 'Commentaires'], 'decision' => 'Décision', 'status_help' => '« En modération » → « Nouvelle » rend l\'idée publique et ouverte au vote.', 'response_help' => 'Visible publiquement sous l\'idée ; l\'auteur est notifié.'],
     'backups' => [
         'title' => 'Sauvegardes', 'intro' => 'Export SQL compressé de la base. Les sauvegardes automatiques sont conservées :days jours.', 'create' => 'Sauvegarder la base maintenant', 'empty' => 'Aucune sauvegarde.', 'download' => 'Télécharger', 'auto' => 'auto',
         'offsite' => 'Téléchargez régulièrement une sauvegarde et conservez-la hors du serveur (recommandation §12.5).',
