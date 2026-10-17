@@ -141,8 +141,22 @@ php bin/build-assets.php
 php bin/doctor.php
 ```
 
-Sans SSH, une mise à jour consiste à : téléverser le nouveau paquet (en conservant `.env`, `storage/` et `public/uploads/`),
-puis exécuter dans phpMyAdmin les fichiers de `database/migrations/` non encore appliqués (table `schema_migrations`).
+### 3.1 Mise à jour sans terminal (déploiement Git Hostinger ou nouveau paquet)
+
+Un déploiement Git (hPanel → *Git* → *Déployer*) ou l'envoi d'un nouveau paquet remplace les **fichiers**, mais n'exécute
+pas les migrations SQL : la base reste à l'ancienne version et les pages qui utilisent les nouvelles colonnes répondent 500
+(symptôme typique : « Espace professeur » ou « Poser une question » en erreur alors que l'accueil fonctionne).
+
+Après **chaque** déploiement, connecté en super-administrateur :
+
+1. ouvrez **Administration → Système** (`/admin/system`) ; le tableau de bord affiche aussi un bandeau orange
+   « mises à jour de la base en attente » ;
+2. cliquez **Appliquer les mises à jour** : les fichiers de `database/migrations/` non encore appliqués sont exécutés dans
+   l'ordre, enregistrés dans `schema_migrations`, le cache est vidé et l'action est journalisée ;
+3. vérifiez la carte *Installation* (version PHP et MariaDB, nombre de tables, dossiers inscriptibles, dernière exécution du cron).
+
+Solution de repli si l'administration elle-même est inaccessible : exécuter dans phpMyAdmin le contenu des fichiers de
+`database/migrations/` absents de la table `schema_migrations`, puis y insérer leur nom (`INSERT INTO schema_migrations (migration, batch) VALUES ('nom_du_fichier.sql', 0)`).
 
 ---
 
@@ -192,6 +206,7 @@ messages du forum, réglages, titres arabes intacts).
 |---|---|---|
 | « Dépendances manquantes : lancez composer install » | `vendor/` absent (ZIP GitHub) | Utiliser le paquet de déploiement ou `composer install --no-dev` |
 | Page blanche / erreur 500 | `.env` incorrect, `storage/` non inscriptible | `APP_DEBUG=true` **temporairement** pour voir le détail, `storage/logs/`, droits 775 |
+| Erreur 500 sur certaines pages seulement (espace professeur, question, administration des utilisateurs) après une mise à jour | migrations SQL non appliquées | *Administration → Système → Appliquer les mises à jour* (§3.1) |
 | Page 503 « maintenance » | fichier `storage/maintenance.flag` | le supprimer |
 | Le menu ou les pages n'apparaissent pas | base vide ou non reliée | phpMyAdmin : 48 tables ? `.env` : noms complets ? |
 | `/setup` répond 404 | `SETUP_TOKEN` vide, ou un administrateur existe déjà | renseigner le jeton, ou utiliser *Mot de passe oublié* |

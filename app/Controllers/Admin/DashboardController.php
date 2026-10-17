@@ -19,6 +19,7 @@ final class DashboardController extends AdminController
         $range = StatsService::range($request->all());
 
         return $this->view('admin/dashboard', [
+            'pendingMigrations' => \App\Core\Auth::hasRole('superadmin') ? SystemController::pendingCount() : 0,
             'range'   => $range,
             'kpis'    => StatsService::kpis($range),
             'recent'  => Database::fetchAll(

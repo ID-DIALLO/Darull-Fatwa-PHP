@@ -9,6 +9,7 @@ use App\Controllers\Account\ProfileController;
 use App\Controllers\Api\AudioUploadController;
 use App\Controllers\Admin\ActivityLogController;
 use App\Controllers\Admin\BackupsController;
+use App\Controllers\Admin\SystemController;
 use App\Controllers\Admin\ArticlesController as AdminArticlesController;
 use App\Controllers\Admin\BannersController;
 use App\Controllers\Admin\CommentsController;
@@ -308,6 +309,8 @@ return static function (Router $router): void {
         $router->post('/settings/cache/clear', [SettingsController::class, 'clearCache'])->name('admin.cache.clear');
         $router->post('/settings/{group}', [SettingsController::class, 'update'])->name('admin.settings.update');
         $router->get('/activity-log', [ActivityLogController::class, 'index'])->name('admin.activity_log');
+        $router->get('/system', [SystemController::class, 'index'])->name('admin.system');
+        $router->post('/system/migrate', [SystemController::class, 'migrate'])->name('admin.system.migrate');
         $router->get('/backups', [BackupsController::class, 'index'])->name('admin.backups');
         $router->post('/backups', [BackupsController::class, 'store'])->name('admin.backups.store');
         $router->get('/backups/{name}/download', [BackupsController::class, 'download'])->name('admin.backups.download');

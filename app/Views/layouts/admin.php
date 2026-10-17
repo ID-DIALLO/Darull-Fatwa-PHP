@@ -48,6 +48,7 @@ $menu = [
         ['route' => 'admin.settings', 'icon' => 'sliders', 'label' => __('admin.nav.settings'), 'match' => ['admin.settings', 'admin.cache'], 'can' => 'settings.manage'],
         ['route' => 'admin.activity_log', 'icon' => 'clock-history', 'label' => __('admin.nav.activity_log'), 'match' => ['admin.activity_log'], 'can' => 'activity_log.view'],
         ['route' => 'admin.backups', 'icon' => 'hdd-stack', 'label' => __('admin.nav.backups'), 'match' => ['admin.backups'], 'role' => 'superadmin'],
+        ['route' => 'admin.system', 'icon' => 'database-gear', 'label' => __('admin.nav.system'), 'match' => ['admin.system'], 'role' => 'superadmin'],
     ]],
 ];
 $isActive = static function (array $item) use ($current): bool {

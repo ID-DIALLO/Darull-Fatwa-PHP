@@ -154,7 +154,7 @@ final class ForumController extends Controller
     {
         $this->authorize('forum.post');
         $data = $this->validate($request, ['type' => 'required|in:forum_topic,forum_post,comment,idea,idea_comment', 'id' => 'required|integer', 'reason' => 'required|in:' . implode(',', ForumService::REPORT_REASONS), 'details' => 'max:500']);
-        $created = ForumService::report((int) Auth::id(), (string) $data['type'], (int) $data['id'], (string) $data['reason'], $data['details'] ?: null);
+        $created = ForumService::report((int) Auth::id(), (string) $data['type'], (int) $data['id'], (string) $data['reason'], ($data['details'] ?? '') ?: null);
         Flash::add($created ? 'success' : 'info', __($created ? 'forum.flash.reported' : 'forum.flash.already_reported'));
 
         return $this->back($request, route('forum.index'));

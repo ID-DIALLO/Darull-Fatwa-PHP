@@ -17,6 +17,7 @@ $this->section('scripts');
 <?php $this->endSection(); ?>
 <?php
 $q = static fn (array $p = []): string => route('admin.questions', $p);
+$pendingMigrations ??= 0;
 $cards = [
     ['key' => 'total', 'icon' => 'chat-left-dots', 'url' => $q(['from' => $range['label_from'], 'to' => $range['label_to']])],
     ['key' => 'new_24h', 'icon' => 'lightning-charge', 'url' => $q(['status' => 'new'])],
@@ -33,6 +34,12 @@ $cards = [
 ];
 ?>
 <?php $this->section('content'); ?>
+<?php if ($pendingMigrations > 0): ?>
+<div class="alert alert-warning d-flex flex-wrap align-items-center justify-content-between gap-2" role="alert">
+    <span><i class="bi bi-database-exclamation" aria-hidden="true"></i> <?= e(trans_choice('admin.system.pending_count', $pendingMigrations)) ?> <?= e(__('admin.system.dashboard_hint')) ?></span>
+    <a class="btn btn-sm btn-primary" href="<?= e(route('admin.system')) ?>"><i class="bi bi-database-gear" aria-hidden="true"></i> <?= e(__('admin.system.open')) ?></a>
+</div>
+<?php endif ?>
 <form method="get" action="<?= e(route('admin.dashboard')) ?>" class="df-card df-filters">
     <div class="row g-2 align-items-end">
         <div class="col-6 col-md-3">

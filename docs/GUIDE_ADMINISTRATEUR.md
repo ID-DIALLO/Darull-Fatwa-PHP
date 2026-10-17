@@ -160,6 +160,11 @@ Une idée proposée est **en attente** jusqu'à ce que vous la passiez en *Nouve
 
 ![Sauvegardes](img/admin-sauvegardes.jpg)
 
+- **Système** (super-administrateur) : état de l'installation (PHP, base de données, tables, dossiers inscriptibles, ressources
+  construites, dernière exécution des tâches planifiées) et **mises à jour de la base de données**. Après chaque déploiement
+  depuis GitHub, cliquez *Appliquer les mises à jour* si la page (ou le bandeau orange du tableau de bord) signale des
+  migrations en attente : sans cela, les nouvelles fonctions répondent par une erreur 500.
+
 ---
 
 ## 9. Bonnes pratiques
