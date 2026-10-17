@@ -69,5 +69,13 @@ return [
         'confirm' => 'التأكيد',
         'terms' => 'شروط الاستخدام',
         'name' => 'الاسم',
+        'spoken_language' => 'لغة التسجيل',
+        'answer_language' => 'لغة الإجابة',
+        'answer_channel' => 'قناة الإجابة',
+        'whatsapp_number' => 'رقم واتساب',
+        'visibility' => 'الخصوصية',
+        'media_uuid' => 'التسجيل',
+        'audio_file' => 'الملف الصوتي',
+        'helpful' => 'الرأي',
     ],
 ];

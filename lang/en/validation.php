@@ -69,5 +69,13 @@ return [
         'confirm' => 'the confirmation',
         'terms' => 'the terms of use',
         'name' => 'name',
+        'spoken_language' => 'spoken language',
+        'answer_language' => 'answer language',
+        'answer_channel' => 'answer channel',
+        'whatsapp_number' => 'WhatsApp number',
+        'visibility' => 'visibility',
+        'media_uuid' => 'recording',
+        'audio_file' => 'audio file',
+        'helpful' => 'feedback',
     ],
 ];

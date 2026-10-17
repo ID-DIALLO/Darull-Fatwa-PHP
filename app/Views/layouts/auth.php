@@ -8,11 +8,12 @@
 $this->extend('layouts/front');
 $this->section('robots', 'noindex, follow');
 $this->section('head');
+echo $this->yield('head');
 ?>
 <link rel="stylesheet" href="<?= e(asset('vendor/intl-tel-input/css/intlTelInput.min.css')) ?>">
 <?php $this->endSection(); ?>
 
-<?php $this->section('scripts'); ?>
+<?php $this->section('scripts'); echo $this->yield('scripts'); ?>
 <script src="<?= e(asset('vendor/intl-tel-input/js/intlTelInputWithUtils.min.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/auth.js')) ?>" type="module"></script>
 <?php $this->endSection(); ?>

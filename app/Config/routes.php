@@ -3,7 +3,10 @@
 declare(strict_types=1);
 
 use App\Controllers\Account\DashboardController as AccountDashboardController;
+use App\Controllers\Account\MyQuestionsController;
+use App\Controllers\Account\NotificationsController;
 use App\Controllers\Account\ProfileController;
+use App\Controllers\Api\AudioUploadController;
 use App\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\PasswordController;
@@ -11,8 +14,10 @@ use App\Controllers\Auth\RegisterController;
 use App\Controllers\Auth\VerificationController;
 use App\Controllers\Front\ContactController;
 use App\Controllers\Front\HomeController;
+use App\Controllers\Front\MediaController;
 use App\Controllers\Front\NewsletterController;
 use App\Controllers\Front\PageController;
+use App\Controllers\Front\QuestionController;
 use App\Controllers\Front\RubriqueController;
 use App\Controllers\Front\ScholarController;
 use App\Controllers\Scholar\DashboardController as ScholarDashboardController;
@@ -41,6 +46,19 @@ return static function (Router $router): void {
     $router->localized('GET', ['fr' => '/newsletter/confirmer/{token}', 'en' => '/newsletter/confirm/{token}'], [NewsletterController::class, 'confirm'], 'newsletter.confirm');
     $router->localized('GET', ['fr' => '/newsletter/desinscription/{token}', 'en' => '/newsletter/unsubscribe/{token}'], [NewsletterController::class, 'unsubscribe'], 'newsletter.unsubscribe');
 
+    // ---- Poser une question (§4.2, §11.1) ----------------------------------------------------
+    $router->localized('GET', ['fr' => '/poser-une-question', 'en' => '/ask'], [QuestionController::class, 'create'], 'questions.create', 'auth');
+    $router->localized('POST', ['fr' => '/poser-une-question', 'en' => '/ask'], [QuestionController::class, 'store'], 'questions.store', ['auth', 'throttle:10,3600']);
+    $router->localized('GET', ['fr' => '/poser-une-question/confirmation/{reference}', 'en' => '/ask/confirmation/{reference}'], [QuestionController::class, 'confirmation'], 'questions.confirmation', 'auth');
+
+    // ---- Médias privés et API internes (§11.5) ------------------------------------------------
+    $router->get('/media/audio/{uuid}', [MediaController::class, 'audio'])->name('media.audio');
+    $router->post('/api/audio', [AudioUploadController::class, 'store'])->name('api.audio.store')->middleware(['auth', 'throttle:40,3600']);
+    $router->delete('/api/audio/{uuid}', [AudioUploadController::class, 'destroy'])->name('api.audio.destroy')->middleware('auth');
+    $router->get('/api/notifications/count', [NotificationsController::class, 'count'])->name('api.notifications.count')->middleware('auth');
+    $router->get('/api/notifications', [NotificationsController::class, 'list'])->name('api.notifications.list')->middleware('auth');
+    $router->post('/api/notifications/read-all', [NotificationsController::class, 'readAll'])->name('api.notifications.read_all')->middleware('auth');
+
     // ---- Authentification (§4.1, §11.1) ------------------------------------------------------
     $router->localized('GET', ['fr' => '/connexion', 'en' => '/login'], [LoginController::class, 'show'], 'auth.login', 'guest');
     $router->localized('POST', ['fr' => '/connexion', 'en' => '/login'], [LoginController::class, 'login'], 'auth.login.post', ['guest', 'throttle:20,60']);
@@ -58,6 +76,14 @@ return static function (Router $router): void {
 
     // ---- Mon espace (§4.4, §11.2) ------------------------------------------------------------
     $router->localized('GET', ['fr' => '/mon-espace', 'en' => '/my-account'], [AccountDashboardController::class, 'index'], 'account.dashboard', 'auth');
+    $router->localized('GET', ['fr' => '/mon-espace/questions', 'en' => '/my-account/questions'], [MyQuestionsController::class, 'index'], 'account.questions', 'auth');
+    $router->localized('GET', ['fr' => '/mon-espace/questions/{reference}', 'en' => '/my-account/questions/{reference}'], [MyQuestionsController::class, 'show'], 'account.questions.show', 'auth');
+    $router->localized('POST', ['fr' => '/mon-espace/questions/{reference}/precision', 'en' => '/my-account/questions/{reference}/follow-up'], [MyQuestionsController::class, 'followUp'], 'account.questions.follow_up', ['auth', 'throttle:20,3600']);
+    $router->localized('POST', ['fr' => '/mon-espace/questions/{reference}/resolue', 'en' => '/my-account/questions/{reference}/resolved'], [MyQuestionsController::class, 'resolve'], 'account.questions.resolve', 'auth');
+    $router->localized('POST', ['fr' => '/mon-espace/questions/{reference}/avis', 'en' => '/my-account/questions/{reference}/feedback'], [MyQuestionsController::class, 'feedback'], 'account.questions.feedback', 'auth');
+    $router->localized('GET', ['fr' => '/mon-espace/notifications', 'en' => '/my-account/notifications'], [NotificationsController::class, 'index'], 'account.notifications', 'auth');
+    $router->localized('POST', ['fr' => '/mon-espace/notifications/tout-lu', 'en' => '/my-account/notifications/read-all'], [NotificationsController::class, 'readAll'], 'account.notifications.read_all', 'auth');
+    $router->localized('GET', ['fr' => '/mon-espace/notifications/{id}', 'en' => '/my-account/notifications/{id}'], [NotificationsController::class, 'open'], 'account.notifications.open', 'auth');
     $router->localized('GET', ['fr' => '/mon-espace/profil', 'en' => '/my-account/profile'], [ProfileController::class, 'edit'], 'account.profile', 'auth');
     $router->localized('POST', ['fr' => '/mon-espace/profil', 'en' => '/my-account/profile'], [ProfileController::class, 'update'], 'account.profile.update', 'auth');
     $router->localized('POST', ['fr' => '/mon-espace/renvoyer-verification', 'en' => '/my-account/resend-verification'], [VerificationController::class, 'resend'], 'account.verification.resend', ['auth', 'throttle:3,600']);

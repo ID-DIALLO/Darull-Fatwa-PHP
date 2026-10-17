@@ -54,4 +54,14 @@ return [
         'button'  => 'Confirm my subscription',
         'unsubscribe' => 'Unsubscribe',
     ],
+    'notification' => [
+        'subject' => ':title — Darul Fatwa',
+        'button'  => 'View on Darul Fatwa',
+    ],
+    'question_received' => [
+        'subject' => 'Your question :reference has been received — Darul Fatwa',
+        'title'   => 'Question received',
+        'body'    => 'Your question has been forwarded to our scholars under the reference :reference. Indicative answer time: :late_hours hours. You will be notified as soon as an answer is available.',
+        'button'  => 'Follow my question',
+    ],
 ];

@@ -70,5 +70,13 @@ return [
         'confirm' => 'la confirmation',
         'terms' => 'les conditions d\'utilisation',
         'name' => 'nom',
+        'spoken_language' => 'langue parlée',
+        'answer_language' => 'langue de la réponse',
+        'answer_channel' => 'canal de réponse',
+        'whatsapp_number' => 'numéro WhatsApp',
+        'visibility' => 'visibilité',
+        'media_uuid' => 'enregistrement',
+        'audio_file' => 'fichier audio',
+        'helpful' => 'avis',
     ],
 ];

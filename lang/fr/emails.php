@@ -54,4 +54,14 @@ return [
         'button'  => 'Confirmer mon abonnement',
         'unsubscribe' => 'Se désabonner',
     ],
+    'notification' => [
+        'subject' => ':title — Darul Fatwa',
+        'button'  => 'Voir sur Darul Fatwa',
+    ],
+    'question_received' => [
+        'subject' => 'Votre question :reference a bien été reçue — Darul Fatwa',
+        'title'   => 'Question bien reçue',
+        'body'    => 'Votre question a bien été transmise à nos professeurs sous la référence :reference. Délai indicatif de réponse : :late_hours heures. Vous serez prévenu dès qu\'une réponse sera disponible.',
+        'button'  => 'Suivre ma question',
+    ],
 ];

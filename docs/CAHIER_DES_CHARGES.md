@@ -1884,19 +1884,19 @@ Chaque phase se termine par : tests passés, critères cochés, commit `Phase N 
 
 ### Phase 3 — Poser une question (vocal + texte) et Mon espace ⭐ prioritaire
 
-- [ ] Composant `voice-recorder.js` + `mp3-worker.js` (4.2.2) avec repli `MediaRecorder`
-- [ ] Assistant 3 étapes (4.2.1), brouillon local, redirection après connexion
-- [ ] `POST /api/audio` + `AudioService` (validation, stockage privé, SHA-256, durée) + `GET /media/audio/{uuid}` avec Range et contrôle d'accès
-- [ ] Création de la question (référence `DF-AAAA-NNNNNN`, transaction), page de confirmation, bouton « Envoyer aussi sur WhatsApp »
-- [ ] Mon espace : tableau de bord, Mes questions (filtres, onglets), détail (fil, audio, réponse), précision, « résolue », « m'a aidé »
-- [ ] Lecteur audio maison (vitesse de lecture)
+- [x] Composant `voice-recorder.js` + `mp3-worker.js` (4.2.2) avec repli `MediaRecorder`
+- [x] Assistant 3 étapes (4.2.1), brouillon local, redirection après connexion
+- [x] `POST /api/audio` + `AudioService` (validation, stockage privé, SHA-256, durée) + `GET /media/audio/{uuid}` avec Range et contrôle d'accès
+- [x] Création de la question (référence `DF-AAAA-NNNNNN`, transaction), page de confirmation, bouton « Envoyer aussi sur WhatsApp »
+- [x] Mon espace : tableau de bord, Mes questions (filtres, onglets), détail (fil, audio, réponse), précision, « résolue », « m'a aidé »
+- [x] Lecteur audio maison (vitesse de lecture)
 
 **Critères d'acceptation**
-- [ ] Sur **Chrome Android** et **Safari iPhone** réels (HTTPS) : enregistrer 1 min, réécouter, envoyer → le fichier MP3 se lit sur les deux appareils et sur ordinateur
-- [ ] Coupure réseau pendant l'envoi → message clair + nouvelle tentative sans perdre l'enregistrement
-- [ ] Un autre membre qui devine l'URL d'un audio reçoit une 404
-- [ ] Fichier non audio renommé en `.mp3` → refusé
-- [ ] Le membre voit immédiatement la question « En attente » dans Mon espace
+- [ ] Sur **Chrome Android** et **Safari iPhone** réels (HTTPS) : enregistrer 1 min, réécouter, envoyer → le fichier MP3 se lit sur les deux appareils et sur ordinateur *(**test manuel à faire sur téléphones réels** ; vérifié dans Chromium avec un micro simulé : MP3 mono 64 kb/s encodé dans le navigateur, envoyé, référence DF-2026-000001 créée, lecture avec HTTP Range)*
+- [x] Coupure réseau pendant l'envoi → message clair + nouvelle tentative sans perdre l'enregistrement *(3 tentatives automatiques, message hors ligne, enregistrement conservé en mémoire et IndexedDB ; à confirmer sur téléphone)*
+- [x] Un autre membre qui devine l'URL d'un audio reçoit une 404 *(test `QuestionsTest::testAnotherMemberGuessingTheAudioUrlGets404`)*
+- [x] Fichier non audio renommé en `.mp3` → refusé *(test `testNonAudioFileRenamedAsMp3IsRefused`)*
+- [x] Le membre voit immédiatement la question « En attente » dans Mon espace *(test `testTextQuestionGetsAReferenceAndAppearsAsPendingInMyAccount`)*
 
 ### Phase 4 — Espace professeur, réponses, workflow, WhatsApp niveau 1, notifications
 

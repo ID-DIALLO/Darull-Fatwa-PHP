@@ -1,10 +1,12 @@
 <?php
 /**
- * Tableau de bord du membre (§4.4). Les listes de questions arrivent en Phase 3.
+ * Tableau de bord du membre (§4.4) : compteurs, dernières réponses, raccourci, notifications récentes.
  *
  * @var \App\Core\View $this
  * @var array<string, mixed> $user
  * @var array{asked: int, answered: int, pending: int} $counts
+ * @var list<array<string, mixed>> $latestAnswers
+ * @var list<array<string, mixed>> $notifications
  */
 $this->extend('layouts/account');
 $this->section('title', __('account.dashboard.welcome', ['name' => \App\Models\User::publicName($user)]));
@@ -12,22 +14,59 @@ $this->section('subtitle', __('account.dashboard.intro'));
 ?>
 <?php $this->section('content'); ?>
 <div class="row g-3 mb-4">
-    <?php foreach (['asked' => 'chat-left-dots', 'answered' => 'check2-circle', 'pending' => 'hourglass-split'] as $key => $icon): ?>
+    <?php foreach (['asked' => ['chat-left-dots', 'all'], 'answered' => ['check2-circle', 'answered'], 'pending' => ['hourglass-split', 'pending']] as $key => [$icon, $tab]): ?>
     <div class="col-12 col-sm-4">
-        <div class="df-card df-stat">
+        <a class="df-card df-stat d-block text-decoration-none" href="<?= e(route('account.questions', ['statut' => $tab])) ?>">
             <i class="bi bi-<?= e($icon) ?> df-stat__icon" aria-hidden="true"></i>
             <p class="df-stat__value mb-0"><?= (int) $counts[$key] ?></p>
             <p class="df-stat__label mb-0"><?= e(__('account.dashboard.stats.' . $key)) ?></p>
-        </div>
+        </a>
     </div>
     <?php endforeach ?>
 </div>
 
-<div class="df-card">
-    <p class="mb-3"><?= e(__('account.dashboard.soon')) ?></p>
-    <div class="d-flex flex-wrap gap-2">
-        <a class="btn btn-gold" href="<?= e(route_exists('questions.create') ? route('questions.create') : route('home')) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('account.dashboard.ask')) ?></a>
-        <a class="btn btn-outline-primary" href="<?= e(route('account.profile')) ?>"><i class="bi bi-person" aria-hidden="true"></i> <?= e(__('account.dashboard.complete_profile')) ?></a>
+<div class="df-card mb-4 df-dashboard-cta">
+    <div>
+        <h2 class="h5 df-title mb-1"><?= e(__('home.voice.title')) ?></h2>
+        <p class="text-secondary mb-0"><?= e(__('home.voice.subtitle')) ?></p>
+    </div>
+    <a class="btn btn-gold btn-lg" href="<?= e(route('questions.create')) ?>"><i class="bi bi-mic-fill" aria-hidden="true"></i> <?= e(__('account.dashboard.ask')) ?></a>
+</div>
+
+<div class="row g-4">
+    <div class="col-12 col-xl-7">
+        <div class="df-card h-100">
+            <div class="df-section__head df-section__head--row mb-2">
+                <h2 class="df-card__title mb-0"><i class="bi bi-envelope-open-heart" aria-hidden="true"></i> <?= e(__('questions.dashboard.latest_answers')) ?></h2>
+                <a class="small" href="<?= e(route('account.questions')) ?>"><?= e(__('questions.dashboard.all_questions')) ?></a>
+            </div>
+            <?php if ($latestAnswers === []): ?>
+            <p class="text-secondary mb-0"><?= e(__('questions.dashboard.no_answer_yet')) ?></p>
+            <?php else: ?>
+            <ul class="df-list">
+                <?php foreach ($latestAnswers as $q): ?>
+                <li><a href="<?= e(route('account.questions.show', ['reference' => $q['reference']])) ?>" dir="auto"><span class="ltr"><?= e($q['reference']) ?></span> · <?= e($q['title'] ?: $q['rubrique_name']) ?></a><small><?= e(format_date((string) $q['answered_at'])) ?></small></li>
+                <?php endforeach ?>
+            </ul>
+            <?php endif ?>
+        </div>
+    </div>
+    <div class="col-12 col-xl-5">
+        <div class="df-card h-100">
+            <div class="df-section__head df-section__head--row mb-2">
+                <h2 class="df-card__title mb-0"><i class="bi bi-bell" aria-hidden="true"></i> <?= e(__('questions.dashboard.recent_notifications')) ?></h2>
+                <a class="small" href="<?= e(route('account.notifications')) ?>"><?= e(__('front.see_all')) ?></a>
+            </div>
+            <?php if ($notifications === []): ?>
+            <p class="text-secondary mb-0"><?= e(__('questions.notifications.empty')) ?></p>
+            <?php else: ?>
+            <ul class="df-list">
+                <?php foreach ($notifications as $n): ?>
+                <li><a href="<?= e(route('account.notifications.open', ['id' => $n['id']])) ?>" dir="auto"><?= $n['read_at'] === null ? '<i class="bi bi-circle-fill text-warning small" aria-hidden="true"></i> ' : '' ?><?= e($n['rendered']['title']) ?></a><small><?= e(time_ago((string) $n['created_at'])) ?></small></li>
+                <?php endforeach ?>
+            </ul>
+            <?php endif ?>
+        </div>
     </div>
 </div>
 <?php $this->endSection(); ?>

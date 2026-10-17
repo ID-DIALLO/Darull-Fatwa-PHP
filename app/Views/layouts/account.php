@@ -11,15 +11,18 @@ $user = auth() ?? [];
 $current = \App\Core\App::instance()->router()->current()?->getName() ?? '';
 $items = [
     ['route' => 'account.dashboard', 'icon' => 'speedometer2', 'label' => __('account.nav.dashboard'), 'match' => 'account.dashboard'],
+    ['route' => 'account.questions', 'icon' => 'chat-left-dots', 'label' => __('account.nav.questions'), 'match' => 'account.questions'],
+    ['route' => 'account.notifications', 'icon' => 'bell', 'label' => __('account.nav.notifications'), 'match' => 'account.notifications'],
     ['route' => 'account.profile', 'icon' => 'person', 'label' => __('account.nav.profile'), 'match' => 'account.profile'],
     ['route' => 'account.security', 'icon' => 'shield-lock', 'label' => __('account.nav.security'), 'match' => 'account.security'],
     ['route' => 'account.data', 'icon' => 'database', 'label' => __('account.nav.data'), 'match' => 'account.data'],
 ];
 $this->section('head');
+echo $this->yield('head');
 ?>
 <link rel="stylesheet" href="<?= e(asset('vendor/intl-tel-input/css/intlTelInput.min.css')) ?>">
 <?php $this->endSection(); ?>
-<?php $this->section('scripts'); ?>
+<?php $this->section('scripts'); echo $this->yield('scripts'); ?>
 <script src="<?= e(asset('vendor/intl-tel-input/js/intlTelInputWithUtils.min.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/auth.js')) ?>" type="module"></script>
 <?php $this->endSection(); ?>
@@ -43,7 +46,7 @@ $this->section('head');
                     </div>
                     <nav class="df-account__nav" aria-label="<?= e(__('account.nav.label')) ?>">
                         <ul class="nav flex-lg-column">
-                            <?php foreach ($items as $item): $active = str_starts_with($current, $item['match']); ?>
+                            <?php foreach ($items as $item): if (!route_exists($item['route'])) continue; $active = str_starts_with($current, $item['match']); ?>
                             <li class="nav-item">
                                 <a class="nav-link<?= $active ? ' active' : '' ?>" href="<?= e(route($item['route'])) ?>" <?= $active ? 'aria-current="page"' : '' ?>>
                                     <i class="bi bi-<?= e($item['icon']) ?>" aria-hidden="true"></i> <span><?= e($item['label']) ?></span>
